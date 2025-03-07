@@ -7,28 +7,28 @@ module.exports = {
   theme: {
     extend: {
       keyframes: {
-        'fade-in-1': {
-          '0%': { opacity: '0', transform: 'translateY(-10px)' },
+        'fade-up': {
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        'fade-in-2': {
-          '0%': { opacity: '0', transform: 'translateY(-10px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
+        'fade-down': {
+          '0%': { opacity: '1', transform: 'translateY(0)' },
+          '100%': { opacity: '0', transform: 'translateY(10px)' },
         },
-        'fade-in-3': {
-          '0%': { opacity: '0', transform: 'translateY(-10px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
+        'scale-fade': {
+          '0%': { opacity: '1', transform: 'scale(1)' },
+          '100%': { opacity: '0', transform: 'scale(0.95)' },
         },
-        'fade-in-4': {
-          '0%': { opacity: '0', transform: 'translateY(-10px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
+        'logo-reveal': {
+          '0%': { opacity: '0', transform: 'scale(1.1)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        }
       },
       animation: {
-        'fade-in-1': 'fade-in-1 0.6s ease-out forwards',
-        'fade-in-2': 'fade-in-2 0.6s ease-out 0.3s forwards',
-        'fade-in-3': 'fade-in-3 0.6s ease-out 0.6s forwards',
-        'fade-in-4': 'fade-in-4 0.6s ease-out 0.9s forwards',
+        'fade-up': 'fade-up 0.5s ease-out forwards',
+        'fade-down': 'fade-down 0.5s ease-out forwards',
+        'scale-fade': 'scale-fade 0.5s ease-out forwards',
+        'logo-reveal': 'logo-reveal 0.6s ease-out forwards',
       },
     },
   },
