@@ -44,37 +44,126 @@ export default function Home() {
               
               <div className="relative aspect-[2/1] bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl overflow-hidden border border-gray-100">
                 <div className="absolute inset-0">
-                  <div className="absolute inset-0 grid grid-cols-12 grid-rows-6 gap-px opacity-30">
-                    {[...Array(72)].map((_, i) => (
+                  {/* Background Grid */}
+                  <div className="absolute inset-0 grid grid-cols-24 grid-rows-12 gap-px opacity-20">
+                    {[...Array(288)].map((_, i) => (
                       <div key={i} className="border-[0.5px] border-gray-200"></div>
                     ))}
                   </div>
                   
                   {/* Connection Lines */}
                   <svg className="absolute inset-0 w-full h-full">
-                    <path d="M 25% 30% Q 35% 45%, 45% 60%" className="stroke-blue-200" fill="none" strokeWidth="2" />
-                    <path d="M 45% 60% Q 60% 50%, 75% 40%" className="stroke-emerald-200" fill="none" strokeWidth="2" />
+                    {/* SF to NYC */}
+                    <path 
+                      d="M 20% 40% Q 40% 30%, 80% 35%" 
+                      className="stroke-blue-200" 
+                      fill="none" 
+                      strokeWidth="2"
+                      strokeDasharray="4 4"
+                    >
+                      <animate
+                        attributeName="stroke-dashoffset"
+                        values="8;0"
+                        dur="3s"
+                        repeatCount="indefinite"
+                      />
+                    </path>
+                    {/* SF to London */}
+                    <path 
+                      d="M 20% 40% Q 40% 20%, 60% 25%" 
+                      className="stroke-emerald-200" 
+                      fill="none" 
+                      strokeWidth="2"
+                      strokeDasharray="4 4"
+                    >
+                      <animate
+                        attributeName="stroke-dashoffset"
+                        values="8;0"
+                        dur="3s"
+                        repeatCount="indefinite"
+                      />
+                    </path>
+                    {/* London to Singapore */}
+                    <path 
+                      d="M 60% 25% Q 75% 35%, 85% 45%" 
+                      className="stroke-blue-200" 
+                      fill="none" 
+                      strokeWidth="2"
+                      strokeDasharray="4 4"
+                    >
+                      <animate
+                        attributeName="stroke-dashoffset"
+                        values="8;0"
+                        dur="3s"
+                        repeatCount="indefinite"
+                      />
+                    </path>
                   </svg>
                   
                   {/* City Markers */}
-                  <div className="absolute top-[30%] left-[25%]">
-                    <div className="relative">
+                  {/* San Francisco */}
+                  <div className="absolute top-[40%] left-[20%]">
+                    <div className="relative group">
                       <div className="absolute -inset-2 bg-blue-100 rounded-full animate-ping opacity-50"></div>
                       <div className="relative w-4 h-4 rounded-full bg-blue-500 border-2 border-white"></div>
+                      <div className="absolute top-6 left-1/2 -translate-x-1/2 bg-white px-3 py-1 rounded-full shadow-sm border border-gray-100 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                        <p className="text-sm font-medium text-gray-900">San Francisco</p>
+                        <p className="text-xs text-gray-500">2,500+ members</p>
+                      </div>
                     </div>
                   </div>
-                  <div className="absolute top-[60%] left-[45%]">
-                    <div className="relative">
+                  
+                  {/* New York */}
+                  <div className="absolute top-[35%] left-[80%]">
+                    <div className="relative group">
                       <div className="absolute -inset-2 bg-emerald-100 rounded-full animate-ping opacity-50"></div>
                       <div className="relative w-4 h-4 rounded-full bg-emerald-500 border-2 border-white"></div>
+                      <div className="absolute top-6 left-1/2 -translate-x-1/2 bg-white px-3 py-1 rounded-full shadow-sm border border-gray-100 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                        <p className="text-sm font-medium text-gray-900">New York</p>
+                        <p className="text-xs text-gray-500">3,000+ members</p>
+                      </div>
                     </div>
                   </div>
-                  <div className="absolute top-[40%] left-[75%]">
-                    <div className="relative">
+                  
+                  {/* London */}
+                  <div className="absolute top-[25%] left-[60%]">
+                    <div className="relative group">
                       <div className="absolute -inset-2 bg-blue-100 rounded-full animate-ping opacity-50"></div>
                       <div className="relative w-4 h-4 rounded-full bg-blue-500 border-2 border-white"></div>
+                      <div className="absolute top-6 left-1/2 -translate-x-1/2 bg-white px-3 py-1 rounded-full shadow-sm border border-gray-100 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                        <p className="text-sm font-medium text-gray-900">London</p>
+                        <p className="text-xs text-gray-500">2,800+ members</p>
+                      </div>
                     </div>
                   </div>
+                  
+                  {/* Singapore */}
+                  <div className="absolute top-[45%] left-[85%]">
+                    <div className="relative group">
+                      <div className="absolute -inset-2 bg-emerald-100 rounded-full animate-ping opacity-50"></div>
+                      <div className="relative w-4 h-4 rounded-full bg-emerald-500 border-2 border-white"></div>
+                      <div className="absolute top-6 left-1/2 -translate-x-1/2 bg-white px-3 py-1 rounded-full shadow-sm border border-gray-100 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                        <p className="text-sm font-medium text-gray-900">Singapore</p>
+                        <p className="text-xs text-gray-500">1,700+ members</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Stats */}
+              <div className="grid grid-cols-3 gap-4 mt-8">
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-gray-900">10,000+</p>
+                  <p className="text-sm text-gray-600">Global Members</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-gray-900">20+</p>
+                  <p className="text-sm text-gray-600">Countries</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-gray-900">5,000+</p>
+                  <p className="text-sm text-gray-600">Connections Made</p>
                 </div>
               </div>
             </div>
