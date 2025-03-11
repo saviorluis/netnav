@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer';
+import puppeteer, { Page } from 'puppeteer';
 import { parse } from 'date-fns';
 import { BaseScraper, ScrapedEvent } from './BaseScraper';
 
@@ -24,9 +24,24 @@ export class PuppeteerScraper extends BaseScraper {
       throw new Error('Event source not found');
     }
 
-    const config = source.scrapeConfig as PuppeteerScraperConfig;
+    // Properly cast the JSON to the expected interface with type checking
+    const scrapeConfig = source.scrapeConfig as Record<string, unknown>;
+    
+    // Validate that the config has all required properties
+    const config: PuppeteerScraperConfig = {
+      eventSelector: typeof scrapeConfig.eventSelector === 'string' ? scrapeConfig.eventSelector : '',
+      titleSelector: typeof scrapeConfig.titleSelector === 'string' ? scrapeConfig.titleSelector : '',
+      descriptionSelector: typeof scrapeConfig.descriptionSelector === 'string' ? scrapeConfig.descriptionSelector : '',
+      dateSelector: typeof scrapeConfig.dateSelector === 'string' ? scrapeConfig.dateSelector : '',
+      locationSelector: typeof scrapeConfig.locationSelector === 'string' ? scrapeConfig.locationSelector : '',
+      dateFormat: typeof scrapeConfig.dateFormat === 'string' ? scrapeConfig.dateFormat : 'yyyy-MM-dd',
+      waitForSelector: typeof scrapeConfig.waitForSelector === 'string' ? scrapeConfig.waitForSelector : undefined,
+      clickSelector: typeof scrapeConfig.clickSelector === 'string' ? scrapeConfig.clickSelector : undefined,
+      scrollToBottom: typeof scrapeConfig.scrollToBottom === 'boolean' ? scrapeConfig.scrollToBottom : false,
+    };
+    
     const browser = await puppeteer.launch({
-      headless: 'new',
+      headless: true,
     });
 
     try {
@@ -41,7 +56,8 @@ export class PuppeteerScraper extends BaseScraper {
       // Click element if configured (e.g., "Load More" button)
       if (config.clickSelector) {
         await page.click(config.clickSelector);
-        await page.waitForTimeout(1000); // Wait for content to load
+        // Wait for content to load
+        await new Promise(resolve => setTimeout(resolve, 1000));
       }
 
       // Scroll to bottom if configured (for infinite scroll pages)
@@ -91,7 +107,7 @@ export class PuppeteerScraper extends BaseScraper {
     }
   }
 
-  private async autoScroll(page: puppeteer.Page) {
+  private async autoScroll(page: Page) {
     await page.evaluate(async () => {
       await new Promise<void>((resolve) => {
         let totalHeight = 0;

@@ -22,7 +22,19 @@ export class CheerioScraper extends BaseScraper {
       throw new Error('Event source not found');
     }
 
-    const config = source.scrapeConfig as CheerioScraperConfig;
+    // Properly cast the JSON to the expected interface with type checking
+    const scrapeConfig = source.scrapeConfig as Record<string, unknown>;
+    
+    // Validate that the config has all required properties
+    const config: CheerioScraperConfig = {
+      eventSelector: typeof scrapeConfig.eventSelector === 'string' ? scrapeConfig.eventSelector : '',
+      titleSelector: typeof scrapeConfig.titleSelector === 'string' ? scrapeConfig.titleSelector : '',
+      descriptionSelector: typeof scrapeConfig.descriptionSelector === 'string' ? scrapeConfig.descriptionSelector : '',
+      dateSelector: typeof scrapeConfig.dateSelector === 'string' ? scrapeConfig.dateSelector : '',
+      locationSelector: typeof scrapeConfig.locationSelector === 'string' ? scrapeConfig.locationSelector : '',
+      dateFormat: typeof scrapeConfig.dateFormat === 'string' ? scrapeConfig.dateFormat : 'yyyy-MM-dd',
+    };
+    
     const response = await fetch(sourceUrl);
     const html = await response.text();
     const $ = load(html);
