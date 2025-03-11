@@ -82,59 +82,61 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center mb-12">
+        {/* Hero Section */}
+        <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            NetNav - Discover Networking Events
+            Discover Local Networking Events
           </h1>
-          <p className="text-lg text-gray-600">
-            Find and join business networking events in your area
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            We're building a platform to help professionals find and join meaningful networking events in North Carolina. Currently in early development.
           </p>
         </div>
 
-        <div className="mb-8">
-          <EventFilters onFilterChange={handleFilterChange} />
+        {/* Map Section */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">Event Map</h2>
+          <p className="text-gray-600 mb-4">Coming soon: Interactive map showing networking events near you</p>
+          <EventMap events={events} />
         </div>
 
-        {loading ? (
-          <div className="flex justify-center items-center h-96">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        {/* Features Section */}
+        <div className="grid md:grid-cols-2 gap-8 mb-16">
+          <div className="bg-white p-6 rounded-lg shadow-sm">
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">Local Focus</h3>
+            <p className="text-gray-600">
+              Starting in North Carolina, we're building a community of local professionals who want to connect and grow together.
+            </p>
           </div>
-        ) : error ? (
-          <div className="bg-red-50 p-4 rounded-md">
-            <p className="text-red-700">{error}</p>
+          <div className="bg-white p-6 rounded-lg shadow-sm">
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">Real Connections</h3>
+            <p className="text-gray-600">
+              Find events that match your interests and career goals, from chamber meetings to industry meetups.
+            </p>
           </div>
-        ) : (
-          <div className="space-y-8">
-            <EventMap events={filteredEvents} onEventClick={handleEventClick} />
+        </div>
 
-            {selectedEvent && (
-              <div className="bg-white p-6 rounded-lg shadow-lg">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                  {selectedEvent.title}
-                </h2>
-                <p className="text-gray-600 mb-4">{selectedEvent.description}</p>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500">Date & Time</h3>
-                    <p className="mt-1">
-                      {new Date(selectedEvent.startDate).toLocaleString()}
-                    </p>
-                  </div>
-                  {selectedEvent.venue && (
-                    <div>
-                      <h3 className="text-sm font-medium text-gray-500">Location</h3>
-                      <p className="mt-1">
-                        {selectedEvent.venue.name}<br />
-                        {selectedEvent.venue.address}<br />
-                        {selectedEvent.venue.city}, {selectedEvent.venue.state} {selectedEvent.venue.zipCode}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
+        {/* Early Access Section */}
+        <div className="bg-white p-8 rounded-lg shadow-sm text-center">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">Join Our Beta</h2>
+          <p className="text-gray-600 mb-6">
+            We're currently in development and looking for early users to help shape the platform.
+          </p>
+          <form className="max-w-md mx-auto">
+            <div className="flex gap-2">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+              />
+              <button
+                type="submit"
+                className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              >
+                Request Access
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
 
       <AdminLoginButton />
