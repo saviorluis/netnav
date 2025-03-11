@@ -1,8 +1,14 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Event, Venue, Organizer } from '@prisma/client';
 import { getDistance } from 'geolib';
 
 const prisma = new PrismaClient();
+
+// Define the type for an event with its relations
+type EventWithRelations = Event & {
+  venue: Venue | null;
+  organizer: Organizer | null;
+};
 
 export async function GET(request: Request) {
   try {
@@ -53,7 +59,7 @@ export async function GET(request: Request) {
     }
 
     // Fetch events
-    const events = await prisma.event.findMany(query);
+    const events = await prisma.event.findMany(query) as EventWithRelations[];
 
     // Filter by distance if location is provided
     let filteredEvents = events;
