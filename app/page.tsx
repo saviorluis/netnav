@@ -31,10 +31,11 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
+  const [zipCode, setZipCode] = useState('');
   const [signupStatus, setSignupStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [showEventDetails, setShowEventDetails] = useState(false);
   const [accessEmail, setAccessEmail] = useState('');
-  const [zipCode, setZipCode] = useState('');
+  const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -43,6 +44,7 @@ export default function HomePage() {
         if (!response.ok) throw new Error('Failed to fetch events');
         const data = await response.json();
         setEvents(data);
+        setFilteredEvents(data);
       } catch (error) {
         setError('Failed to load events');
       } finally {
@@ -84,16 +86,13 @@ export default function HomePage() {
     }
   };
 
-  const handleZipCodeSubmit = (e: React.FormEvent) => {
+  const handleZipCodeSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically filter events by zipcode
-    // For now, we'll just show the email gate
-    if (zipCode.trim() !== '') {
-      // If we have a valid zipcode, prompt for email
-      if (!showEventDetails) {
-        document.getElementById('email-gate')?.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+    // In a real implementation, this would filter events based on proximity to the zipcode
+    // For now, we'll just log the zipcode and keep all events
+    console.log(`Searching for events near ${zipCode}`);
+    // This would typically call an API with the zipcode to get nearby events
+    // setFilteredEvents(nearbyEvents);
   };
 
   // Check if user has already provided email
@@ -118,48 +117,54 @@ export default function HomePage() {
       </header>
 
       {/* Hero section */}
-      <div className="pt-24 pb-12 text-center lg:pt-32 px-4">
+      <div className="pt-24 pb-16 text-center lg:pt-32 px-4">
         <h1 className="mx-auto max-w-4xl font-display text-5xl font-bold tracking-tight text-gray-900 sm:text-7xl">
           <span className="block text-blue-600 mb-4">Find, Connect, Grow</span>
-          Find Events Near You
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-600">
-          Enter your zip code to discover networking opportunities in your area, filtered by industry and event type.
+          Find professional networking opportunities in your area, filtered by industry and event type. 
+          Connect with like-minded professionals and grow your network.
         </p>
-        <div className="mt-8 flex justify-center">
-          <form onSubmit={handleZipCodeSubmit} className="flex w-full max-w-md">
-            <input
-              type="text"
-              placeholder="Enter your zip code"
-              value={zipCode}
-              onChange={(e) => setZipCode(e.target.value)}
-              className="w-full px-4 py-3 rounded-l-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
-              required
-              pattern="[0-9]{5}"
-              title="Please enter a valid 5-digit zip code"
-            />
-            <button
-              type="submit"
-              className="bg-blue-600 text-white py-3 px-6 rounded-r-lg font-semibold hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
-            >
-              Search
-            </button>
-          </form>
-        </div>
       </div>
 
-      {/* Map preview section */}
-      <div className="bg-white py-12 sm:py-16">
+      {/* Map preview section - Moved up */}
+      <div className="bg-white py-8 sm:py-12">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-base font-semibold leading-7 text-blue-600">Event Map</h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              North Carolina Networking Events
+              Find Events Near You
             </p>
             <p className="mt-6 text-lg leading-8 text-gray-600">
               Explore networking events across North Carolina with our interactive map.
             </p>
           </div>
+          
+          {/* Zipcode search form */}
+          <div className="mx-auto mt-8 max-w-md">
+            <form onSubmit={handleZipCodeSearch} className="flex items-center gap-3">
+              <input
+                type="text"
+                placeholder="Enter your zip code"
+                value={zipCode}
+                onChange={(e) => setZipCode(e.target.value)}
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                pattern="[0-9]{5}"
+                title="Please enter a valid 5-digit zip code"
+                required
+              />
+              <button
+                type="submit"
+                className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+              >
+                Search
+              </button>
+            </form>
+            <p className="mt-2 text-sm text-gray-500">
+              Enter your zip code to find Chamber of Commerce, BNI, Toastmasters, SBA, and other networking events in your area.
+            </p>
+          </div>
+          
           <div className="mx-auto mt-10 max-w-4xl">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden">
               <div className="h-[400px] relative">
@@ -172,11 +177,11 @@ export default function HomePage() {
                     {error}
                   </div>
                 ) : !showEventDetails ? (
-                  <div id="email-gate" className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
+                  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
                     <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
                       <h3 className="text-xl font-bold mb-4 text-center">Enter Your Email to View Events</h3>
                       <p className="text-gray-600 mb-4 text-center">
-                        To access event details and have them sent to your inbox, please provide your email address.
+                        To access detailed event information, please provide your email address.
                       </p>
                       <form onSubmit={handleAccessSubmit} className="space-y-4">
                         <input
@@ -197,8 +202,28 @@ export default function HomePage() {
                     </div>
                   </div>
                 ) : null}
-                <EventMap events={events} />
+                <EventMap events={filteredEvents} />
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* North Carolina Networking section */}
+      <div className="bg-gray-50 py-12">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-md bg-white p-6 rounded-lg shadow-md border border-gray-200">
+            <h2 className="text-xl font-semibold mb-4">North Carolina Networking</h2>
+            <p className="text-gray-600 mb-6">
+              NetNav is currently focused on networking events in North Carolina. Use the map above to find events near you, or view our calendar for upcoming events.
+            </p>
+            <div className="mt-6 flex flex-col space-y-4">
+              <Link
+                href="/calendar"
+                className="rounded-md bg-blue-600 px-5 py-3 text-md font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+              >
+                View Calendar
+              </Link>
             </div>
           </div>
         </div>
