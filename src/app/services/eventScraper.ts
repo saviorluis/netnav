@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { load } from 'cheerio';
-import { Configuration, OpenAIApi } from 'openai';
+import OpenAI from 'openai';
 
 const prisma = new PrismaClient();
 
@@ -26,13 +26,12 @@ interface EventCategories {
 }
 
 export class EventScraper {
-  private openai: OpenAIApi;
+  private openai: OpenAI;
 
   constructor() {
-    const configuration = new Configuration({
+    this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
     });
-    this.openai = new OpenAIApi(configuration);
   }
 
   async scrapeEvents(sourceUrl: string): Promise<ScrapedEvent[]> {
@@ -112,12 +111,12 @@ export class EventScraper {
       }
     `;
 
-    const completion = await this.openai.createChatCompletion({
+    const completion = await this.openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [{ role: "user", content: prompt }],
     });
 
-    const response = completion.data.choices[0].message?.content || '';
+    const response = completion.choices[0].message?.content || '';
     return JSON.parse(response) as EventCategories;
   }
 
