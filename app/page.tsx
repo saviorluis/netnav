@@ -86,13 +86,38 @@ export default function HomePage() {
     }
   };
 
-  const handleZipCodeSearch = (e: React.FormEvent) => {
+  const handleZipCodeSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real implementation, this would filter events based on proximity to the zipcode
-    // For now, we'll just log the zipcode and keep all events
-    console.log(`Searching for events near ${zipCode}`);
-    // This would typically call an API with the zipcode to get nearby events
-    // setFilteredEvents(nearbyEvents);
+    
+    if (!zipCode.trim()) return;
+    
+    setLoading(true);
+    
+    try {
+      // Call our new zipcode search API
+      const response = await fetch(`/api/events/zipcode?zipcode=${zipCode}&radius=50`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch events for this zipcode');
+      }
+      
+      const data = await response.json();
+      
+      // Update filtered events with the results
+      setFilteredEvents(data);
+      
+      // If no events found, show a message
+      if (data.length === 0) {
+        setError('No events found in this area. Try a different zipcode or check back later.');
+      } else {
+        setError('');
+      }
+    } catch (error) {
+      console.error('Error searching by zipcode:', error);
+      setError('Failed to search for events. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Check if user has already provided email
@@ -156,13 +181,29 @@ export default function HomePage() {
               <button
                 type="submit"
                 className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+                disabled={loading}
               >
-                Search
+                {loading ? (
+                  <span className="flex items-center">
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Searching...
+                  </span>
+                ) : (
+                  'Search'
+                )}
               </button>
             </form>
             <p className="mt-2 text-sm text-gray-500">
               Enter your zip code to find Chamber of Commerce, BNI, Toastmasters, SBA, and other networking events in your area.
             </p>
+            {filteredEvents.length > 0 && (
+              <p className="mt-2 text-sm text-green-600">
+                Found {filteredEvents.length} events near {zipCode}
+              </p>
+            )}
           </div>
           
           <div className="mx-auto mt-10 max-w-4xl">
