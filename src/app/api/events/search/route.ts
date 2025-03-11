@@ -65,7 +65,10 @@ export async function GET(request: Request) {
 
     // Add industry filter if provided
     if (industryId) {
-      whereConditions.industryId = industryId;
+      // Use industries array field instead of industryId relation
+      whereConditions.industries = {
+        has: industryId
+      };
     }
 
     // Add isVirtual filter if provided
@@ -97,7 +100,7 @@ export async function GET(request: Request) {
       where: whereConditions,
       include: {
         venue: true,
-        industry: true,
+        organizer: true
       },
       orderBy: {
         startDate: 'asc',
