@@ -80,61 +80,112 @@ export default function HomePage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Discover Local Networking Events
+    <main className="min-h-screen bg-white">
+      {/* Mobile-optimized hero section */}
+      <div className="relative h-[60vh] bg-gradient-to-b from-blue-600 to-blue-700 flex items-center justify-center px-4">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 bg-black opacity-10"></div>
+          {/* Decorative elements */}
+          <div className="absolute top-20 left-10 w-20 h-20 rounded-full bg-white opacity-10 transform rotate-45"></div>
+          <div className="absolute bottom-40 right-10 w-32 h-32 rounded-full bg-white opacity-10"></div>
+        </div>
+        <div className="relative text-center text-white z-10">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">
+            Find Your Next
+            <br />
+            Networking Event
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            We're building a platform to help professionals find and join meaningful networking events in North Carolina. Currently in early development.
+          <p className="text-lg md:text-xl opacity-90 mb-8">
+            Discover local events in North Carolina
           </p>
+          <button className="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-shadow">
+            Get Early Access
+          </button>
         </div>
+      </div>
 
-        {/* Map Section */}
-        <div className="mb-12">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">Event Map</h2>
-          <p className="text-gray-600 mb-4">Coming soon: Interactive map showing networking events near you</p>
-          <EventMap events={events} />
-        </div>
-
-        {/* Features Section */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Local Focus</h3>
-            <p className="text-gray-600">
-              Starting in North Carolina, we're building a community of local professionals who want to connect and grow together.
-            </p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Real Connections</h3>
-            <p className="text-gray-600">
-              Find events that match your interests and career goals, from chamber meetings to industry meetups.
-            </p>
-          </div>
-        </div>
-
-        {/* Early Access Section */}
-        <div className="bg-white p-8 rounded-lg shadow-sm text-center">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">Join Our Beta</h2>
-          <p className="text-gray-600 mb-6">
-            We're currently in development and looking for early users to help shape the platform.
-          </p>
-          <form className="max-w-md mx-auto">
-            <div className="flex gap-2">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-              />
-              <button
-                type="submit"
-                className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                Request Access
-              </button>
+      {/* App preview section */}
+      <div className="px-4 py-12 bg-gray-50">
+        <div className="max-w-md mx-auto">
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div className="p-4 border-b border-gray-100">
+              <h2 className="text-lg font-semibold text-gray-900">Upcoming Events</h2>
             </div>
+            <div className="h-[300px] relative">
+              <EventMap events={events} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Features section */}
+      <div className="px-4 py-12">
+        <div className="max-w-md mx-auto space-y-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Simple. Local. Connected.</h2>
+            <p className="text-gray-600">Currently in development in North Carolina</p>
+          </div>
+
+          <div className="space-y-6">
+            <div className="flex items-center space-x-4 p-4 bg-blue-50 rounded-lg">
+              <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900">Local Events</h3>
+                <p className="text-sm text-gray-600">Find networking opportunities near you</p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-4 p-4 bg-green-50 rounded-lg">
+              <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900">Real-time Updates</h3>
+                <p className="text-sm text-gray-600">Never miss an upcoming event</p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-4 p-4 bg-purple-50 rounded-lg">
+              <div className="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900">Community First</h3>
+                <p className="text-sm text-gray-600">Connect with local professionals</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Beta signup section */}
+      <div className="px-4 py-12 bg-gray-50">
+        <div className="max-w-md mx-auto text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Join the Beta</h2>
+          <p className="text-gray-600 mb-8">
+            We're starting in North Carolina. Be one of our first users.
+          </p>
+          <form className="space-y-4">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+            >
+              Request Access
+            </button>
           </form>
         </div>
       </div>
