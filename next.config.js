@@ -5,7 +5,7 @@ const nextConfig = {
     domains: ['randomuser.me'], // For the profile images used in the connections page
   },
   // Configure custom domain
-  assetPrefix: process.env.NODE_ENV === 'production' ? 'https://netnav.app' : undefined,
+  // assetPrefix: process.env.NODE_ENV === 'production' ? 'https://netnav.app' : undefined,
   // Base path if you're not hosting at the domain root
   // basePath: '',
   // Configure headers for better security
