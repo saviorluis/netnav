@@ -1,12 +1,14 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { PrismaClient } from '@prisma/client';
-import { compare } from 'bcrypt';
-
-const prisma = new PrismaClient();
 
 // List of developer access codes (in a real app, store these securely)
 const DEVELOPER_ACCESS_CODES = ['dev-preview-2024', 'netnav-beta']; 
+
+// Hardcoded admin credentials for demonstration
+const ADMIN_CREDENTIALS = {
+  email: 'nnadmin',
+  password: 'passion1$2'
+};
 
 export async function POST(request: Request) {
   try {
@@ -21,21 +23,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Find the user
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
-
-    if (!user) {
-      return NextResponse.json(
-        { message: 'Invalid credentials' },
-        { status: 401 }
-      );
-    }
-
-    // Verify password
-    const passwordMatch = await compare(password, user.password);
-    if (!passwordMatch) {
+    // Check admin credentials
+    if (email !== ADMIN_CREDENTIALS.email || password !== ADMIN_CREDENTIALS.password) {
       return NextResponse.json(
         { message: 'Invalid credentials' },
         { status: 401 }
@@ -44,9 +33,6 @@ export async function POST(request: Request) {
 
     // Create a session token
     const token = crypto.randomUUID();
-    
-    // In a production app, you would store this token in a database
-    // with the user ID and expiration time
     
     // Set the token in a cookie
     const cookieStore = cookies();
