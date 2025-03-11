@@ -32,6 +32,8 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [email, setEmail] = useState('');
+  const [signupStatus, setSignupStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -77,6 +79,28 @@ export default function HomePage() {
 
   const handleEventClick = (event: Event) => {
     setSelectedEvent(event);
+  };
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSignupStatus('loading');
+
+    try {
+      const response = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) throw new Error('Failed to join waitlist');
+      
+      setSignupStatus('success');
+      setEmail('');
+    } catch (error) {
+      setSignupStatus('error');
+    }
   };
 
   return (
@@ -174,18 +198,28 @@ export default function HomePage() {
           <p className="text-gray-600 mb-8">
             We're starting in North Carolina. Be one of our first users.
           </p>
-          <form className="space-y-4">
+          <form onSubmit={handleSignup} className="space-y-4">
             <input
               type="email"
               placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              required
             />
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              disabled={signupStatus === 'loading'}
+              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
             >
-              Request Access
+              {signupStatus === 'loading' ? 'Submitting...' : 'Request Access'}
             </button>
+            {signupStatus === 'success' && (
+              <p className="text-green-600 text-sm">Thanks for joining! We'll be in touch soon.</p>
+            )}
+            {signupStatus === 'error' && (
+              <p className="text-red-600 text-sm">Something went wrong. Please try again.</p>
+            )}
           </form>
         </div>
       </div>
