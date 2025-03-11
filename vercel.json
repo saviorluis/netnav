@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "npm run build:skip-ts",
   "env": {
     "NEXT_PUBLIC_APP_URL": "https://netnav.app",
     "NEXT_PUBLIC_APP_DOMAIN": "netnav.app"
