@@ -38,6 +38,9 @@ export default function EventSourcesPage() {
       dateSelector: '',
       locationSelector: '',
       dateFormat: 'MMM d, yyyy h:mm a',
+      requiresJavaScript: false,
+      scrollToBottom: false,
+      clickSelector: '',
     },
     isActive: true,
   });
@@ -82,6 +85,9 @@ export default function EventSourcesPage() {
           dateSelector: '',
           locationSelector: '',
           dateFormat: 'MMM d, yyyy h:mm a',
+          requiresJavaScript: false,
+          scrollToBottom: false,
+          clickSelector: '',
         },
         isActive: true,
       });
@@ -188,7 +194,17 @@ export default function EventSourcesPage() {
                   value={newSource.scrapeConfig?.eventSelector}
                   onChange={(e) => setNewSource({
                     ...newSource,
-                    scrapeConfig: { ...newSource.scrapeConfig, eventSelector: e.target.value }
+                    scrapeConfig: { 
+                      eventSelector: e.target.value,
+                      titleSelector: newSource.scrapeConfig?.titleSelector || '',
+                      descriptionSelector: newSource.scrapeConfig?.descriptionSelector || '',
+                      dateSelector: newSource.scrapeConfig?.dateSelector || '',
+                      locationSelector: newSource.scrapeConfig?.locationSelector || '',
+                      dateFormat: newSource.scrapeConfig?.dateFormat || 'MMM d, yyyy h:mm a',
+                      requiresJavaScript: newSource.scrapeConfig?.requiresJavaScript || false,
+                      scrollToBottom: newSource.scrapeConfig?.scrollToBottom || false,
+                      clickSelector: newSource.scrapeConfig?.clickSelector || ''
+                    }
                   })}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   required
@@ -201,7 +217,17 @@ export default function EventSourcesPage() {
                   value={newSource.scrapeConfig?.titleSelector}
                   onChange={(e) => setNewSource({
                     ...newSource,
-                    scrapeConfig: { ...newSource.scrapeConfig, titleSelector: e.target.value }
+                    scrapeConfig: { 
+                      eventSelector: newSource.scrapeConfig?.eventSelector || '',
+                      titleSelector: e.target.value,
+                      descriptionSelector: newSource.scrapeConfig?.descriptionSelector || '',
+                      dateSelector: newSource.scrapeConfig?.dateSelector || '',
+                      locationSelector: newSource.scrapeConfig?.locationSelector || '',
+                      dateFormat: newSource.scrapeConfig?.dateFormat || 'MMM d, yyyy h:mm a',
+                      requiresJavaScript: newSource.scrapeConfig?.requiresJavaScript || false,
+                      scrollToBottom: newSource.scrapeConfig?.scrollToBottom || false,
+                      clickSelector: newSource.scrapeConfig?.clickSelector || ''
+                    }
                   })}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   required
