@@ -1,9 +1,23 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
+// Hardcoded admin credentials for demonstration
+const ADMIN_CREDENTIALS = {
+  username: 'nnadmin',
+  password: 'passion1$2'
+};
+
 export async function POST(request: Request) {
   try {
-    const { username } = await request.json();
+    const { username, password } = await request.json();
+
+    // Check admin credentials
+    if (username !== ADMIN_CREDENTIALS.username || password !== ADMIN_CREDENTIALS.password) {
+      return NextResponse.json(
+        { error: 'Invalid credentials' },
+        { status: 401 }
+      );
+    }
 
     // Set admin session cookie
     const cookieStore = cookies();
