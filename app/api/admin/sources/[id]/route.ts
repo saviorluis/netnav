@@ -31,7 +31,7 @@ export async function DELETE(
     await prisma.eventSource.delete({
       where: { id: params.id },
     });
-    return new NextResponse(null, { status: 204 });
+    return NextResponse.json(null, { status: 204 });
   } catch (error) {
     console.error('Error deleting source:', error);
     return NextResponse.json(
