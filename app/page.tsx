@@ -34,6 +34,7 @@ export default function HomePage() {
   const [signupStatus, setSignupStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [showEventDetails, setShowEventDetails] = useState(false);
   const [accessEmail, setAccessEmail] = useState('');
+  const [zipCode, setZipCode] = useState('');
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -83,6 +84,18 @@ export default function HomePage() {
     }
   };
 
+  const handleZipCodeSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Here you would typically filter events by zipcode
+    // For now, we'll just show the email gate
+    if (zipCode.trim() !== '') {
+      // If we have a valid zipcode, prompt for email
+      if (!showEventDetails) {
+        document.getElementById('email-gate')?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   // Check if user has already provided email
   useEffect(() => {
     const storedEmail = localStorage.getItem('userEmail');
@@ -105,39 +118,33 @@ export default function HomePage() {
       </header>
 
       {/* Hero section */}
-      <div className="pt-24 pb-16 text-center lg:pt-32 px-4">
+      <div className="pt-24 pb-12 text-center lg:pt-32 px-4">
         <h1 className="mx-auto max-w-4xl font-display text-5xl font-bold tracking-tight text-gray-900 sm:text-7xl">
           <span className="block text-blue-600 mb-4">Find, Connect, Grow</span>
-          Discover Business Networking Events 
-          <span className="relative whitespace-nowrap text-blue-600">
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 418 42"
-              className="absolute left-0 top-2/3 h-[0.58em] w-full fill-blue-300/70"
-              preserveAspectRatio="none"
-            >
-              <path d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z" />
-            </svg>
-            <span className="relative">at netnav.app</span>
-          </span>
+          Find Events Near You
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-600">
-          Find professional networking opportunities in your area, filtered by industry and event type. 
-          Connect with like-minded professionals and grow your network.
+          Enter your zip code to discover networking opportunities in your area, filtered by industry and event type.
         </p>
-        <div className="bg-white p-6 mt-12 mx-auto max-w-md rounded-lg shadow-md border border-gray-200">
-          <h2 className="text-xl font-semibold mb-4">North Carolina Networking</h2>
-          <p className="text-gray-600 mb-6">
-            NetNav is currently focused on networking events in North Carolina. Explore our map to find events near you.
-          </p>
-          <div className="mt-6 flex flex-col space-y-4">
-            <Link
-              href="/calendar"
-              className="rounded-md bg-blue-600 px-5 py-3 text-md font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+        <div className="mt-8 flex justify-center">
+          <form onSubmit={handleZipCodeSubmit} className="flex w-full max-w-md">
+            <input
+              type="text"
+              placeholder="Enter your zip code"
+              value={zipCode}
+              onChange={(e) => setZipCode(e.target.value)}
+              className="w-full px-4 py-3 rounded-l-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
+              required
+              pattern="[0-9]{5}"
+              title="Please enter a valid 5-digit zip code"
+            />
+            <button
+              type="submit"
+              className="bg-blue-600 text-white py-3 px-6 rounded-r-lg font-semibold hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
             >
-              View Calendar
-            </Link>
-          </div>
+              Search
+            </button>
+          </form>
         </div>
       </div>
 
@@ -147,7 +154,7 @@ export default function HomePage() {
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-base font-semibold leading-7 text-blue-600">Event Map</h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Find Events Near You
+              North Carolina Networking Events
             </p>
             <p className="mt-6 text-lg leading-8 text-gray-600">
               Explore networking events across North Carolina with our interactive map.
@@ -165,11 +172,11 @@ export default function HomePage() {
                     {error}
                   </div>
                 ) : !showEventDetails ? (
-                  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
+                  <div id="email-gate" className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
                     <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
                       <h3 className="text-xl font-bold mb-4 text-center">Enter Your Email to View Events</h3>
                       <p className="text-gray-600 mb-4 text-center">
-                        To access event details and view the map, please provide your email address.
+                        To access event details and have them sent to your inbox, please provide your email address.
                       </p>
                       <form onSubmit={handleAccessSubmit} className="space-y-4">
                         <input
