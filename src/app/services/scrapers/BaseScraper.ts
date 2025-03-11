@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { Configuration, OpenAIApi } from 'openai';
+import OpenAI from 'openai';
 
 export interface ScrapedEvent {
   title: string;
@@ -24,14 +24,13 @@ export interface EventCategories {
 
 export abstract class BaseScraper {
   protected prisma: PrismaClient;
-  protected openai: OpenAIApi;
+  protected openai: OpenAI;
 
   constructor() {
     this.prisma = new PrismaClient();
-    const configuration = new Configuration({
+    this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
     });
-    this.openai = new OpenAIApi(configuration);
   }
 
   abstract scrapeEvents(sourceUrl: string): Promise<ScrapedEvent[]>;
@@ -52,12 +51,12 @@ export abstract class BaseScraper {
       }
     `;
 
-    const completion = await this.openai.createChatCompletion({
+    const completion = await this.openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [{ role: "user", content: prompt }],
     });
 
-    const response = completion.data.choices[0].message?.content || '';
+    const response = completion.choices[0].message?.content || '';
     return JSON.parse(response) as EventCategories;
   }
 
@@ -67,24 +66,37 @@ export abstract class BaseScraper {
     // Store or update venue if provided
     let venueId: string | null = null;
     if (event.location) {
-      const venue = await this.prisma.venue.upsert({
+      // First check if venue exists by address
+      const existingVenue = await this.prisma.venue.findFirst({
         where: {
-          address_city_state: {
-            address: event.location.address,
-            city: event.location.city,
-            state: event.location.state,
-          },
-        },
-        update: {
-          ...event.location,
-        },
-        create: {
-          ...event.location,
-          latitude: 0, // You'll need to add geocoding
-          longitude: 0,
-        },
+          address: event.location.address,
+          city: event.location.city,
+          state: event.location.state,
+        }
       });
-      venueId = venue.id;
+
+      if (existingVenue) {
+        // Update existing venue
+        const venue = await this.prisma.venue.update({
+          where: {
+            id: existingVenue.id
+          },
+          data: {
+            ...event.location,
+          }
+        });
+        venueId = venue.id;
+      } else {
+        // Create new venue
+        const venue = await this.prisma.venue.create({
+          data: {
+            ...event.location,
+            latitude: 0, // You'll need to add geocoding
+            longitude: 0,
+          }
+        });
+        venueId = venue.id;
+      }
     }
 
     // Store the event
