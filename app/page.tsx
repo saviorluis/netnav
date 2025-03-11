@@ -33,9 +33,10 @@ export default function HomePage() {
   const [email, setEmail] = useState('');
   const [zipCode, setZipCode] = useState('');
   const [signupStatus, setSignupStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [showEventDetails, setShowEventDetails] = useState(false);
+  const [showCalendarModal, setShowCalendarModal] = useState(false);
   const [accessEmail, setAccessEmail] = useState('');
   const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
+  const [hasAccessToCalendar, setHasAccessToCalendar] = useState(false);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -77,12 +78,15 @@ export default function HomePage() {
     }
   };
 
-  const handleAccessSubmit = (e: React.FormEvent) => {
+  const handleCalendarAccess = (e: React.FormEvent) => {
     e.preventDefault();
     if (accessEmail.trim() !== '') {
       // Store email in localStorage to remember the user
       localStorage.setItem('userEmail', accessEmail);
-      setShowEventDetails(true);
+      setHasAccessToCalendar(true);
+      setShowCalendarModal(false);
+      // Redirect to calendar page
+      window.location.href = '/calendar';
     }
   };
 
@@ -120,12 +124,12 @@ export default function HomePage() {
     }
   };
 
-  // Check if user has already provided email
+  // Check if user has already provided email for calendar access
   useEffect(() => {
     const storedEmail = localStorage.getItem('userEmail');
     if (storedEmail) {
       setAccessEmail(storedEmail);
-      setShowEventDetails(true);
+      setHasAccessToCalendar(true);
     }
   }, []);
 
@@ -204,6 +208,19 @@ export default function HomePage() {
                 Found {filteredEvents.length} events near {zipCode}
               </p>
             )}
+            
+            {/* Calendar View Button */}
+            <div className="mt-4">
+              <button
+                onClick={() => setShowCalendarModal(true)}
+                className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+              >
+                Calendar View
+              </button>
+              <p className="mt-1 text-xs text-gray-500">
+                View all events in calendar format with detailed information
+              </p>
+            </div>
           </div>
           
           <div className="mx-auto mt-10 max-w-4xl">
@@ -217,58 +234,51 @@ export default function HomePage() {
                   <div className="flex items-center justify-center h-full text-red-600">
                     {error}
                   </div>
-                ) : !showEventDetails ? (
-                  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
-                    <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-                      <h3 className="text-xl font-bold mb-4 text-center">Enter Your Email to View Events</h3>
-                      <p className="text-gray-600 mb-4 text-center">
-                        To access detailed event information, please provide your email address.
-                      </p>
-                      <form onSubmit={handleAccessSubmit} className="space-y-4">
-                        <input
-                          type="email"
-                          placeholder="Your email address"
-                          value={accessEmail}
-                          onChange={(e) => setAccessEmail(e.target.value)}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                          required
-                        />
-                        <button
-                          type="submit"
-                          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
-                        >
-                          Access Events
-                        </button>
-                      </form>
-                    </div>
-                  </div>
-                ) : null}
-                <EventMap events={filteredEvents} />
+                ) : (
+                  <EventMap events={filteredEvents} />
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* North Carolina Networking section */}
-      <div className="bg-gray-50 py-12">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-md bg-white p-6 rounded-lg shadow-md border border-gray-200">
-            <h2 className="text-xl font-semibold mb-4">North Carolina Networking</h2>
-            <p className="text-gray-600 mb-6">
-              NetNav is currently focused on networking events in North Carolina. Use the map above to find events near you, or view our calendar for upcoming events.
+      {/* Calendar Access Modal */}
+      {showCalendarModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+            <h3 className="text-xl font-bold mb-4 text-center">Enter Your Email to View Detailed Calendar</h3>
+            <p className="text-gray-600 mb-4 text-center">
+              To access detailed event information and calendar view, please provide your email address.
             </p>
-            <div className="mt-6 flex flex-col space-y-4">
-              <Link
-                href="/calendar"
-                className="rounded-md bg-blue-600 px-5 py-3 text-md font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-              >
-                View Calendar
-              </Link>
-            </div>
+            <form onSubmit={handleCalendarAccess} className="space-y-4">
+              <input
+                type="email"
+                placeholder="Your email address"
+                value={accessEmail}
+                onChange={(e) => setAccessEmail(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                required
+              />
+              <div className="flex space-x-3">
+                <button
+                  type="button"
+                  onClick={() => setShowCalendarModal(false)}
+                  className="flex-1 bg-gray-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+                >
+                  Access Calendar
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Features section */}
       <div className="bg-white py-24 sm:py-32">
@@ -343,8 +353,31 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* National Networking section */}
+      <div className="bg-gray-50 py-12">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">National Networking</h2>
+            <p className="mt-4 text-lg text-gray-600">
+              We are working to bring you NetNav all over the country! Stay tuned for announcements.
+            </p>
+            <div className="mt-8 flex justify-center">
+              <img 
+                src="/images/us-map.svg" 
+                alt="United States Map" 
+                className="w-full max-w-md opacity-70"
+                onError={(e) => {
+                  // Fallback if image doesn't exist
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Early access / waitlist section */}
-      <div className="bg-gray-50 py-16">
+      <div className="bg-white py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Join the Waitlist</h2>
