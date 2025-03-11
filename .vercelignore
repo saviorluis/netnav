@@ -1,0 +1,15 @@
+# Exclude everything by default
+/*
+
+# Include necessary files and directories
+!/package.json
+!/package-lock.json
+!/next.config.js
+!/tsconfig.json
+!/prisma/
+!/public/
+!/src/
+!/app/
+!/vercel.json
+!/node_modules/.prisma/
+!/node_modules/@prisma/client/ 
