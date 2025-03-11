@@ -32,6 +32,8 @@ export default function HomePage() {
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [signupStatus, setSignupStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [showEventDetails, setShowEventDetails] = useState(false);
+  const [accessEmail, setAccessEmail] = useState('');
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -72,11 +74,40 @@ export default function HomePage() {
     }
   };
 
+  const handleAccessSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (accessEmail.trim() !== '') {
+      // Store email in localStorage to remember the user
+      localStorage.setItem('userEmail', accessEmail);
+      setShowEventDetails(true);
+    }
+  };
+
+  // Check if user has already provided email
+  useEffect(() => {
+    const storedEmail = localStorage.getItem('userEmail');
+    if (storedEmail) {
+      setAccessEmail(storedEmail);
+      setShowEventDetails(true);
+    }
+  }, []);
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {/* Header with Network Navigator */}
+      <header className="bg-white shadow-sm py-4 fixed top-0 left-0 right-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-blue-600">Network Navigator</h1>
+          <div className="flex items-center space-x-4">
+            <AdminLoginButton />
+          </div>
+        </div>
+      </header>
+
       {/* Hero section */}
-      <div className="pt-20 pb-16 text-center lg:pt-32 px-4">
+      <div className="pt-24 pb-16 text-center lg:pt-32 px-4">
         <h1 className="mx-auto max-w-4xl font-display text-5xl font-bold tracking-tight text-gray-900 sm:text-7xl">
+          <span className="block text-blue-600 mb-4">Find, Connect, Grow</span>
           Discover Business Networking Events 
           <span className="relative whitespace-nowrap text-blue-600">
             <svg
@@ -133,9 +164,33 @@ export default function HomePage() {
                   <div className="flex items-center justify-center h-full text-red-600">
                     {error}
                   </div>
-                ) : (
-                  <EventMap events={events} />
-                )}
+                ) : !showEventDetails ? (
+                  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
+                    <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+                      <h3 className="text-xl font-bold mb-4 text-center">Enter Your Email to View Events</h3>
+                      <p className="text-gray-600 mb-4 text-center">
+                        To access event details and view the map, please provide your email address.
+                      </p>
+                      <form onSubmit={handleAccessSubmit} className="space-y-4">
+                        <input
+                          type="email"
+                          placeholder="Your email address"
+                          value={accessEmail}
+                          onChange={(e) => setAccessEmail(e.target.value)}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                          required
+                        />
+                        <button
+                          type="submit"
+                          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+                        >
+                          Access Events
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                ) : null}
+                <EventMap events={events} />
               </div>
             </div>
           </div>
@@ -254,8 +309,6 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-
-      <AdminLoginButton />
     </main>
   );
 } 
