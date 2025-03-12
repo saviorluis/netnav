@@ -1,11 +1,28 @@
-PROPRIETARY LICENSE
+NETWORK NAVIGATOR PROPRIETARY LICENSE
 
 Copyright (c) 2023 Network Navigator
 
 All rights reserved.
 
-This software and associated documentation files (the "Software") contain proprietary and confidential information that is the property of Network Navigator. The Software is licensed, not sold, and may only be used in accordance with the terms of the agreement under which it was distributed.
+This software and associated documentation files (the "Software") are the proprietary property of Network Navigator and are protected by copyright law and international treaty provisions. Unauthorized reproduction, distribution, or use of this Software, in whole or in part, may result in severe civil and criminal penalties, and will be prosecuted to the maximum extent possible under the law.
 
-Unauthorized copying, distribution, modification, public display, public performance, or creation of derivative works of the Software, or any part thereof, is strictly prohibited without the express written permission of Network Navigator.
+Limited License:
+Network Navigator grants you a limited, non-exclusive, non-transferable license to use the Software solely for your personal or internal business purposes in accordance with the terms of this License and any other written agreement with Network Navigator. You do not acquire any ownership rights to the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Restrictions:
+You may not:
+
+1. Copy, modify, adapt, translate, or create derivative works based upon the Software
+2. Rent, lease, loan, sell, distribute, or sublicense the Software
+3. Reverse engineer, decompile, disassemble, or attempt to derive the source code of the Software
+4. Remove, alter, or obscure any proprietary notices on the Software
+5. Use the Software for any purpose that is illegal or prohibited by this License
+
+Termination:
+This License is effective until terminated. Your rights under this License will terminate automatically without notice from Network Navigator if you fail to comply with any term of this License.
+
+Disclaimer of Warranty:
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL NETWORK NAVIGATOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Limitation of Liability:
+IN NO EVENT SHALL NETWORK NAVIGATOR BE LIABLE FOR ANY SPECIAL, INCIDENTAL, INDIRECT, OR CONSEQUENTIAL DAMAGES WHATSOEVER (INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION, LOSS OF BUSINESS INFORMATION, OR ANY OTHER PECUNIARY LOSS) ARISING OUT OF THE USE OF OR INABILITY TO USE THE SOFTWARE, EVEN IF NETWORK NAVIGATOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.

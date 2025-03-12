@@ -1,6 +1,6 @@
 # Network Navigator
 
-Network Navigator is a web application designed to help users find and connect with local networking events. The platform displays events on an interactive map, allowing users to discover opportunities in their area or search by zip code.
+Network Navigator is a commercial web application designed to help users find and connect with local networking events. The platform displays events on an interactive map, allowing users to discover opportunities in their area or search by zip code.
 
 ## Features
 
@@ -94,8 +94,19 @@ For automatic deployments using GitHub Actions, set up the following secrets in 
 - `VERCEL_ORG_ID`
 - `VERCEL_PROJECT_ID`
 
-## License
+## Monetization
 
-This is a proprietary commercial application. All rights reserved.
+Network Navigator is a commercial application with the following monetization strategies:
+
+1. **Subscription Plans**: Access to premium features such as advanced search, calendar integration, and event notifications
+2. **Featured Events**: Event organizers can pay to have their events highlighted
+3. **Sponsored Content**: Targeted advertising for businesses in the networking space
+
+## Legal
+
+This software is proprietary and is not open source. All rights reserved.
+
+- [Terms of Service](TERMS_OF_SERVICE.md)
+- [Privacy Policy](PRIVACY_POLICY.md)
 
 Copyright (c) 2023 Network Navigator
