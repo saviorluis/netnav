@@ -123,4 +123,29 @@ model Waitlist {
   email     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Subscriber {
+  id           String                 @id @default(cuid())
+  email        String                 @unique
+  name         String?
+  status       String                 @default("active") // active, unsubscribed, bounced
+  subscribedAt DateTime               @default(now())
+  lastActive   DateTime               @default(now())
+  tags         String[]               @default([])
+  source       String?                // Where the subscriber came from
+  notes        String?
+  interactions SubscriberInteraction[]
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+}
+
+model SubscriberInteraction {
+  id           String     @id @default(cuid())
+  subscriberId String
+  subscriber   Subscriber @relation(fields: [subscriberId], references: [id])
+  source       String     // popup, inline, footer, gate, api, etc.
+  action       String     // initial_subscription, subscription_renewal, email_open, link_click, etc.
+  metadata     Json?      // Additional data about the interaction
+  createdAt    DateTime   @default(now())
 } 

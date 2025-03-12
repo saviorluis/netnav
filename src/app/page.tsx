@@ -1,9 +1,21 @@
 import Link from 'next/link';
 import WaitlistForm from './components/WaitlistForm';
+import dynamic from 'next/dynamic';
+
+// Dynamically import components that use browser APIs
+const EmailPopup = dynamic(() => import('../../app/components/EmailPopup'), { ssr: false });
+const LeadMagnet = dynamic(() => import('../../app/components/LeadMagnet'), { ssr: false });
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {/* Email popup that appears after 5 seconds */}
+      <EmailPopup 
+        triggerType="time" 
+        timeDelay={5000} 
+        showOncePerDays={3}
+      />
+      
       {/* Hero section */}
       <div className="pt-20 pb-16 text-center lg:pt-32 px-4">
         <h1 className="mx-auto max-w-4xl font-display text-5xl font-bold tracking-tight text-gray-900 sm:text-7xl">
@@ -24,21 +36,16 @@ export default function Home() {
           Find professional networking opportunities in your area, filtered by industry and event type. 
           Connect with like-minded professionals and grow your network.
         </p>
+        
+        {/* Email capture form */}
         <div className="bg-white p-6 mt-12 mx-auto max-w-md rounded-lg shadow-md border border-gray-200">
-          <h2 className="text-xl font-semibold mb-4">Developer Preview</h2>
+          <h2 className="text-xl font-semibold mb-4">Get Early Access</h2>
           <p className="text-gray-600 mb-6">
-            NetNav is currently in developer preview. Only authorized developers have access to the platform at this time.
+            NetNav is launching soon. Join our waitlist to be the first to know when we go live and get exclusive access to premium features.
           </p>
-          <div className="mt-6 flex flex-col space-y-4">
-            <Link
-              href="/login"
-              className="rounded-md bg-blue-600 px-5 py-3 text-md font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-            >
-              Developer Login
-            </Link>
-            <div className="text-sm text-gray-500 text-center">
-              Interested in early access? <a href="mailto:info@netnav.app" className="text-blue-600 hover:underline">Contact us</a>
-            </div>
+          <WaitlistForm />
+          <div className="mt-4 text-sm text-gray-500 text-center">
+            Already have access? <Link href="/login" className="text-blue-600 hover:underline">Login here</Link>
           </div>
         </div>
       </div>
@@ -115,24 +122,42 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      {/* Early access / waitlist section */}
+      
+      {/* Lead Magnet Section */}
       <div className="bg-gray-50 py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Join the Waitlist</h2>
-            <p className="mt-4 text-lg text-gray-600">
-              Be the first to know when NetNav launches to the public
+          <div className="mx-auto max-w-2xl lg:text-center mb-12">
+            <h2 className="text-base font-semibold leading-7 text-blue-600">Free Resources</h2>
+            <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              Networking Resources to Help You Succeed
+            </p>
+            <p className="mt-6 text-lg leading-8 text-gray-600">
+              Access our free guides and resources to enhance your networking skills and make meaningful connections.
             </p>
           </div>
-          <div className="mt-10 mx-auto max-w-md">
-            <WaitlistForm />
-            <p className="mt-3 text-sm text-gray-500">
-              We'll notify you when NetNav is available to the public. No spam, we promise.
-            </p>
+          
+          <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
+            <LeadMagnet
+              title="Ultimate Networking Guide"
+              description="Learn proven strategies to make meaningful connections at networking events and turn them into valuable relationships."
+              imageUrl="/images/networking-guide.svg"
+              buttonText="Download Free Guide"
+              downloadUrl="/downloads/networking-guide.html"
+            />
+            
+            <LeadMagnet
+              title="Networking Event Checklist"
+              description="Never miss a networking opportunity again. Our comprehensive checklist ensures you're prepared for every event."
+              imageUrl="/images/checklist.jpg"
+              buttonText="Get Your Checklist"
+              downloadUrl="/downloads/networking-checklist.pdf"
+            />
           </div>
         </div>
-        </div>
-      </main>
+      </div>
+      
+      {/* Testimonials section */}
+      {/* ... existing code ... */}
+    </main>
   );
 }
