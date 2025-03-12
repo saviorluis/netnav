@@ -1,110 +1,99 @@
-# NetNav - Networking Events Platform
+# Network Navigator
 
-NetNav is a platform for discovering and managing networking events in North Carolina. It features event scraping, a map view, calendar integration, and an admin dashboard.
+Network Navigator is a web application designed to help users find and connect with local networking events. The platform displays events on an interactive map, allowing users to discover opportunities in their area or search by zip code.
 
 ## Features
 
-- **Event Discovery**: Find networking events in your area
-- **Interactive Map**: View events on a map with location details
-- **Calendar View**: See all upcoming events in a calendar format
-- **Admin Dashboard**: Manage event sources, users, and settings
-- **Smart Scraping**: Automatically collect events from various sources
-- **Email List**: Collect and manage user email subscriptions
+- Interactive map displaying networking events
+- Zip code search functionality
+- Calendar view of upcoming events
+- National networking section
+- Email collection for detailed event information
 
-## Getting Started
+## Tech Stack
+
+- **Frontend**: Next.js, React, Tailwind CSS
+- **Backend**: Next.js API routes
+- **Database**: PostgreSQL with Prisma ORM
+- **Deployment**: Vercel
+
+## Development
 
 ### Prerequisites
 
-- Node.js 18+ and npm
+- Node.js (v18 or higher)
+- npm
 - PostgreSQL database
 
-### Installation
+### Setup
 
 1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/yourusername/netnav.git
-   cd netnav
+   ```
+   git clone https://github.com/luismendes070/neang.git
+   cd neang
    ```
 
 2. Install dependencies:
 
-   ```bash
+   ```
    npm install
    ```
 
-3. Create a `.env.local` file with the following variables:
+3. Set up environment variables:
+   Create a `.env` file in the root directory with the following variables:
 
    ```
-   DATABASE_URL=postgresql://username:password@localhost:5432/netnav
-   NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+   DATABASE_URL="postgresql://username:password@localhost:5432/neang"
+   NEXT_PUBLIC_APP_URL="http://localhost:3000"
+   NEXT_PUBLIC_APP_DOMAIN="localhost"
+   GOOGLE_MAPS_API_KEY="your_google_maps_api_key"
+   OPENAI_API_KEY="your_openai_api_key"
    ```
 
-4. Set up the database:
+4. Generate Prisma client:
 
-   ```bash
+   ```
+   npx prisma generate
+   ```
+
+5. Run database migrations:
+
+   ```
    npx prisma migrate dev
-   npm run db:seed
    ```
 
-5. Start the development server:
+6. Seed the database (optional):
 
-   ```bash
+   ```
+   npm run seed
+   ```
+
+7. Start the development server:
+   ```
    npm run dev
    ```
 
-6. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## Admin Access
-
-To access the admin dashboard:
-
-1. Click the person icon in the bottom right corner of any page
-2. Login with the following credentials:
-   - Username: `nnadmin`
-   - Password: `passion1$2`
-
-## Event Scraping
-
-### Manual Scraping
-
-To manually scrape events:
-
-```bash
-npm run scrape
-```
-
-### Automated Scraping
-
-Set up a cron job to run the scraper automatically:
-
-```bash
-# Run daily at 2 AM
-0 2 * * * cd /path/to/netnav && node scripts/run-scraper.js
-```
-
 ## Deployment
 
-The application is deployed on Vercel at [https://netnav.app](https://netnav.app).
+The application is configured for deployment on Vercel:
 
-To deploy your own instance:
+1. Fork or clone this repository to your GitHub account
+2. Connect your GitHub repository to Vercel
+3. Configure the following environment variables in Vercel:
+   - `DATABASE_URL`
+   - `NEXT_PUBLIC_APP_URL`
+   - `NEXT_PUBLIC_APP_DOMAIN`
+   - `GOOGLE_MAPS_API_KEY`
+   - `OPENAI_API_KEY`
+4. Deploy the application
 
-1. Fork the repository
-2. Connect to Vercel
-3. Set up the required environment variables
-4. Deploy
+For automatic deployments using GitHub Actions, set up the following secrets in your GitHub repository:
 
-## Project Structure
-
-- `app/`: Next.js application code
-  - `api/`: API routes
-  - `components/`: Reusable React components
-  - `admin/`: Admin dashboard pages
-- `prisma/`: Database schema and migrations
-- `scripts/`: Utility scripts
-- `src/`: Source code
-  - `app/services/`: Service layer (scrapers, etc.)
+- `VERCEL_TOKEN`
+- `VERCEL_ORG_ID`
+- `VERCEL_PROJECT_ID`
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+[MIT](LICENSE)
