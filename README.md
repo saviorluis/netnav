@@ -96,4 +96,6 @@ For automatic deployments using GitHub Actions, set up the following secrets in 
 
 ## License
 
-[MIT](LICENSE)
+This is a proprietary commercial application. All rights reserved.
+
+Copyright (c) 2023 Network Navigator
