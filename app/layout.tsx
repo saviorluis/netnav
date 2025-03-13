@@ -2,6 +2,7 @@ import { Inter } from 'next/font/google';
 import { UserProvider } from './context/UserContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import './globals.css';
+import Script from 'next/script';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -83,14 +84,31 @@ export default function RootLayout({
         <link rel="preconnect" href={url} />
         <link rel="dns-prefetch" href={url} />
         <link rel="manifest" href="/manifest.json" />
+        
+        {/* Add preload for critical resources */}
+        <link 
+          rel="preload" 
+          href="/_next/static/css/app/layout.css" 
+          as="style"
+        />
       </head>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
+        <noscript>
+          <div className="p-4 bg-yellow-100 text-yellow-800 text-center">
+            This application requires JavaScript to be enabled for full functionality.
+          </div>
+        </noscript>
+        
         <ErrorBoundary>
           <UserProvider>
             {children}
           </UserProvider>
         </ErrorBoundary>
-        <script
+        
+        {/* Error tracking script with defer to not block rendering */}
+        <Script
+          id="error-tracking"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               window.addEventListener('error', function(e) {
@@ -99,6 +117,41 @@ export default function RootLayout({
               window.addEventListener('unhandledrejection', function(e) {
                 console.error('Unhandled Promise Rejection:', e);
               });
+            `,
+          }}
+        />
+        
+        {/* Add progressive loading indicator */}
+        <Script
+          id="loading-indicator"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Show loading indicator
+              (function() {
+                if (document.body) {
+                  const loadingEl = document.createElement('div');
+                  loadingEl.id = 'app-loading';
+                  loadingEl.innerHTML = '<div style="position:fixed;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;background:#fff;z-index:9999;"><div style="width:40px;height:40px;border:3px solid #f3f3f3;border-top:3px solid #2563eb;border-radius:50%;animation:spin 1s linear infinite;"></div></div><style>@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style>';
+                  document.body.appendChild(loadingEl);
+                  
+                  // Remove loading indicator when page is interactive
+                  window.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(function() {
+                      const loadingEl = document.getElementById('app-loading');
+                      if (loadingEl) {
+                        loadingEl.style.opacity = '0';
+                        loadingEl.style.transition = 'opacity 0.3s ease';
+                        setTimeout(function() {
+                          if (loadingEl && loadingEl.parentNode) {
+                            loadingEl.parentNode.removeChild(loadingEl);
+                          }
+                        }, 300);
+                      }
+                    }, 300);
+                  });
+                }
+              })();
             `,
           }}
         />

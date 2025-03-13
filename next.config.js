@@ -174,13 +174,34 @@ const nextConfig = {
   webpack: (config, { dev, isServer }) => {
     // Optimize webpack caching
     if (!isServer) {
+      // Optimize code splitting
       config.optimization = {
         ...config.optimization,
         runtimeChunk: 'single',
         splitChunks: {
           chunks: 'all',
-          maxInitialRequests: 25,
-          minSize: 20000,
+          maxInitialRequests: 10,
+          minSize: 0,
+          cacheGroups: {
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name(module) {
+                // Get the name. E.g. node_modules/packageName/not/this/part.js
+                // or node_modules/packageName
+                const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+                // npm package names are URL-safe, but some servers don't like @ symbols
+                return `npm.${packageName.replace('@', '')}`;
+              },
+              priority: 10,
+              reuseExistingChunk: true,
+            },
+            commons: {
+              name: 'commons',
+              minChunks: 2,
+              priority: 1,
+              reuseExistingChunk: true,
+            },
+          },
         },
       };
     }
@@ -200,6 +221,17 @@ const nextConfig = {
   trailingSlash: false,
   // Configure powered by header
   poweredByHeader: false,
+  // Optimize script loading
+  experimental: {
+    optimizeCss: true,
+    optimizeServerReact: true,
+    scrollRestoration: true,
+    legacyBrowsers: false,
+  },
+  // Configure compiler options
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
 };
 
 module.exports = nextConfig; 

@@ -2,132 +2,149 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
+// Define user type
 interface User {
   id: string;
+  name: string;
   email: string;
-  name: string | null;
+  role: string;
+  // Add other user properties as needed
 }
 
+// Define context type
 interface UserContextType {
   user: User | null;
-  isLoading: boolean;
-  isAuthenticated: boolean;
+  loading: boolean;
   error: string | null;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  refreshUserData: () => Promise<void>;
+  isAuthenticated: boolean;
 }
 
-const UserContext = createContext<UserContextType | undefined>(undefined);
+// Create context with default values
+const UserContext = createContext<UserContextType>({
+  user: null,
+  loading: true,
+  error: null,
+  login: async () => {},
+  logout: async () => {},
+  isAuthenticated: false,
+});
 
-export const UserProvider = ({ children }: { children: ReactNode }) => {
+// Custom hook to use the context
+export const useUser = () => useContext(UserContext);
+
+// Provider component
+export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
-  useEffect(() => {
-    setMounted(true);
-    return () => setMounted(false);
-  }, []);
-
-  const fetchUserData = async () => {
-    if (!mounted) return false;
-    
+  // Function to check if user is authenticated
+  const checkAuth = async () => {
     try {
-      console.log('Fetching user data...');
-      setError(null);
-      const response = await fetch('/api/auth/user');
-      console.log('User data response:', response.status);
-      
-      if (response.ok) {
-        const userData = await response.json();
-        console.log('User data received:', { ...userData, email: userData.email ? '[REDACTED]' : null });
-        setUser(userData);
-        return true;
-      } else {
-        const errorData = await response.json();
-        console.log('User data error:', errorData);
-        if (response.status !== 401) { // Don't show error for unauthorized
-          setError(errorData.message || 'Failed to fetch user data');
+      setLoading(true);
+      // Simulate API call with timeout for demo
+      // In production, replace with actual API call
+      setTimeout(() => {
+        // Check if we have a token in localStorage
+        const token = localStorage.getItem('auth_token');
+        if (token) {
+          // For demo, create a mock user
+          // In production, validate token with backend
+          setUser({
+            id: '1',
+            name: 'Demo User',
+            email: 'user@example.com',
+            role: 'user',
+          });
+        } else {
+          setUser(null);
         }
-        setUser(null);
-        return false;
-      }
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-      setError(error instanceof Error ? error.message : 'Failed to fetch user data');
-      setUser(null);
-      return false;
-    } finally {
-      if (mounted) {
-        setIsLoading(false);
-      }
+        setLoading(false);
+      }, 500);
+    } catch (err) {
+      console.error('Auth check failed:', err);
+      setError('Authentication check failed');
+      setLoading(false);
     }
   };
 
-  const refreshUserData = async () => {
-    if (!mounted) return;
-    setIsLoading(true);
-    await fetchUserData();
-  };
-
-  useEffect(() => {
-    console.log('UserContext mounted, fetching initial user data...');
-    fetchUserData();
-  }, []);
-
-  const logout = async () => {
-    if (!mounted) return;
-    
+  // Login function
+  const login = async (email: string, password: string) => {
     try {
-      console.log('Logging out...');
+      setLoading(true);
       setError(null);
-      const response = await fetch('/api/auth/logout', {
-        method: 'POST',
+      
+      // Simulate API call
+      // In production, replace with actual API call
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Store token in localStorage
+      localStorage.setItem('auth_token', 'demo_token');
+      
+      // Set user data
+      setUser({
+        id: '1',
+        name: 'Demo User',
+        email,
+        role: 'user',
       });
-
-      if (response.ok) {
-        setUser(null);
-        console.log('Logout successful');
-      } else {
-        const errorData = await response.json();
-        console.error('Logout failed:', errorData);
-        setError(errorData.message || 'Failed to logout');
-      }
-    } catch (error) {
-      console.error('Error during logout:', error);
-      setError(error instanceof Error ? error.message : 'Failed to logout');
+      
+      setLoading(false);
+    } catch (err) {
+      console.error('Login failed:', err);
+      setError('Login failed. Please check your credentials.');
+      setLoading(false);
     }
   };
 
-  if (!mounted) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
+  // Logout function
+  const logout = async () => {
+    try {
+      setLoading(true);
+      
+      // Simulate API call
+      // In production, replace with actual API call
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
+      // Remove token from localStorage
+      localStorage.removeItem('auth_token');
+      
+      // Clear user data
+      setUser(null);
+      
+      setLoading(false);
+    } catch (err) {
+      console.error('Logout failed:', err);
+      setError('Logout failed');
+      setLoading(false);
+    }
+  };
+
+  // Initialize auth state on client-side only
+  useEffect(() => {
+    // Only run on client-side
+    if (typeof window !== 'undefined' && !isInitialized) {
+      checkAuth();
+      setIsInitialized(true);
+    }
+  }, [isInitialized]);
+
+  // Memoize context value to prevent unnecessary re-renders
+  const value = {
+    user,
+    loading,
+    error,
+    login,
+    logout,
+    isAuthenticated: !!user,
+  };
 
   return (
-    <UserContext.Provider
-      value={{
-        user,
-        isLoading,
-        isAuthenticated: !!user,
-        error,
-        logout,
-        refreshUserData,
-      }}
-    >
+    <UserContext.Provider value={value}>
       {children}
     </UserContext.Provider>
   );
-};
-
-export const useUser = () => {
-  const context = useContext(UserContext);
-  if (context === undefined) {
-    throw new Error('useUser must be used within a UserProvider');
-  }
-  return context;
-}; 
+} 
