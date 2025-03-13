@@ -7,7 +7,7 @@ import { useUser } from '../context/UserContext';
 import { useEffect, useState } from 'react';
 
 export default function Header() {
-  const { isAuthenticated, isLoading } = useUser();
+  const { isAuthenticated, loading } = useUser();
   const [currentDomain, setCurrentDomain] = useState<string>('');
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function Header() {
                   </span>
                 )}
               </span>
-              {!isAuthenticated && !isLoading && (
+              {!isAuthenticated && !loading && (
                 <span className="ml-2 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
                   Developer Preview
                 </span>
@@ -45,7 +45,7 @@ export default function Header() {
               >
                 Home
               </Link>
-              {isAuthenticated && !isLoading && (
+              {isAuthenticated && !loading && (
                 <>
                   <Link 
                     href="/dashboard" 
@@ -67,7 +67,7 @@ export default function Header() {
                   </Link>
                 </>
               )}
-              {isLoading && (
+              {loading && (
                 <div className="space-x-8">
                   <div className="inline-block h-5 w-20 animate-pulse rounded bg-gray-100"></div>
                   <div className="inline-block h-5 w-20 animate-pulse rounded bg-gray-100"></div>
@@ -91,7 +91,7 @@ export default function Header() {
           >
             Home
           </Link>
-          {isAuthenticated && !isLoading && (
+          {isAuthenticated && !loading && (
             <>
               <Link 
                 href="/dashboard" 
@@ -113,7 +113,7 @@ export default function Header() {
               </Link>
             </>
           )}
-          {isLoading && (
+          {loading && (
             <div className="flex gap-x-6">
               <div className="h-5 w-20 animate-pulse rounded bg-gray-100"></div>
               <div className="h-5 w-20 animate-pulse rounded bg-gray-100"></div>
