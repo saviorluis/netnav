@@ -1,10 +1,10 @@
 import Link from 'next/link';
-import WaitlistForm from './components/WaitlistForm';
 import dynamic from 'next/dynamic';
 
 // Dynamically import components that use browser APIs
-const EmailPopup = dynamic(() => import('../../app/components/EmailPopup'), { ssr: false });
-const LeadMagnet = dynamic(() => import('../../app/components/LeadMagnet'), { ssr: false });
+const EmailPopup = dynamic(() => import('./components/EmailPopup'), { ssr: false });
+const LeadMagnet = dynamic(() => import('./components/LeadMagnet'), { ssr: false });
+const SimpleEmailCapture = dynamic(() => import('./components/SimpleEmailCapture'), { ssr: false });
 
 export default function Home() {
   return (
@@ -38,12 +38,8 @@ export default function Home() {
         </p>
         
         {/* Email capture form */}
-        <div className="bg-white p-6 mt-12 mx-auto max-w-md rounded-lg shadow-md border border-gray-200">
-          <h2 className="text-xl font-semibold mb-4">Get Early Access</h2>
-          <p className="text-gray-600 mb-6">
-            NetNav is launching soon. Join our waitlist to be the first to know when we go live and get exclusive access to premium features.
-          </p>
-          <WaitlistForm />
+        <div className="mt-12 mx-auto max-w-md">
+          <SimpleEmailCapture />
           <div className="mt-4 text-sm text-gray-500 text-center">
             Already have access? <Link href="/login" className="text-blue-600 hover:underline">Login here</Link>
           </div>
