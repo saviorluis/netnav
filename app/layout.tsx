@@ -58,31 +58,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Define manifest data
-  const manifestData = {
-    name: 'NetNav - Network Navigation Tool',
-    short_name: 'NetNav',
-    description: 'A comprehensive network navigation and management tool for IT professionals',
-    start_url: '/',
-    display: 'standalone',
-    background_color: '#ffffff',
-    theme_color: '#0070f3',
-    icons: [
-      {
-        src: '/icons/icon-192x192.svg',
-        sizes: '192x192',
-        type: 'image/svg+xml',
-        purpose: 'any maskable'
-      },
-      {
-        src: '/icons/icon-512x512.svg',
-        sizes: '512x512',
-        type: 'image/svg+xml',
-        purpose: 'any maskable'
-      }
-    ]
-  };
-
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -91,29 +66,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href={url} />
         <link rel="dns-prefetch" href={url} />
-        
-        <script
-          type="application/json"
-          id="app-manifest"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(manifestData)
-          }}
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                const manifestData = document.getElementById('app-manifest').textContent;
-                const blob = new Blob([manifestData], {type: 'application/manifest+json'});
-                const manifestURL = URL.createObjectURL(blob);
-                const link = document.createElement('link');
-                link.rel = 'manifest';
-                link.href = manifestURL;
-                document.head.appendChild(link);
-              })();
-            `
-          }}
-        />
+        <link rel="manifest" href="/api/manifest" />
       </head>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <noscript>
