@@ -74,6 +74,15 @@
   h3 {
     @apply text-xl md:text-2xl;
   }
+  
+  img {
+    @apply max-w-full h-auto;
+  }
+  
+  /* Fixed image loading */
+  img[loading="lazy"] {
+    @apply min-h-[1px];
+  }
 }
 
 body {
@@ -81,6 +90,16 @@ body {
   font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure text is centered in certain sections */
+.text-center {
+  text-align: center !important;
+}
+
+.mx-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 /* Enhanced UI Components */
@@ -136,6 +155,11 @@ body {
   
   .container-custom {
     @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
+  }
+  
+  /* Fix for text that should be centered */
+  .lg\:text-center {
+    @apply text-center !important;
   }
 }
 
