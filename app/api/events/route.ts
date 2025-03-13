@@ -4,6 +4,9 @@ import { getDistance } from 'geolib';
 
 const prisma = new PrismaClient();
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 // Define the type for an event with its relations
 type EventWithRelations = Event & {
   venue: Venue | null;
