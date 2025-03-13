@@ -5,6 +5,10 @@ import AuthButton from './AuthButton';
 import Image from 'next/image';
 import { useUser } from '../context/UserContext';
 
+// Get domain from environment variables
+const domain = process.env.NEXT_PUBLIC_DOMAIN?.replace('https://', '').replace('http://', '') || 'netnav.app';
+const domainSuffix = domain.includes('localhost') ? ':3000' : '';
+
 export default function Header() {
   const { isAuthenticated } = useUser();
 
@@ -15,7 +19,7 @@ export default function Header() {
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
               <span className="text-xl font-bold text-blue-600">
-                NetNav<span className="text-gray-500 text-sm">.app</span>
+                NetNav<span className="text-gray-500 text-sm">{domain.includes('localhost') ? '' : `.${domain.split('.').pop()}`}</span>
               </span>
               {!isAuthenticated && (
                 <span className="ml-2 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">

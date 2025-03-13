@@ -2,10 +2,10 @@
 const nextConfig = {
   // Enable image optimization for external domains
   images: {
-    domains: ['randomuser.me'], // For the profile images used in the connections page
+    domains: ['randomuser.me', 'netnav.app', 'localhost'], // Added netnav.app and localhost to support both environments
   },
   // Configure custom domain
-  // assetPrefix: process.env.NODE_ENV === 'production' ? 'https://netnav.app' : undefined,
+  assetPrefix: process.env.NODE_ENV === 'production' ? 'https://netnav.app' : '',
   // Base path if you're not hosting at the domain root
   // basePath: '',
   // Configure headers for better security
@@ -40,8 +40,8 @@ const nextConfig = {
   },
   // Environment variables that will be available at build time
   env: {
-    NEXT_PUBLIC_DOMAIN: 'netnav.app',
-    NEXT_PUBLIC_URL: 'https://netnav.app',
+    NEXT_PUBLIC_DOMAIN: process.env.NODE_ENV === 'production' ? 'netnav.app' : 'localhost:3000',
+    NEXT_PUBLIC_URL: process.env.NODE_ENV === 'production' ? 'https://netnav.app' : 'http://localhost:3000',
   },
   // Configure rewrites for API endpoints
   rewrites: async () => {

@@ -5,19 +5,23 @@ import { UserProvider } from "./context/UserContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
+// Get the domain from environment variables
+const domain = process.env.NEXT_PUBLIC_DOMAIN || 'netnav.app';
+const url = process.env.NEXT_PUBLIC_URL || 'https://netnav.app';
+
 export const metadata: Metadata = {
   title: "NetNav - Networking Event Calendar",
   description: "Discover business networking events in your area based on your location, industry, and preferences.",
-  metadataBase: new URL('https://netnav.app'),
+  metadataBase: new URL(url),
   keywords: ["networking", "business events", "professional networking", "industry events", "conferences", "meetups"],
   openGraph: {
     title: "NetNav - Networking Event Calendar",
     description: "Discover business networking events in your area based on your location, industry, and preferences.",
-    url: 'https://netnav.app',
+    url: url,
     siteName: 'NetNav',
     images: [
       {
-        url: 'https://netnav.app/og-image.jpg',
+        url: `${url}/og-image.jpg`,
         width: 1200,
         height: 630,
         alt: 'NetNav - The Business Networking Platform',
@@ -30,7 +34,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'NetNav - Networking Event Calendar',
     description: 'Find business networking events and connect with professionals in your industry',
-    images: ['https://netnav.app/twitter-image.jpg'],
+    images: [`${url}/twitter-image.jpg`],
   },
   robots: {
     index: true,
@@ -49,7 +53,7 @@ export const metadata: Metadata = {
     // google: 'your-google-site-verification',
   },
   alternates: {
-    canonical: 'https://netnav.app',
+    canonical: url,
   },
 };
 
