@@ -63,28 +63,30 @@ const nextConfig = {
         ],
       },
       {
-        // Separate CSP header to ensure it's not overridden
+        // CSP header as a separate rule to ensure it's not overridden
         source: '/:path*',
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: [
-              "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live *.vercel.app",
-              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-              "font-src 'self' https://fonts.gstatic.com data:",
-              "img-src 'self' data: https: blob:",
-              "media-src 'self'",
-              "connect-src 'self' https: wss:",
-              "frame-src 'self'",
-              "base-uri 'self'",
-              "form-action 'self'",
-              "frame-ancestors 'none'",
-              "object-src 'none'",
-              "manifest-src 'self'",
-              "upgrade-insecure-requests"
-            ].join('; ')
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live *.vercel.app; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; media-src 'self'; connect-src 'self' https: wss:; frame-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests"
           }
+        ],
+      },
+      {
+        source: '/api/manifest',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/manifest+json; charset=utf-8',
+          },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600',
+          },
         ],
       },
       {
@@ -212,6 +214,10 @@ const nextConfig = {
       {
         source: '/about',
         destination: '/about',
+      },
+      {
+        source: '/manifest.json',
+        destination: '/api/manifest',
       },
     ];
   },

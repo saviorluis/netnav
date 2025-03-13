@@ -9,6 +9,7 @@ const publicPaths = [
   '/about',
   '/api/auth',
   '/api/events/public',
+  '/api/manifest',
   '/_next',
   '/static',
   '/fonts',
@@ -38,8 +39,8 @@ const staticFileExtensions = [
 export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   
-  // Skip middleware for manifest.json completely
-  if (pathname === '/manifest.json') {
+  // Skip middleware for manifest.json and API manifest route completely
+  if (pathname === '/manifest.json' || pathname === '/api/manifest') {
     return NextResponse.next();
   }
   
@@ -102,7 +103,7 @@ export function middleware(request: NextRequest) {
 
   // Set priority hints for critical resources
   if (pathname === '/') {
-    response.headers.set('Link', '</manifest.json>; rel=preload; as=fetch; crossorigin; importance=low');
+    response.headers.set('Link', '</api/manifest>; rel=preload; as=fetch; crossorigin; importance=low');
   }
 
   // Check if the path is public or an API route
@@ -127,7 +128,8 @@ export const config = {
      * - robots.txt (SEO file)
      * - sitemap.xml (SEO file)
      * - manifest.json (PWA manifest file)
+     * - api/manifest (API route for manifest)
      */
-    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|manifest.json).*)',
+    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|manifest.json|api/manifest).*)',
   ],
 }; 

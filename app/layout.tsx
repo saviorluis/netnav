@@ -61,7 +61,7 @@ export const metadata = {
   alternates: {
     canonical: url,
   },
-  manifest: '/manifest.json',
+  manifest: '/api/manifest',
 };
 
 export const viewport = {
@@ -84,7 +84,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href={url} />
         <link rel="dns-prefetch" href={url} />
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="manifest" href="/api/manifest" />
       </head>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <noscript>
