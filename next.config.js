@@ -224,7 +224,7 @@ const nextConfig = {
       },
       {
         source: '/manifest.json',
-        destination: '/manifest.json',
+        destination: '/manifest.html',
       }
     ];
   },

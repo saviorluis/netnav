@@ -43,7 +43,7 @@ export const metadata = {
     description: 'A comprehensive network navigation and management tool for IT professionals',
     images: ['https://netnav.app/images/twitter-image.jpg'],
   },
-  manifest: '/manifest.json',
+  manifest: '/manifest.html',
 };
 
 export const viewport = {
@@ -72,7 +72,53 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href={url} />
         <link rel="dns-prefetch" href={url} />
-        <link rel="manifest" href="/manifest.json" />
+        
+        {/* Inline manifest to bypass server issues */}
+        <script
+          type="application/manifest+json"
+          dangerouslySetInnerHTML={{
+            __html: `
+              {
+                "name": "NetNav - Network Navigation Tool",
+                "short_name": "NetNav",
+                "description": "A comprehensive network navigation and management tool for IT professionals",
+                "start_url": "/",
+                "display": "standalone",
+                "background_color": "#ffffff",
+                "theme_color": "#0070f3",
+                "icons": [
+                  {
+                    "src": "/icons/icon-192x192.png",
+                    "sizes": "192x192",
+                    "type": "image/png",
+                    "purpose": "any maskable"
+                  },
+                  {
+                    "src": "/icons/icon-512x512.png",
+                    "sizes": "512x512",
+                    "type": "image/png",
+                    "purpose": "any maskable"
+                  },
+                  {
+                    "src": "/icons/icon-192x192.svg",
+                    "sizes": "192x192",
+                    "type": "image/svg+xml",
+                    "purpose": "any maskable"
+                  },
+                  {
+                    "src": "/icons/icon-512x512.svg",
+                    "sizes": "512x512",
+                    "type": "image/svg+xml",
+                    "purpose": "any maskable"
+                  }
+                ]
+              }
+            `
+          }}
+        />
+        
+        {/* Keep the link for browsers that support it */}
+        <link rel="manifest" href="/manifest.html" />
       </head>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <noscript>
