@@ -43,7 +43,7 @@ export const metadata = {
     description: 'A comprehensive network navigation and management tool for IT professionals',
     images: ['https://netnav.app/images/twitter-image.jpg'],
   },
-  manifest: '/manifest',
+  manifest: '/manifest.json',
 };
 
 export const viewport = {
@@ -73,30 +73,17 @@ export default function RootLayout({
         <link rel="preconnect" href={url} />
         <link rel="dns-prefetch" href={url} />
         
-        {/* Preload critical CSS */}
-        <link 
-          rel="preload" 
-          href="/_next/static/css/app/layout.css" 
-          as="style" 
-          crossOrigin="anonymous" 
-        />
-        
-        {/* Preload critical fonts */}
-        <link 
-          rel="preload" 
-          href="https://fonts.gstatic.com/s/inter/v12/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2" 
-          as="font" 
-          type="font/woff2" 
-          crossOrigin="anonymous" 
-        />
-        
         {/* Critical CSS inline to avoid render blocking */}
         <style dangerouslySetInnerHTML={{ __html: `
           body {margin:0;padding:0;min-height:100vh}
-          .center-all {display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important}
+          .center-all {display:flex !important;flex-direction:column !important;align-items:center !important;justify-content:center !important;text-align:center !important}
+          .flex {display:flex;align-items:center;justify-content:center}
+          .flex-col {flex-direction:column;align-items:center;justify-content:flex-start}
+          img {max-width:100%;height:auto;display:block;position:relative}
+          h1, h2, h3, h4, h5, h6 {font-weight:bold;text-align:center}
         `}} />
         
-        {/* Inline manifest to bypass server issues */}
+        {/* Embed manifest directly in HTML to avoid 401 errors */}
         <script
           type="application/manifest+json"
           dangerouslySetInnerHTML={{
@@ -121,18 +108,6 @@ export default function RootLayout({
                     "sizes": "512x512",
                     "type": "image/png",
                     "purpose": "any maskable"
-                  },
-                  {
-                    "src": "/icons/icon-192x192.svg",
-                    "sizes": "192x192",
-                    "type": "image/svg+xml",
-                    "purpose": "any maskable"
-                  },
-                  {
-                    "src": "/icons/icon-512x512.svg",
-                    "sizes": "512x512",
-                    "type": "image/svg+xml",
-                    "purpose": "any maskable"
                   }
                 ]
               }
@@ -140,8 +115,8 @@ export default function RootLayout({
           }}
         />
         
-        {/* Keep the link for browsers that support it */}
-        <link rel="manifest" href="/manifest" />
+        {/* Use both approaches for manifest to ensure compatibility */}
+        <link rel="manifest" href="/manifest.json" />
       </head>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased center-all">
         <noscript>
@@ -157,62 +132,10 @@ export default function RootLayout({
                 {children}
               </div>
             </div>
-            
-            {/* Render Diagnostics (only in development mode) */}
-            {process.env.NODE_ENV !== 'production' && (
-              <div id="diagnostic-container" suppressHydrationWarning>
-                {/* RenderDiagnostic is imported dynamically client-side to avoid SSR issues */}
-                <script
-                  dangerouslySetInnerHTML={{
-                    __html: `
-                      (function() {
-                        // Only run in browser, not during SSR
-                        if (typeof window !== 'undefined') {
-                          // Add diagnostic tools with a slight delay
-                          setTimeout(function() {
-                            import('/app/components/RenderDiagnostic').then(module => {
-                              const RenderDiagnostic = module.default;
-                              const React = window.React;
-                              const ReactDOM = window.ReactDOM;
-                              
-                              if (React && ReactDOM) {
-                                const container = document.getElementById('diagnostic-container');
-                                if (container) {
-                                  const diagnosticElement = React.createElement(RenderDiagnostic);
-                                  ReactDOM.render(diagnosticElement, container);
-                                }
-                              }
-                            }).catch(err => {
-                              console.warn('Failed to load diagnostic tools:', err);
-                            });
-                          }, 1000);
-                        }
-                      })();
-                    `
-                  }}
-                />
-              </div>
-            )}
           </UserProvider>
         </ErrorBoundary>
         
-        {/* Error tracking script with defer to not block rendering */}
-        <script
-          id="error-tracking"
-          defer
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.addEventListener('error', function(e) {
-                console.error('Window Error:', e);
-              });
-              window.addEventListener('unhandledrejection', function(e) {
-                console.error('Unhandled Promise Rejection:', e);
-              });
-            `,
-          }}
-        />
-        
-        {/* Add progressive loading indicator */}
+        {/* Simplified loading indicator */}
         <script
           id="loading-indicator"
           dangerouslySetInnerHTML={{
@@ -227,24 +150,12 @@ export default function RootLayout({
                     document.body.appendChild(loadingEl);
                     
                     // Remove loading indicator when page is interactive
-                    function removeLoadingIndicator() {
-                      const loadingEl = document.getElementById('app-loading');
-                      if (loadingEl) {
-                        loadingEl.style.opacity = '0';
-                        loadingEl.style.transition = 'opacity 0.3s ease';
-                        
-                        function finalRemove() {
-                          if (loadingEl && loadingEl.parentNode) {
-                            loadingEl.parentNode.removeChild(loadingEl);
-                          }
-                        }
-                        
-                        setTimeout(finalRemove, 300);
-                      }
-                    }
-                    
                     window.addEventListener('DOMContentLoaded', function() {
-                      setTimeout(removeLoadingIndicator, 300);
+                      setTimeout(function() {
+                        if (loadingEl && loadingEl.parentNode) {
+                          loadingEl.parentNode.removeChild(loadingEl);
+                        }
+                      }, 300);
                     });
                   }
                 }
@@ -255,22 +166,14 @@ export default function RootLayout({
           }}
         />
         
-        {/* Fix for content visibility */}
+        {/* Basic error tracking */}
         <script
-          id="content-visibility-fix"
           dangerouslySetInnerHTML={{
             __html: `
-              (function() {
-                // Add content-visibility support detection
-                if (typeof document !== 'undefined' && document.documentElement) {
-                  if ('contentVisibility' in document.documentElement.style) {
-                    document.documentElement.classList.add('supports-cv');
-                  } else {
-                    document.documentElement.classList.add('no-cv');
-                  }
-                }
-              })();
-            `,
+              window.addEventListener('error', function(e) {
+                console.error('Window Error:', e.message);
+              });
+            `
           }}
         />
       </body>

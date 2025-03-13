@@ -3,7 +3,6 @@
 import React from 'react';
 import Header from './Header';
 import Link from 'next/link';
-import DebugMode from './DebugMode';
 
 interface ModernLayoutProps {
   children: React.ReactNode;
@@ -13,8 +12,8 @@ export default function ModernLayout({ children }: ModernLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Header />
-      <main className="flex-grow flex flex-col items-center justify-center w-full center-all">
-        <div className="container-custom w-full center-all">
+      <main className="flex-grow flex flex-col items-center justify-center w-full">
+        <div className="container mx-auto px-4 w-full max-w-7xl">
           {children}
         </div>
       </main>
@@ -52,17 +51,17 @@ export default function ModernLayout({ children }: ModernLayoutProps) {
                   <h3 className="text-sm font-semibold leading-6 text-gray-900">Solutions</h3>
                   <ul role="list" className="mt-6 space-y-4">
                     <li>
-                      <Link href="/events" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                      <Link href="/" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
                         Find Events
                       </Link>
                     </li>
                     <li>
-                      <Link href="/connections" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                      <Link href="/" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
                         Networking
                       </Link>
                     </li>
                     <li>
-                      <Link href="/dashboard" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                      <Link href="/" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
                         Dashboard
                       </Link>
                     </li>
@@ -72,17 +71,17 @@ export default function ModernLayout({ children }: ModernLayoutProps) {
                   <h3 className="text-sm font-semibold leading-6 text-gray-900">Support</h3>
                   <ul role="list" className="mt-6 space-y-4">
                     <li>
-                      <Link href="/help" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                      <Link href="/" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
                         Help Center
                       </Link>
                     </li>
                     <li>
-                      <Link href="/contact" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                      <Link href="/" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
                         Contact Us
                       </Link>
                     </li>
                     <li>
-                      <Link href="/faq" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                      <Link href="/" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
                         FAQs
                       </Link>
                     </li>
@@ -94,17 +93,17 @@ export default function ModernLayout({ children }: ModernLayoutProps) {
                   <h3 className="text-sm font-semibold leading-6 text-gray-900">Company</h3>
                   <ul role="list" className="mt-6 space-y-4">
                     <li>
-                      <Link href="/about" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                      <Link href="/" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
                         About
                       </Link>
                     </li>
                     <li>
-                      <Link href="/blog" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                      <Link href="/" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
                         Blog
                       </Link>
                     </li>
                     <li>
-                      <Link href="/careers" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                      <Link href="/" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
                         Careers
                       </Link>
                     </li>
@@ -114,17 +113,17 @@ export default function ModernLayout({ children }: ModernLayoutProps) {
                   <h3 className="text-sm font-semibold leading-6 text-gray-900">Legal</h3>
                   <ul role="list" className="mt-6 space-y-4">
                     <li>
-                      <Link href="/privacy" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                      <Link href="/" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
                         Privacy
                       </Link>
                     </li>
                     <li>
-                      <Link href="/terms" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                      <Link href="/" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
                         Terms
                       </Link>
                     </li>
                     <li>
-                      <Link href="/cookies" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                      <Link href="/" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
                         Cookie Policy
                       </Link>
                     </li>
@@ -138,9 +137,6 @@ export default function ModernLayout({ children }: ModernLayoutProps) {
           </div>
         </div>
       </footer>
-      
-      {/* Debug Mode Toggle */}
-      <DebugMode />
     </div>
   );
 } 

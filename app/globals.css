@@ -49,7 +49,7 @@
   }
 }
 
-/* Base styles with strengthened defaults */
+/* Basic styles for core elements */
 @layer base {
   * {
     @apply border-border;
@@ -58,16 +58,12 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
-    display: flex;
-    flex-direction: column;
     min-height: 100vh;
-    width: 100%;
-    overflow-x: hidden;
   }
   
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold tracking-tight;
-    text-align: center; /* Ensure headings are centered by default */
+    text-align: center;
   }
   
   h1 {
@@ -82,43 +78,9 @@
     @apply text-xl md:text-2xl;
   }
   
-  /* Enhanced image handling */
   img {
     @apply max-w-full h-auto;
-    display: block; /* Remove inline gaps */
-    position: relative; /* For placeholder overlays */
-  }
-  
-  /* Improved image loading with visual indicators */
-  img[loading="lazy"] {
-    @apply min-h-[1px];
-    background-color: #f0f0f0;
-    background-image: linear-gradient(90deg, #f0f0f0, #f8f8f8, #f0f0f0);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-    min-height: 150px; /* Ensure space is reserved */
-    position: relative;
-    content-visibility: auto; /* Modern browsers will benefit from this */
-  }
-  
-  /* Add animation for placeholder shimmering effect */
-  @keyframes shimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
-  
-  /* Ensure all flex containers center their children by default */
-  .flex {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Override flex-col to maintain alignment */
-  .flex-col {
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+    display: block;
   }
 }
 
@@ -129,104 +91,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Strengthened text alignment utilities */
+/* Simple utility classes */
 .text-center {
-  text-align: center !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
+  text-align: center;
 }
 
 .mx-auto {
-  margin-left: auto !important;
-  margin-right: auto !important;
-  display: block !important;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Add an explicit center-all utility class */
-.center-all {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  text-align: center !important;
-}
-
-/* Enhanced UI Components */
-@layer components {
-  .btn {
-    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors 
-    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 
-    disabled:opacity-50 disabled:pointer-events-none ring-offset-background;
-  }
-  
-  .btn-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90 h-10 py-2 px-4;
-  }
-  
-  .btn-secondary {
-    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 h-10 py-2 px-4;
-  }
-  
-  .btn-outline {
-    @apply border border-input hover:bg-accent hover:text-accent-foreground h-10 py-2 px-4;
-  }
-  
-  .card {
-    @apply rounded-lg border bg-card text-card-foreground shadow-sm;
-  }
-  
-  .card-header {
-    @apply flex flex-col space-y-1.5 p-6;
-    align-items: center; /* Ensure card headers center their content */
-  }
-  
-  .card-title {
-    @apply text-2xl font-semibold leading-none tracking-tight;
-    text-align: center; /* Ensure card titles are centered */
-  }
-  
-  .card-description {
-    @apply text-sm text-muted-foreground;
-    text-align: center; /* Ensure card descriptions are centered */
-  }
-  
-  .card-content {
-    @apply p-6 pt-0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .card-footer {
-    @apply flex items-center p-6 pt-0;
-    justify-content: center; /* Center card footer content */
-  }
-  
-  .input {
-    @apply flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm 
-    ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium 
-    placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 
-    focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
-  }
-  
-  .container-custom {
-    @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  /* Fix for text that should be centered */
-  .lg\:text-center {
-    @apply text-center !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-  }
-}
-
-/* Animation utilities */
+/* Simple animation utilities */
 .animate-fade-in {
   animation: fadeIn 0.5s ease-in-out;
 }
@@ -245,100 +120,44 @@ body {
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* Debug mode styles */
-.debug-mode * {
-  outline: 1px solid rgba(255, 0, 0, 0.2) !important;
-}
-
-.debug-mode div {
-  position: relative;
-}
-
-.debug-mode div::before {
-  content: attr(class);
-  position: absolute;
-  top: -14px;
-  left: 0;
-  font-size: 8px;
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
-  padding: 1px 3px;
-  border-radius: 2px;
-  z-index: 9999;
-  max-width: 300px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  pointer-events: none;
-  display: none; /* Hide by default, show on hover */
-}
-
-.debug-mode div:hover::before {
-  display: block; /* Show on hover */
-}
-
-.debug-mode img {
-  position: relative;
-}
-
-.debug-mode img::after {
-  content: attr(src) " (" attr(width) "x" attr(height) ")";
-  position: absolute;
-  bottom: -14px;
-  left: 0;
-  font-size: 8px;
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
-  padding: 1px 3px;
-  border-radius: 2px;
-  z-index: 9999;
-  max-width: 300px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  pointer-events: none;
-}
-
-/* Fix for content-visibility in modern browsers */
-@supports (content-visibility: auto) {
-  .cv-auto {
-    content-visibility: auto;
-    contain-intrinsic-size: 0 500px; /* Provide a reasonable placeholder size */
+/* Essential UI Components */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors 
+    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 
+    disabled:opacity-50 disabled:pointer-events-none ring-offset-background;
   }
-}
-
-/* Improved image loading */
-.lazy-image-container {
-  position: relative;
-  overflow: hidden;
-  background-color: #f0f0f0;
-  width: 100%;
-  height: 0;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio by default */
-}
-
-.lazy-image-container img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: opacity 0.3s ease;
-}
-
-.lazy-image-container.loaded {
-  background-color: transparent;
-}
-
-/* Ensure all Next.js images display properly */
-span[style*="box-sizing: border-box; display: block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute;"] {
-  position: relative !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  width: 100% !important;
-  height: auto !important;
-  min-height: 150px;
+  
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 h-10 py-2 px-4;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 h-10 py-2 px-4;
+  }
+  
+  .card {
+    @apply rounded-lg border bg-card text-card-foreground shadow-sm;
+  }
+  
+  .card-header {
+    @apply flex flex-col space-y-1.5 p-6;
+  }
+  
+  .card-title {
+    @apply text-2xl font-semibold leading-none tracking-tight;
+  }
+  
+  .card-description {
+    @apply text-sm text-muted-foreground;
+  }
+  
+  .card-content {
+    @apply p-6 pt-0;
+  }
+  
+  .card-footer {
+    @apply flex items-center p-6 pt-0;
+  }
 }
 

@@ -171,7 +171,7 @@ const nextConfig = {
           },
           {
             key: 'Cache-Control',
-            value: 'public, max-age=3600',
+            value: 'no-cache',
           },
           {
             key: 'X-Content-Type-Options',
@@ -280,10 +280,6 @@ const nextConfig = {
         source: '/about',
         destination: '/about',
       },
-      {
-        source: '/manifest.json',
-        destination: '/manifest.html',
-      }
     ];
   },
   // Add webpack configuration
