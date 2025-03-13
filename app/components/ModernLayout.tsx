@@ -3,6 +3,7 @@
 import React from 'react';
 import Header from './Header';
 import Link from 'next/link';
+import DebugMode from './DebugMode';
 
 interface ModernLayoutProps {
   children: React.ReactNode;
@@ -12,11 +13,13 @@ export default function ModernLayout({ children }: ModernLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Header />
-      <main className="flex-grow flex flex-col items-center">
-        {children}
+      <main className="flex-grow flex flex-col items-center justify-center w-full center-all">
+        <div className="container-custom w-full center-all">
+          {children}
+        </div>
       </main>
       
-      <footer className="bg-white" aria-labelledby="footer-heading">
+      <footer className="bg-white w-full" aria-labelledby="footer-heading">
         <h2 id="footer-heading" className="sr-only">Footer</h2>
         <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
           <div className="xl:grid xl:grid-cols-3 xl:gap-8">
@@ -130,11 +133,14 @@ export default function ModernLayout({ children }: ModernLayoutProps) {
               </div>
             </div>
           </div>
-          <div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24">
+          <div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24 text-center">
             <p className="text-xs leading-5 text-gray-500">&copy; {new Date().getFullYear()} NetNav. All rights reserved.</p>
           </div>
         </div>
       </footer>
+      
+      {/* Debug Mode Toggle */}
+      <DebugMode />
     </div>
   );
 } 

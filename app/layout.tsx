@@ -59,7 +59,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={inter.className}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta name="mobile-web-app-capable" content="yes" />
@@ -72,6 +72,29 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href={url} />
         <link rel="dns-prefetch" href={url} />
+        
+        {/* Preload critical CSS */}
+        <link 
+          rel="preload" 
+          href="/_next/static/css/app/layout.css" 
+          as="style" 
+          crossOrigin="anonymous" 
+        />
+        
+        {/* Preload critical fonts */}
+        <link 
+          rel="preload" 
+          href="https://fonts.gstatic.com/s/inter/v12/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2" 
+          as="font" 
+          type="font/woff2" 
+          crossOrigin="anonymous" 
+        />
+        
+        {/* Critical CSS inline to avoid render blocking */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          body {margin:0;padding:0;min-height:100vh}
+          .center-all {display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important}
+        `}} />
         
         {/* Inline manifest to bypass server issues */}
         <script
@@ -120,7 +143,7 @@ export default function RootLayout({
         {/* Keep the link for browsers that support it */}
         <link rel="manifest" href="/manifest" />
       </head>
-      <body className="min-h-screen bg-background font-sans text-foreground antialiased">
+      <body className="min-h-screen bg-background font-sans text-foreground antialiased center-all">
         <noscript>
           <div className="p-4 bg-yellow-100 text-yellow-800 text-center">
             This application requires JavaScript to be enabled for full functionality.
@@ -129,11 +152,47 @@ export default function RootLayout({
         
         <ErrorBoundary>
           <UserProvider>
-            <div className="min-h-screen flex flex-col">
-              <div className="flex-grow">
+            <div className="min-h-screen flex flex-col w-full center-all">
+              <div className="flex-grow w-full center-all">
                 {children}
               </div>
             </div>
+            
+            {/* Render Diagnostics (only in development mode) */}
+            {process.env.NODE_ENV !== 'production' && (
+              <div id="diagnostic-container" suppressHydrationWarning>
+                {/* RenderDiagnostic is imported dynamically client-side to avoid SSR issues */}
+                <script
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                      (function() {
+                        // Only run in browser, not during SSR
+                        if (typeof window !== 'undefined') {
+                          // Add diagnostic tools with a slight delay
+                          setTimeout(function() {
+                            import('/app/components/RenderDiagnostic').then(module => {
+                              const RenderDiagnostic = module.default;
+                              const React = window.React;
+                              const ReactDOM = window.ReactDOM;
+                              
+                              if (React && ReactDOM) {
+                                const container = document.getElementById('diagnostic-container');
+                                if (container) {
+                                  const diagnosticElement = React.createElement(RenderDiagnostic);
+                                  ReactDOM.render(diagnosticElement, container);
+                                }
+                              }
+                            }).catch(err => {
+                              console.warn('Failed to load diagnostic tools:', err);
+                            });
+                          }, 1000);
+                        }
+                      })();
+                    `
+                  }}
+                />
+              </div>
+            )}
           </UserProvider>
         </ErrorBoundary>
         
@@ -191,6 +250,25 @@ export default function RootLayout({
                 }
                 
                 createLoadingIndicator();
+              })();
+            `,
+          }}
+        />
+        
+        {/* Fix for content visibility */}
+        <script
+          id="content-visibility-fix"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                // Add content-visibility support detection
+                if (typeof document !== 'undefined' && document.documentElement) {
+                  if ('contentVisibility' in document.documentElement.style) {
+                    document.documentElement.classList.add('supports-cv');
+                  } else {
+                    document.documentElement.classList.add('no-cv');
+                  }
+                }
               })();
             `,
           }}
