@@ -75,13 +75,14 @@ const nextConfig = {
               "form-action 'self'",
               "frame-ancestors 'none'",
               "object-src 'none'",
+              "manifest-src 'self'",
               "upgrade-insecure-requests"
             ].join('; ')
           }
         ],
       },
       {
-        source: '/_next/static/:path*',
+        source: '/_next/:path*',
         headers: [
           {
             key: 'Access-Control-Allow-Origin',
@@ -106,6 +107,23 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/manifest.json',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Content-Type',
+            value: 'application/manifest+json',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600',
+          },
+        ],
+      },
     ];
   },
   // Environment variables that will be available at build time
@@ -115,10 +133,7 @@ const nextConfig = {
   },
   // Configure redirects for production only
   async redirects() {
-    if (process.env.VERCEL_ENV !== 'production') {
-      return [];
-    }
-    return [
+    const redirects = [
       {
         source: '/:path*',
         has: [
@@ -131,6 +146,16 @@ const nextConfig = {
         permanent: true,
       },
     ];
+
+    if (process.env.VERCEL_ENV === 'production') {
+      redirects.push({
+        source: '/:path*/_rsc',
+        destination: '/:path*',
+        permanent: false,
+      });
+    }
+
+    return redirects;
   },
   // Configure rewrites
   async rewrites() {
@@ -138,6 +163,10 @@ const nextConfig = {
       {
         source: '/api/:path*',
         destination: '/api/:path*',
+      },
+      {
+        source: '/:path*/_rsc',
+        destination: '/:path*',
       },
     ];
   },
