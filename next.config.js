@@ -5,13 +5,6 @@ const nextConfig = {
     domains: ['randomuser.me', 'netnav.app', 'www.netnav.app', 'localhost'],
     unoptimized: process.env.NODE_ENV !== 'production',
   },
-  // Configure base path and asset prefix based on environment
-  basePath: '',
-  assetPrefix: process.env.VERCEL_ENV === 'preview' 
-    ? undefined 
-    : process.env.NODE_ENV === 'production' 
-      ? 'https://netnav.app' 
-      : '',
   // Configure headers for better security and CORS
   async headers() {
     return [
@@ -66,7 +59,7 @@ const nextConfig = {
         ],
       },
       {
-        source: '/fonts/:path*',
+        source: '/static/:path*',
         headers: [
           {
             key: 'Access-Control-Allow-Origin',
@@ -82,20 +75,12 @@ const nextConfig = {
   },
   // Environment variables that will be available at build time
   env: {
-    NEXT_PUBLIC_DOMAIN: process.env.VERCEL_ENV === 'preview'
-      ? process.env.VERCEL_URL
-      : process.env.NODE_ENV === 'production'
-        ? 'netnav.app'
-        : `localhost:${process.env.PORT || '3000'}`,
-    NEXT_PUBLIC_URL: process.env.VERCEL_ENV === 'preview'
-      ? `https://${process.env.VERCEL_URL}`
-      : process.env.NODE_ENV === 'production'
-        ? 'https://netnav.app'
-        : `http://localhost:${process.env.PORT || '3000'}`,
+    NEXT_PUBLIC_DOMAIN: process.env.VERCEL_URL || 'netnav.app',
+    NEXT_PUBLIC_URL: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://netnav.app',
   },
-  // Configure redirects
+  // Configure redirects for production only
   async redirects() {
-    if (process.env.VERCEL_ENV === 'preview') {
+    if (process.env.VERCEL_ENV !== 'production') {
       return [];
     }
     return [
@@ -112,13 +97,9 @@ const nextConfig = {
       },
     ];
   },
-  // Configure rewrites to handle preview deployments
+  // Configure rewrites
   async rewrites() {
     return [
-      {
-        source: '/_next/:path*',
-        destination: '/_next/:path*',
-      },
       {
         source: '/api/:path*',
         destination: '/api/:path*',
