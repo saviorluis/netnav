@@ -6,7 +6,7 @@ import LogoutButton from './LogoutButton';
 import { useUser } from '../context/UserContext';
 
 export default function AuthButton() {
-  const { isAuthenticated, isLoading, error } = useUser();
+  const { isAuthenticated, loading, error } = useUser();
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function AuthButton() {
     return () => clearTimeout(timer);
   }, [isAuthenticated]);
 
-  if (isLoading || isTransitioning) {
+  if (loading || isTransitioning) {
     return (
       <div className="h-10 w-24 animate-pulse rounded-md bg-gray-100"></div>
     );
