@@ -1,75 +1,56 @@
+import './globals.css';
 import { Inter } from 'next/font/google';
 import { UserProvider } from './context/UserContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
-import './globals.css';
-import Script from 'next/script';
 
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  preload: true,
-  variable: '--font-inter',
-});
+const inter = Inter({ subsets: ['latin'] });
 
 // Get the domain from environment variables
 const domain = process.env.VERCEL_URL || 'netnav.app';
 const url = `https://${domain}`;
 
 export const metadata = {
-  title: 'NetNav',
-  description: 'Network Navigation Tool',
-  metadataBase: new URL(url),
-  keywords: ["networking", "business events", "professional networking", "industry events", "conferences", "meetups"],
+  title: 'NetNav - Network Navigation Tool',
+  description: 'A comprehensive network navigation and management tool for IT professionals',
+  keywords: ['network', 'navigation', 'IT', 'management', 'monitoring', 'dashboard'],
+  authors: [{ name: 'NetNav Team' }],
+  creator: 'NetNav',
+  publisher: 'NetNav',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   openGraph: {
-    title: "NetNav - Networking Event Calendar",
-    description: "Discover business networking events in your area based on your location, industry, and preferences.",
-    url: url,
+    title: 'NetNav - Network Navigation Tool',
+    description: 'A comprehensive network navigation and management tool for IT professionals',
+    url: 'https://netnav.app',
     siteName: 'NetNav',
     images: [
       {
-        url: `${url}/og-image.jpg`,
+        url: 'https://netnav.app/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'NetNav - The Business Networking Platform',
-      }
+        alt: 'NetNav - Network Navigation Tool',
+      },
     ],
     locale: 'en_US',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'NetNav - Networking Event Calendar',
-    description: 'Find business networking events and connect with professionals in your industry',
-    images: [`${url}/twitter-image.jpg`],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-image-preview': 'large',
-      'max-video-preview': -1,
-      'max-snippet': -1,
-    },
-  },
-  applicationName: 'NetNav',
-  verification: {
-    // Add verification tokens when you have them
-    // google: 'your-google-site-verification',
-  },
-  alternates: {
-    canonical: url,
+    title: 'NetNav - Network Navigation Tool',
+    description: 'A comprehensive network navigation and management tool for IT professionals',
+    images: ['https://netnav.app/images/twitter-image.jpg'],
   },
   manifest: '/api/manifest',
 };
 
 export const viewport = {
+  themeColor: '#0070f3',
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-  themeColor: '#0066cc',
+  maximumScale: 5,
 };
 
 export default function RootLayout({
@@ -77,14 +58,62 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Define manifest data
+  const manifestData = {
+    name: 'NetNav - Network Navigation Tool',
+    short_name: 'NetNav',
+    description: 'A comprehensive network navigation and management tool for IT professionals',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#ffffff',
+    theme_color: '#0070f3',
+    icons: [
+      {
+        src: '/icons/icon-192x192.svg',
+        sizes: '192x192',
+        type: 'image/svg+xml',
+        purpose: 'any maskable'
+      },
+      {
+        src: '/icons/icon-512x512.svg',
+        sizes: '512x512',
+        type: 'image/svg+xml',
+        purpose: 'any maskable'
+      }
+    ]
+  };
+
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href={url} />
         <link rel="dns-prefetch" href={url} />
-        <link rel="manifest" href="/api/manifest" />
+        
+        <script
+          type="application/json"
+          id="app-manifest"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(manifestData)
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const manifestData = document.getElementById('app-manifest').textContent;
+                const blob = new Blob([manifestData], {type: 'application/manifest+json'});
+                const manifestURL = URL.createObjectURL(blob);
+                const link = document.createElement('link');
+                link.rel = 'manifest';
+                link.href = manifestURL;
+                document.head.appendChild(link);
+              })();
+            `
+          }}
+        />
       </head>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <noscript>
@@ -95,14 +124,18 @@ export default function RootLayout({
         
         <ErrorBoundary>
           <UserProvider>
-            {children}
+            <div className="min-h-screen flex flex-col">
+              <div className="flex-grow">
+                {children}
+              </div>
+            </div>
           </UserProvider>
         </ErrorBoundary>
         
         {/* Error tracking script with defer to not block rendering */}
-        <Script
+        <script
           id="error-tracking"
-          strategy="afterInteractive"
+          defer
           dangerouslySetInnerHTML={{
             __html: `
               window.addEventListener('error', function(e) {
@@ -116,9 +149,8 @@ export default function RootLayout({
         />
         
         {/* Add progressive loading indicator */}
-        <Script
+        <script
           id="loading-indicator"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               // Show loading indicator
