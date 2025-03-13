@@ -2,7 +2,24 @@
 const nextConfig = {
   // Enable image optimization for external domains
   images: {
-    domains: ['randomuser.me', 'netnav.app', 'www.netnav.app', 'localhost'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'randomuser.me',
+      },
+      {
+        protocol: 'https',
+        hostname: 'netnav.app',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.netnav.app',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.vercel.app',
+      },
+    ],
     unoptimized: process.env.NODE_ENV !== 'production',
   },
   // Configure headers for better security and CORS
@@ -46,7 +63,7 @@ const nextConfig = {
         ],
       },
       {
-        source: '/_next/:path*',
+        source: '/_next/static/:path*',
         headers: [
           {
             key: 'Access-Control-Allow-Origin',
@@ -59,7 +76,24 @@ const nextConfig = {
         ],
       },
       {
-        source: '/static/:path*',
+        source: '/_next/static/media/:path*',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'Content-Type',
+            value: 'font/woff2',
+          },
+        ],
+      },
+      {
+        source: '/images/:path*',
         headers: [
           {
             key: 'Access-Control-Allow-Origin',
