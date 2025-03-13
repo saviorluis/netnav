@@ -209,10 +209,6 @@ const nextConfig = {
       {
         source: '/about',
         destination: '/about',
-      },
-      {
-        source: '/manifest.json',
-        destination: '/api/manifest',
       }
     ];
   },
