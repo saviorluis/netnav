@@ -43,10 +43,15 @@ const nextConfig = {
     NEXT_PUBLIC_DOMAIN: 'netnav.app',
     NEXT_PUBLIC_URL: 'https://netnav.app',
   },
-  // Optional: Configure rewrites for API endpoints or other routes
-  // rewrites: async () => {
-  //   return [];
-  // },
+  // Configure rewrites for API endpoints
+  rewrites: async () => {
+    return [
+      {
+        source: '/api/:path*',
+        destination: '/api/:path*',
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig; 
