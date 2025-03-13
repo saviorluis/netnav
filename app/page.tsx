@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 
 // Get domain from environment variables
 const domain = process.env.NEXT_PUBLIC_DOMAIN || 'netnav.app';
@@ -14,51 +15,79 @@ const ModernLayout = dynamic(() => import('./components/ModernLayout'), { ssr: f
 export default function Home() {
   return (
     <ModernLayout>
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-        {/* Email popup that appears after 5 seconds */}
-        <EmailPopup 
-          triggerType="time" 
-          timeDelay={5000} 
-          showOncePerDays={3}
-        />
-        
-        {/* Hero section */}
-        <div className="pt-20 pb-16 text-center lg:pt-32 px-4">
-          <h1 className="mx-auto max-w-4xl font-display text-5xl font-bold tracking-tight text-gray-900 sm:text-7xl">
-            Discover Business Networking Events 
-            <span className="relative whitespace-nowrap text-blue-600">
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 418 42"
-                className="absolute left-0 top-2/3 h-[0.58em] w-full fill-blue-300/70"
-                preserveAspectRatio="none"
-              >
-                <path d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z" />
-              </svg>
-              <span className="relative">at {domain}</span>
-            </span>
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-600">
-            Find professional networking opportunities in your area, filtered by industry and event type. 
-            Connect with like-minded professionals and grow your network.
-          </p>
+      <div className="min-h-screen">
+        {/* Hero section with modern gradient background */}
+        <div className="relative isolate overflow-hidden bg-gradient-to-b from-indigo-100/20 to-white">
+          <div className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]" aria-hidden="true">
+            <div className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style={{ clipPath: 'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)' }}></div>
+          </div>
           
-          {/* Email capture form */}
-          <div className="mt-12 mx-auto max-w-md">
-            <SimpleEmailCapture />
-            <div className="mt-4 text-sm text-gray-500 text-center">
-              Already have access? <Link href="/login" className="text-blue-600 hover:underline">Login here</Link>
+          <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:flex lg:items-center lg:gap-x-10 lg:px-8 lg:py-40">
+            <div className="mx-auto max-w-2xl lg:mx-0 lg:flex-auto">
+              <h1 className="max-w-lg text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                Discover Business Networking Events with <span className="text-blue-600">NetNav</span>
+              </h1>
+              <p className="mt-6 text-lg leading-8 text-gray-600">
+                Find professional networking opportunities in your area, filtered by industry and event type. 
+                Connect with like-minded professionals and grow your network.
+              </p>
+              <div className="mt-10 flex items-center gap-x-6">
+                <Link href="/signup" className="rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                  Get started
+                </Link>
+                <Link href="/about" className="text-sm font-semibold leading-6 text-gray-900">
+                  Learn more <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+              
+              {/* Email capture form */}
+              <div className="mt-10 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <h3 className="text-sm font-semibold leading-6 text-gray-900">Join our waitlist</h3>
+                <p className="mt-1 text-sm text-gray-500">Be the first to know when we launch in your area.</p>
+                <div className="mt-4">
+                  <SimpleEmailCapture />
+                </div>
+              </div>
+            </div>
+            <div className="mt-16 sm:mt-24 lg:mt-0 lg:flex-shrink-0 lg:flex-grow">
+              <div className="relative mx-auto w-[364px] max-w-full">
+                <div className="absolute -top-10 -left-10 w-[140%] h-[140%] rounded-full bg-blue-50 blur-3xl opacity-70"></div>
+                <div className="relative shadow-xl rounded-2xl overflow-hidden border-8 border-white">
+                  <Image
+                    src="/images/checklist.jpg"
+                    alt="NetNav Dashboard Preview"
+                    width={364}
+                    height={650}
+                    className="w-full h-auto"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 right-4 text-white">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium">Upcoming Event</p>
+                        <p className="text-lg font-bold">Tech Networking Mixer</p>
+                      </div>
+                      <div className="bg-blue-600 rounded-full px-3 py-1 text-xs font-medium">
+                        2 miles away
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+          
+          <div className="absolute inset-x-0 bottom-0 -z-10 h-24 bg-gradient-to-t from-white sm:h-32"></div>
         </div>
 
-        {/* Features preview section */}
+        {/* Features section with modern design */}
         <div className="bg-white py-24 sm:py-32">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl lg:text-center">
-              <h2 className="text-base font-semibold leading-7 text-blue-600">Coming Soon</h2>
+              <h2 className="text-base font-semibold leading-7 text-blue-600">Powerful Features</h2>
               <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                The Future of Networking
+                Everything you need to supercharge your networking
               </p>
               <p className="mt-6 text-lg leading-8 text-gray-600">
                 NetNav aggregates networking events from chambers of commerce, BNI, Toastmasters, and business incubators 
@@ -125,35 +154,84 @@ export default function Home() {
           </div>
         </div>
         
-        {/* Lead Magnet Section */}
-        <div className="bg-gray-50 py-16">
+        {/* Testimonials section */}
+        <div className="bg-gray-50 py-24 sm:py-32">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl lg:text-center mb-12">
-              <h2 className="text-base font-semibold leading-7 text-blue-600">Free Resources</h2>
+            <div className="mx-auto max-w-xl text-center">
+              <h2 className="text-lg font-semibold leading-8 tracking-tight text-blue-600">Testimonials</h2>
               <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                Networking Resources to Help You Succeed
-              </p>
-              <p className="mt-6 text-lg leading-8 text-gray-600">
-                Access our free guides and resources to enhance your networking skills and make meaningful connections.
+                See what our users are saying
               </p>
             </div>
-            
-            <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
-              <LeadMagnet
-                title="Ultimate Networking Guide"
-                description="Learn proven strategies to make meaningful connections at networking events and turn them into valuable relationships."
-                imageUrl="/images/networking-guide.svg"
-                buttonText="Download Free Guide"
-                downloadUrl="/downloads/networking-guide.html"
-              />
-              
-              <LeadMagnet
-                title="Networking Event Checklist"
-                description="Never miss a networking opportunity again. Our comprehensive checklist ensures you're prepared for every event."
-                imageUrl="/images/checklist.jpg"
-                buttonText="Get Your Checklist"
-                downloadUrl="/downloads/networking-checklist.pdf"
-              />
+            <div className="mx-auto mt-16 flow-root max-w-2xl sm:mt-20 lg:mx-0 lg:max-w-none">
+              <div className="-mt-8 sm:-mx-4 sm:columns-2 sm:text-[0] lg:columns-3">
+                {[
+                  {
+                    name: "Sarah Johnson",
+                    role: "Marketing Director",
+                    image: "https://randomuser.me/api/portraits/women/32.jpg",
+                    quote: "NetNav has completely transformed how I find networking events. I've made valuable connections that have directly led to new business opportunities."
+                  },
+                  {
+                    name: "Michael Chen",
+                    role: "Tech Entrepreneur",
+                    image: "https://randomuser.me/api/portraits/men/46.jpg",
+                    quote: "As someone who's constantly looking to expand my professional network, NetNav has been a game-changer. The location-based search is incredibly useful."
+                  },
+                  {
+                    name: "Emily Rodriguez",
+                    role: "Freelance Designer",
+                    image: "https://randomuser.me/api/portraits/women/65.jpg",
+                    quote: "I've found amazing industry-specific events through NetNav that I wouldn't have discovered otherwise. It's become an essential tool for my business growth."
+                  }
+                ].map((testimonial, index) => (
+                  <div key={index} className="pt-8 sm:inline-block sm:w-full sm:px-4">
+                    <figure className="rounded-2xl bg-white p-8 text-sm leading-6 shadow-sm ring-1 ring-gray-900/5">
+                      <blockquote className="text-gray-900">
+                        <p>{`"${testimonial.quote}"`}</p>
+                      </blockquote>
+                      <figcaption className="mt-6 flex items-center gap-x-4">
+                        <img className="h-10 w-10 rounded-full bg-gray-50" src={testimonial.image} alt="" />
+                        <div>
+                          <div className="font-semibold text-gray-900">{testimonial.name}</div>
+                          <div className="text-gray-600">{testimonial.role}</div>
+                        </div>
+                      </figcaption>
+                    </figure>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* CTA section */}
+        <div className="bg-white">
+          <div className="mx-auto max-w-7xl py-24 sm:px-6 sm:py-32 lg:px-8">
+            <div className="relative isolate overflow-hidden bg-gray-900 px-6 py-24 text-center shadow-2xl sm:rounded-3xl sm:px-16">
+              <h2 className="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                Ready to boost your professional network?
+              </h2>
+              <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-300">
+                Join NetNav today and discover networking opportunities tailored to your industry and location.
+              </p>
+              <div className="mt-10 flex items-center justify-center gap-x-6">
+                <Link href="/signup" className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                  Get started
+                </Link>
+                <Link href="/about" className="text-sm font-semibold leading-6 text-white">
+                  Learn more <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+              <svg viewBox="0 0 1024 1024" className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-x-1/2 [mask-image:radial-gradient(closest-side,white,transparent)]" aria-hidden="true">
+                <circle cx="512" cy="512" r="512" fill="url(#827591b1-ce8c-4110-b064-7cb85a0b1217)" fillOpacity="0.7" />
+                <defs>
+                  <radialGradient id="827591b1-ce8c-4110-b064-7cb85a0b1217">
+                    <stop stopColor="#3b82f6" />
+                    <stop offset="1" stopColor="#1d4ed8" />
+                  </radialGradient>
+                </defs>
+              </svg>
             </div>
           </div>
         </div>

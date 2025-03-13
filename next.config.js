@@ -178,21 +178,7 @@ const nextConfig = {
   },
   // Configure redirects for production only
   async redirects() {
-    const redirects = [
-      {
-        source: '/:path*',
-        has: [
-          {
-            type: 'host',
-            value: 'www.netnav.app',
-          },
-        ],
-        destination: 'https://netnav.app/:path*',
-        permanent: true,
-      },
-    ];
-
-    return redirects;
+    return [];
   },
   // Configure rewrites
   async rewrites() {

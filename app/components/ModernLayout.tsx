@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Header from './Header';
+import Link from 'next/link';
 
 interface ModernLayoutProps {
   children: React.ReactNode;
@@ -9,20 +10,25 @@ interface ModernLayoutProps {
 
 export default function ModernLayout({ children }: ModernLayoutProps) {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-white">
       <Header />
       <main className="flex-grow">
         {children}
       </main>
-      <footer className="bg-white border-t border-gray-200 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">NetNav</h3>
-              <p className="text-gray-600 mb-4">
+      
+      <footer className="bg-white" aria-labelledby="footer-heading">
+        <h2 id="footer-heading" className="sr-only">Footer</h2>
+        <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
+          <div className="xl:grid xl:grid-cols-3 xl:gap-8">
+            <div className="space-y-8">
+              <div className="flex items-center">
+                <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-lg mr-3">N</div>
+                <span className="text-xl font-bold text-gray-900">NetNav</span>
+              </div>
+              <p className="text-sm leading-6 text-gray-600">
                 Find professional networking opportunities in your area, filtered by industry and event type.
               </p>
-              <div className="flex space-x-4">
+              <div className="flex space-x-6">
                 <a href="#" className="text-gray-400 hover:text-gray-500">
                   <span className="sr-only">Twitter</span>
                   <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -37,39 +43,95 @@ export default function ModernLayout({ children }: ModernLayoutProps) {
                 </a>
               </div>
             </div>
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Resources</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a href="/about" className="text-gray-600 hover:text-gray-900">About Us</a>
-                </li>
-                <li>
-                  <a href="/blog" className="text-gray-600 hover:text-gray-900">Blog</a>
-                </li>
-                <li>
-                  <a href="/resources" className="text-gray-600 hover:text-gray-900">Networking Guides</a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Legal</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a href="/privacy" className="text-gray-600 hover:text-gray-900">Privacy Policy</a>
-                </li>
-                <li>
-                  <a href="/terms" className="text-gray-600 hover:text-gray-900">Terms of Service</a>
-                </li>
-                <li>
-                  <a href="/cookies" className="text-gray-600 hover:text-gray-900">Cookie Policy</a>
-                </li>
-              </ul>
+            <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
+              <div className="md:grid md:grid-cols-2 md:gap-8">
+                <div>
+                  <h3 className="text-sm font-semibold leading-6 text-gray-900">Solutions</h3>
+                  <ul role="list" className="mt-6 space-y-4">
+                    <li>
+                      <Link href="/events" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                        Find Events
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/connections" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                        Networking
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/dashboard" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                        Dashboard
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+                <div className="mt-10 md:mt-0">
+                  <h3 className="text-sm font-semibold leading-6 text-gray-900">Support</h3>
+                  <ul role="list" className="mt-6 space-y-4">
+                    <li>
+                      <Link href="/help" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                        Help Center
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/contact" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                        Contact Us
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/faq" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                        FAQs
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className="md:grid md:grid-cols-2 md:gap-8">
+                <div>
+                  <h3 className="text-sm font-semibold leading-6 text-gray-900">Company</h3>
+                  <ul role="list" className="mt-6 space-y-4">
+                    <li>
+                      <Link href="/about" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                        About
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/blog" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                        Blog
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/careers" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                        Careers
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+                <div className="mt-10 md:mt-0">
+                  <h3 className="text-sm font-semibold leading-6 text-gray-900">Legal</h3>
+                  <ul role="list" className="mt-6 space-y-4">
+                    <li>
+                      <Link href="/privacy" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                        Privacy
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/terms" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                        Terms
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/cookies" className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                        Cookie Policy
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="mt-8 pt-8 border-t border-gray-200 text-center">
-            <p className="text-gray-500 text-sm">
-              &copy; {new Date().getFullYear()} NetNav. All rights reserved.
-            </p>
+          <div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24">
+            <p className="text-xs leading-5 text-gray-500">&copy; {new Date().getFullYear()} NetNav. All rights reserved.</p>
           </div>
         </div>
       </footer>

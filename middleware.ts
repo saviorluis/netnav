@@ -56,16 +56,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Handle www to non-www redirect in production
-  if (process.env.NODE_ENV === 'production') {
-    const hostname = request.headers.get('host') || '';
-    if (hostname.startsWith('www.')) {
-      const newUrl = new URL(request.url);
-      newUrl.hostname = hostname.replace(/^www\./, '');
-      return NextResponse.redirect(newUrl, { status: 301 });
-    }
-  }
-
   // Add performance optimization headers
   response.headers.set('X-DNS-Prefetch-Control', 'on');
   
