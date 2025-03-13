@@ -13,18 +13,42 @@ const publicPaths = [
   '/static',
   '/fonts',
   '/icons',
+  '/images',
   '/manifest.json',
   '/favicon.ico',
 ];
 
+// List of static file extensions
+const staticFileExtensions = [
+  '.js',
+  '.css',
+  '.woff',
+  '.woff2',
+  '.ttf',
+  '.eot',
+  '.jpg',
+  '.jpeg',
+  '.png',
+  '.svg',
+  '.ico',
+  '.json',
+  '.webp',
+  '.gif',
+];
+
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, search } = request.nextUrl;
   const headers = new Headers(request.headers);
   const response = NextResponse.next({
     request: {
       headers,
     },
   });
+
+  // Skip middleware for RSC requests
+  if (pathname.includes('_rsc') || search.includes('_rsc')) {
+    return NextResponse.next();
+  }
 
   // Handle www to non-www redirect in production
   if (process.env.NODE_ENV === 'production') {
@@ -39,40 +63,41 @@ export function middleware(request: NextRequest) {
   // Add performance optimization headers
   response.headers.set('X-DNS-Prefetch-Control', 'on');
   
-  // Set cache control for static assets
-  if (
-    pathname.startsWith('/_next/static') ||
-    pathname.startsWith('/static') ||
-    pathname.endsWith('.js') ||
-    pathname.endsWith('.css') ||
-    pathname.endsWith('.woff2') ||
-    pathname.endsWith('.jpg') ||
-    pathname.endsWith('.png') ||
-    pathname.endsWith('.svg') ||
-    pathname.endsWith('.ico')
-  ) {
-    response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
-  }
+  // Check if the current path is a static file
+  const isStaticFile = staticFileExtensions.some(ext => pathname.endsWith(ext));
+  const isStaticPath = 
+    pathname.startsWith('/_next/') || 
+    pathname.startsWith('/static/') || 
+    pathname.startsWith('/fonts/') || 
+    pathname.startsWith('/icons/') || 
+    pathname.startsWith('/images/');
 
-  // Set CORS headers for static assets and fonts
-  if (
-    pathname.startsWith('/_next') ||
-    pathname.startsWith('/static') ||
-    pathname.startsWith('/fonts') ||
-    pathname.startsWith('/icons') ||
-    pathname.endsWith('.woff2') ||
-    pathname.endsWith('.ttf') ||
-    pathname.endsWith('.js') ||
-    pathname.endsWith('.css')
-  ) {
+  // Set cache control for static assets
+  if (isStaticPath || isStaticFile) {
+    response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
     response.headers.set('Access-Control-Allow-Origin', '*');
     response.headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
     response.headers.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
+    
+    // Set appropriate content types for common file types
+    if (pathname.endsWith('.css')) {
+      response.headers.set('Content-Type', 'text/css; charset=utf-8');
+    } else if (pathname.endsWith('.js')) {
+      response.headers.set('Content-Type', 'application/javascript; charset=utf-8');
+    } else if (pathname.endsWith('.json')) {
+      response.headers.set('Content-Type', 'application/json; charset=utf-8');
+    } else if (pathname.endsWith('.woff2')) {
+      response.headers.set('Content-Type', 'font/woff2');
+    } else if (pathname.endsWith('.woff')) {
+      response.headers.set('Content-Type', 'font/woff');
+    } else if (pathname.endsWith('.ttf')) {
+      response.headers.set('Content-Type', 'font/ttf');
+    }
   }
 
   // Set priority hints for critical resources
   if (pathname === '/') {
-    response.headers.set('Link', '</fonts/inter-var.woff2>; rel=preload; as=font; crossorigin; importance=high, </manifest.json>; rel=preload; as=fetch; crossorigin; importance=low');
+    response.headers.set('Link', '</manifest.json>; rel=preload; as=fetch; crossorigin; importance=low');
   }
 
   // Check if the path is public or an API route

@@ -92,6 +92,28 @@ const nextConfig = {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
           },
+          {
+            key: 'Content-Type',
+            value: 'application/javascript; charset=utf-8',
+            // This header will be overridden by Next.js for the correct content type
+          },
+        ],
+      },
+      {
+        source: '/_next/static/css/:path*',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'text/css; charset=utf-8',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
         ],
       },
       {
@@ -124,6 +146,32 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/icons/:path*',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/images/:path*',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
     ];
   },
   // Environment variables that will be available at build time
@@ -147,14 +195,6 @@ const nextConfig = {
       },
     ];
 
-    if (process.env.VERCEL_ENV === 'production') {
-      redirects.push({
-        source: '/:path*/_rsc',
-        destination: '/:path*',
-        permanent: false,
-      });
-    }
-
     return redirects;
   },
   // Configure rewrites
@@ -165,7 +205,7 @@ const nextConfig = {
         destination: '/api/:path*',
       },
       {
-        source: '/:path*/_rsc',
+        source: '/:path*/_rsc:params*',
         destination: '/:path*',
       },
     ];

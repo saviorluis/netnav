@@ -1,11 +1,11 @@
 {
   "name": "NetNav",
   "short_name": "NetNav",
-  "description": "Network Navigation Tool for Business Events",
+  "description": "Network navigation and management tool",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "theme_color": "#0066cc",
   "icons": [
     {
       "src": "/icons/icon-192x192.png",
