@@ -24,13 +24,25 @@ if (process.env.NODE_ENV === 'production') {
 // Add export config to specify runtime
 export const runtime = 'nodejs';
 
-// Initialize OpenAI
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Initialize OpenAI only if API key is available
+let openai: OpenAI | null = null;
+if (process.env.OPENAI_API_KEY) {
+  openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+}
 
 // Function to categorize events using OpenAI
 async function categorizeEvent(title: string, description: string) {
+  // If OpenAI is not initialized, return default categories
+  if (!openai) {
+    console.warn('OpenAI API key not available, using default categories');
+    return {
+      industries: ['BUSINESS'],
+      eventType: 'NETWORKING'
+    };
+  }
+
   const prompt = `
     Analyze this event and categorize it:
     Title: ${title}
