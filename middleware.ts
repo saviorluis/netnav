@@ -40,11 +40,11 @@ export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   
   // Skip middleware for manifest.json and API manifest route completely
-  if (pathname === '/manifest.json' || pathname === '/api/manifest') {
+  if (pathname === '/manifest.json' || pathname === '/api/manifest' || pathname === '/manifest-direct.json' || pathname === '/manifest.html') {
     const response = NextResponse.next();
     
-    // Explicitly set headers for manifest.json to ensure proper serving
-    if (pathname === '/manifest.json') {
+    // Explicitly set headers for manifest files to ensure proper serving
+    if (pathname === '/manifest.json' || pathname === '/manifest-direct.json') {
       response.headers.set('Content-Type', 'application/manifest+json; charset=utf-8');
       response.headers.set('Access-Control-Allow-Origin', '*');
       response.headers.set('Cache-Control', 'public, max-age=3600');
@@ -128,9 +128,11 @@ export const config = {
      * - sitemap.xml (SEO file)
      * - manifest.json (PWA manifest file)
      * - api/manifest (API route for manifest)
+     * - manifest-direct.json (direct manifest file)
+     * - manifest.html (HTML manifest file)
      */
-    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|manifest.json|api/manifest).*)',
-    // Explicitly exclude manifest.json
-    '/((?!manifest.json).*)',
+    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|manifest.json|api/manifest|manifest-direct.json|manifest.html).*)',
+    // Explicitly exclude manifest files
+    '/((?!manifest.json|manifest-direct.json|manifest.html).*)',
   ],
 }; 

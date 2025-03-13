@@ -43,7 +43,7 @@ export const metadata = {
     description: 'A comprehensive network navigation and management tool for IT professionals',
     images: ['https://netnav.app/images/twitter-image.jpg'],
   },
-  manifest: '/manifest.html',
+  manifest: '/manifest-direct.json',
 };
 
 export const viewport = {
@@ -118,7 +118,7 @@ export default function RootLayout({
         />
         
         {/* Keep the link for browsers that support it */}
-        <link rel="manifest" href="/manifest.html" />
+        <link rel="manifest" href="/manifest-direct.json" />
       </head>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <noscript>
