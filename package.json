@@ -11,11 +11,7 @@
     "db:seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts",
     "scrape": "ts-node src/scripts/scrapeEvents.ts",
     "scrape:watch": "ts-node-dev --respawn src/scripts/scrapeEvents.ts",
-    "postinstall": "prisma generate",
-    "vercel:deploy": "vercel --prod",
-    "vercel:preview": "vercel",
-    "vercel:dev": "vercel dev",
-    "vercel:logs": "vercel logs"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.8",
