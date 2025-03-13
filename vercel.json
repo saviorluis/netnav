@@ -12,7 +12,6 @@
   "framework": "nextjs",
   "regions": ["iad1"],
   "installCommand": "npm install",
-  "rootDirectory": "./",
   "headers": [
     {
       "source": "/(.*)",
