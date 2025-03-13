@@ -14,7 +14,6 @@ const publicPaths = [
   '/fonts',
   '/icons',
   '/images',
-  '/manifest.json',
   '/favicon.ico',
 ];
 
@@ -38,6 +37,12 @@ const staticFileExtensions = [
 
 export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
+  
+  // Skip middleware for manifest.json completely
+  if (pathname === '/manifest.json') {
+    return NextResponse.next();
+  }
+  
   const headers = new Headers(request.headers);
   const response = NextResponse.next({
     request: {
@@ -45,8 +50,8 @@ export function middleware(request: NextRequest) {
     },
   });
 
-  // Skip middleware for RSC requests and manifest.json
-  if (pathname.includes('_rsc') || search.includes('_rsc') || pathname === '/manifest.json') {
+  // Skip middleware for RSC requests
+  if (pathname.includes('_rsc') || search.includes('_rsc')) {
     return NextResponse.next();
   }
 

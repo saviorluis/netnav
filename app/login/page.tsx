@@ -119,6 +119,7 @@ function LoginForm() {
               id="remember-me"
               name="remember-me"
               type="checkbox"
+              autoComplete="on"
               className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-600"
             />
             <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">

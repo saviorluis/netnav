@@ -60,6 +60,12 @@ const nextConfig = {
             key: 'Access-Control-Allow-Headers',
             value: 'X-Requested-With, Content-Type, Authorization',
           },
+        ],
+      },
+      {
+        // Separate CSP header to ensure it's not overridden
+        source: '/:path*',
+        headers: [
           {
             key: 'Content-Security-Policy',
             value: [

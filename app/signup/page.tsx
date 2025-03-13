@@ -54,6 +54,7 @@ export default function SignUpPage() {
               id="name"
               name="name"
               required
+              autoComplete="name"
               value={formData.name}
               onChange={handleChange}
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
@@ -69,6 +70,7 @@ export default function SignUpPage() {
               id="email"
               name="email"
               required
+              autoComplete="email"
               value={formData.email}
               onChange={handleChange}
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
@@ -85,6 +87,7 @@ export default function SignUpPage() {
               name="password"
               required
               minLength={8}
+              autoComplete="new-password"
               value={formData.password}
               onChange={handleChange}
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
@@ -101,6 +104,7 @@ export default function SignUpPage() {
               name="passwordConfirm"
               required
               minLength={8}
+              autoComplete="new-password"
               value={formData.passwordConfirm}
               onChange={handleChange}
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
@@ -115,6 +119,7 @@ export default function SignUpPage() {
               type="text"
               id="company"
               name="company"
+              autoComplete="organization"
               value={formData.company}
               onChange={handleChange}
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
@@ -129,6 +134,7 @@ export default function SignUpPage() {
               type="text"
               id="position"
               name="position"
+              autoComplete="organization-title"
               value={formData.position}
               onChange={handleChange}
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
@@ -143,6 +149,7 @@ export default function SignUpPage() {
               id="industries"
               name="industries"
               multiple
+              autoComplete="off"
               value={formData.industries}
               onChange={handleIndustryChange}
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
