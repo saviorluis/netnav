@@ -41,7 +41,16 @@ export function middleware(request: NextRequest) {
   
   // Skip middleware for manifest.json and API manifest route completely
   if (pathname === '/manifest.json' || pathname === '/api/manifest') {
-    return NextResponse.next();
+    const response = NextResponse.next();
+    
+    // Explicitly set headers for manifest.json to ensure proper serving
+    if (pathname === '/manifest.json') {
+      response.headers.set('Content-Type', 'application/manifest+json; charset=utf-8');
+      response.headers.set('Access-Control-Allow-Origin', '*');
+      response.headers.set('Cache-Control', 'public, max-age=3600');
+    }
+    
+    return response;
   }
   
   const headers = new Headers(request.headers);
@@ -93,7 +102,7 @@ export function middleware(request: NextRequest) {
 
   // Set priority hints for critical resources
   if (pathname === '/') {
-    response.headers.set('Link', '</api/manifest>; rel=preload; as=fetch; crossorigin; importance=low');
+    response.headers.set('Link', '</manifest.json>; rel=preload; as=fetch; crossorigin; importance=low');
   }
 
   // Check if the path is public or an API route
@@ -121,5 +130,7 @@ export const config = {
      * - api/manifest (API route for manifest)
      */
     '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|manifest.json|api/manifest).*)',
+    // Explicitly exclude manifest.json
+    '/((?!manifest.json).*)',
   ],
 }; 

@@ -162,8 +162,20 @@ const nextConfig = {
             value: '*',
           },
           {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET, OPTIONS',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'X-Requested-With, Content-Type',
+          },
+          {
             key: 'Cache-Control',
             value: 'public, max-age=3600',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
           },
         ],
       },
@@ -209,6 +221,10 @@ const nextConfig = {
       {
         source: '/about',
         destination: '/about',
+      },
+      {
+        source: '/manifest.json',
+        destination: '/manifest.json',
       }
     ];
   },
