@@ -20,7 +20,7 @@ const nextConfig = {
         hostname: '**.vercel.app',
       },
     ],
-    unoptimized: process.env.NODE_ENV !== 'production',
+    unoptimized: false,
   },
   // Configure headers for better security and CORS
   async headers() {
@@ -62,7 +62,7 @@ const nextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https:; connect-src 'self' https:;"
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https:;"
           }
         ],
       },
@@ -140,15 +140,6 @@ const nextConfig = {
           minSize: 20000,
         },
       };
-
-      // Add font loader
-      config.module.rules.push({
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
-        type: 'asset/resource',
-        generator: {
-          filename: 'static/fonts/[hash][ext]',
-        },
-      });
     }
 
     // Disable persistent caching in development
@@ -164,13 +155,8 @@ const nextConfig = {
   swcMinify: true,
   // Increase build output directory cleaning threshold
   experimental: {
-    outputFileTracingExcludes: {
-      '*': [
-        'node_modules/@swc/core-linux-x64-gnu',
-        'node_modules/@swc/core-linux-x64-musl',
-        'node_modules/@esbuild/linux-x64',
-      ],
-    },
+    optimizeFonts: true,
+    optimizeImages: true,
   },
   // Configure trailing slashes
   trailingSlash: false,
