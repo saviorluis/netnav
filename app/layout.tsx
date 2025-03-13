@@ -1,50 +1,72 @@
-import './globals.css';
-import { Inter } from 'next/font/google';
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Header from "./components/Header";
+import { UserProvider } from "./context/UserContext";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
-  title: 'NetNav - Networking Events Calendar',
-  description: 'Discover and manage networking events in your area',
+export const metadata: Metadata = {
+  title: "NetNav - Networking Event Calendar",
+  description: "Discover business networking events in your area based on your location, industry, and preferences.",
+  metadataBase: new URL('https://netnav.app'),
+  keywords: ["networking", "business events", "professional networking", "industry events", "conferences", "meetups"],
+  openGraph: {
+    title: "NetNav - Networking Event Calendar",
+    description: "Discover business networking events in your area based on your location, industry, and preferences.",
+    url: 'https://netnav.app',
+    siteName: 'NetNav',
+    images: [
+      {
+        url: 'https://netnav.app/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'NetNav - The Business Networking Platform',
+      }
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'NetNav - Networking Event Calendar',
+    description: 'Find business networking events and connect with professionals in your industry',
+    images: ['https://netnav.app/twitter-image.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-video-preview': -1,
+      'max-snippet': -1,
+    },
+  },
+  applicationName: 'NetNav',
+  verification: {
+    // Add verification tokens when you have them
+    // google: 'your-google-site-verification',
+  },
+  alternates: {
+    canonical: 'https://netnav.app',
+  },
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html lang="en" className={inter.className}>
-      <body className="font-sans">
-        <nav className="bg-white shadow">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between h-16">
-              <div className="flex">
-                <div className="flex-shrink-0 flex items-center">
-                  <a href="/" className="text-xl font-bold text-blue-600">
-                    NetNav
-                  </a>
-                </div>
-              </div>
-              <div className="flex items-center">
-                <a
-                  href="/calendar"
-                  className="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Calendar
-                </a>
-                <a
-                  href="/admin/sources"
-                  className="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Manage Sources
-                </a>
-              </div>
-            </div>
-          </div>
-        </nav>
-        {children}
+    <html lang="en">
+      <body className={inter.className}>
+        <UserProvider>
+          <Header />
+          {children}
+        </UserProvider>
       </body>
     </html>
   );
-} 
+}

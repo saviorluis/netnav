@@ -1,57 +1,54 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { PrismaClient } from '@prisma/client';
 
-// Declare global variable for PrismaClient
-declare global {
-  var prisma: PrismaClient | undefined;
-}
+// List of developer access codes (in a real app, store these securely)
+const DEVELOPER_ACCESS_CODES = ['dev-preview-2024', 'netnav-beta']; 
 
-// Use PrismaClient as a singleton to prevent multiple instances during builds
-let prisma: PrismaClient;
-
-if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient();
-} else {
-  // In development, use a global variable to prevent multiple instances
-  if (!global.prisma) {
-    global.prisma = new PrismaClient();
-  }
-  prisma = global.prisma as PrismaClient;
-}
-
-// Add export config to specify runtime
-export const runtime = 'nodejs';
+// Hardcoded admin credentials for demonstration
+const ADMIN_CREDENTIALS = {
+  email: 'nnadmin',
+  password: 'passion1$2'
+};
 
 export async function POST(request: Request) {
   try {
-    const { email } = await request.json();
+    // Extract login credentials
+    const { email, password, accessCode } = await request.json();
 
-    // Create or update user
-    const user = await prisma.user.upsert({
-      where: { email },
-      update: {},
-      create: {
-        email,
-        name: email.split('@')[0], // Simple name from email
-      },
-    });
+    // Validate developer access code
+    if (!DEVELOPER_ACCESS_CODES.includes(accessCode)) {
+      return NextResponse.json(
+        { message: 'Invalid developer access code' },
+        { status: 403 }
+      );
+    }
 
-    // Set a session cookie
+    // Check admin credentials
+    if (email !== ADMIN_CREDENTIALS.email || password !== ADMIN_CREDENTIALS.password) {
+      return NextResponse.json(
+        { message: 'Invalid credentials' },
+        { status: 401 }
+      );
+    }
+
+    // Create a session token
+    const token = crypto.randomUUID();
+    
+    // Set the token in a cookie
     const cookieStore = cookies();
-    cookieStore.set('session', user.id, {
+    cookieStore.set('auth_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
       maxAge: 60 * 60 * 24 * 7, // 1 week
+      path: '/',
     });
 
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(
-      { error: 'Authentication failed' },
-      { status: 401 }
+      { message: 'Authentication failed' },
+      { status: 500 }
     );
   }
 } 
