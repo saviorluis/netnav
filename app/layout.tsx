@@ -85,8 +85,6 @@ export default function RootLayout({
         <link rel="preconnect" href={url} />
         <link rel="dns-prefetch" href={url} />
         <link rel="manifest" href="/manifest.json" />
-        
-        {/* Remove preload for CSS as Next.js handles this automatically */}
       </head>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <noscript>
@@ -125,28 +123,37 @@ export default function RootLayout({
             __html: `
               // Show loading indicator
               (function() {
-                if (document.body) {
-                  const loadingEl = document.createElement('div');
-                  loadingEl.id = 'app-loading';
-                  loadingEl.innerHTML = '<div style="position:fixed;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;background:#fff;z-index:9999;"><div style="width:40px;height:40px;border:3px solid #f3f3f3;border-top:3px solid #2563eb;border-radius:50%;animation:spin 1s linear infinite;"></div></div><style>@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style>';
-                  document.body.appendChild(loadingEl);
-                  
-                  // Remove loading indicator when page is interactive
-                  window.addEventListener('DOMContentLoaded', function() {
-                    setTimeout(function() {
+                function createLoadingIndicator() {
+                  if (document.body) {
+                    const loadingEl = document.createElement('div');
+                    loadingEl.id = 'app-loading';
+                    loadingEl.innerHTML = '<div style="position:fixed;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;background:#fff;z-index:9999;"><div style="width:40px;height:40px;border:3px solid #f3f3f3;border-top:3px solid #2563eb;border-radius:50%;animation:spin 1s linear infinite;"></div></div><style>@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style>';
+                    document.body.appendChild(loadingEl);
+                    
+                    // Remove loading indicator when page is interactive
+                    function removeLoadingIndicator() {
                       const loadingEl = document.getElementById('app-loading');
                       if (loadingEl) {
                         loadingEl.style.opacity = '0';
                         loadingEl.style.transition = 'opacity 0.3s ease';
-                        setTimeout(function() {
+                        
+                        function finalRemove() {
                           if (loadingEl && loadingEl.parentNode) {
                             loadingEl.parentNode.removeChild(loadingEl);
                           }
-                        }, 300);
+                        }
+                        
+                        setTimeout(finalRemove, 300);
                       }
-                    }, 300);
-                  });
+                    }
+                    
+                    window.addEventListener('DOMContentLoaded', function() {
+                      setTimeout(removeLoadingIndicator, 300);
+                    });
+                  }
                 }
+                
+                createLoadingIndicator();
               })();
             `,
           }}
