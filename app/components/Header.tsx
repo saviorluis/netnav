@@ -4,13 +4,19 @@ import Link from 'next/link';
 import AuthButton from './AuthButton';
 import Image from 'next/image';
 import { useUser } from '../context/UserContext';
-
-// Get domain from environment variables
-const domain = process.env.NEXT_PUBLIC_DOMAIN?.replace('https://', '').replace('http://', '') || 'netnav.app';
-const domainSuffix = domain.includes('localhost') ? ':3000' : '';
+import { useEffect, useState } from 'react';
 
 export default function Header() {
-  const { isAuthenticated } = useUser();
+  const { isAuthenticated, isLoading } = useUser();
+  const [currentDomain, setCurrentDomain] = useState<string>('');
+
+  useEffect(() => {
+    // Get the current domain and port from the window location
+    const domain = window.location.hostname;
+    const port = window.location.port;
+    const isLocalhost = domain === 'localhost';
+    setCurrentDomain(isLocalhost ? `localhost${port ? `:${port}` : ''}` : domain);
+  }, []);
 
   return (
     <header className="bg-white shadow-sm">
@@ -19,9 +25,14 @@ export default function Header() {
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
               <span className="text-xl font-bold text-blue-600">
-                NetNav<span className="text-gray-500 text-sm">{domain.includes('localhost') ? '' : `.${domain.split('.').pop()}`}</span>
+                NetNav
+                {currentDomain && (
+                  <span className="text-gray-500 text-sm">
+                    {currentDomain.includes('localhost') ? '' : `.${currentDomain.split('.').pop()}`}
+                  </span>
+                )}
               </span>
-              {!isAuthenticated && (
+              {!isAuthenticated && !isLoading && (
                 <span className="ml-2 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
                   Developer Preview
                 </span>
@@ -34,7 +45,7 @@ export default function Header() {
               >
                 Home
               </Link>
-              {isAuthenticated && (
+              {isAuthenticated && !isLoading && (
                 <>
                   <Link 
                     href="/dashboard" 
@@ -56,6 +67,13 @@ export default function Header() {
                   </Link>
                 </>
               )}
+              {isLoading && (
+                <div className="space-x-8">
+                  <div className="inline-block h-5 w-20 animate-pulse rounded bg-gray-100"></div>
+                  <div className="inline-block h-5 w-20 animate-pulse rounded bg-gray-100"></div>
+                  <div className="inline-block h-5 w-20 animate-pulse rounded bg-gray-100"></div>
+                </div>
+              )}
               <Link 
                 href="/about" 
                 className="text-base font-medium text-gray-600 hover:text-gray-900"
@@ -73,7 +91,7 @@ export default function Header() {
           >
             Home
           </Link>
-          {isAuthenticated && (
+          {isAuthenticated && !isLoading && (
             <>
               <Link 
                 href="/dashboard" 
@@ -94,6 +112,13 @@ export default function Header() {
                 Network
               </Link>
             </>
+          )}
+          {isLoading && (
+            <div className="flex gap-x-6">
+              <div className="h-5 w-20 animate-pulse rounded bg-gray-100"></div>
+              <div className="h-5 w-20 animate-pulse rounded bg-gray-100"></div>
+              <div className="h-5 w-20 animate-pulse rounded bg-gray-100"></div>
+            </div>
           )}
           <Link 
             href="/about" 

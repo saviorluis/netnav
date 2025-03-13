@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { useUser } from '../context/UserContext';
 
 function LoginContent() {
   const [email, setEmail] = useState('');
@@ -12,23 +13,14 @@ function LoginContent() {
   const [error, setError] = useState('');
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { isAuthenticated, isLoading: userLoading, refreshUserData } = useUser();
   const fromPath = searchParams.get('from') || '/events';
 
-  // Check if already authenticated
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await fetch('/api/auth/check');
-        if (response.ok) {
-          router.push(fromPath);
-        }
-      } catch (error) {
-        // Not authenticated, continue showing login page
-      }
-    };
-    
-    checkAuth();
-  }, [fromPath, router]);
+    if (isAuthenticated && !userLoading) {
+      router.push(fromPath);
+    }
+  }, [isAuthenticated, userLoading, fromPath, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,6 +42,9 @@ function LoginContent() {
         throw new Error(data.message || 'Authentication failed');
       }
 
+      // Refresh user data after successful login
+      await refreshUserData();
+      
       // Success - redirect
       router.push(fromPath);
     } catch (error) {
@@ -58,6 +53,14 @@ function LoginContent() {
       setLoading(false);
     }
   };
+
+  if (userLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -86,6 +89,7 @@ function LoginContent() {
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                disabled={loading}
               />
             </div>
             <div>
@@ -102,6 +106,7 @@ function LoginContent() {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                disabled={loading}
               />
             </div>
             <div>
@@ -117,6 +122,7 @@ function LoginContent() {
                 placeholder="Developer Access Code"
                 value={accessCode}
                 onChange={(e) => setAccessCode(e.target.value)}
+                disabled={loading}
               />
             </div>
           </div>
@@ -137,8 +143,17 @@ function LoginContent() {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
+                loading 
+                  ? 'bg-blue-400 cursor-not-allowed'
+                  : 'bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+              }`}
             >
+              {loading && (
+                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                  <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
+                </span>
+              )}
               {loading ? 'Authenticating...' : 'Sign in'}
             </button>
           </div>
@@ -155,13 +170,5 @@ function LoginContent() {
 }
 
 export default function LoginPage() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    }>
-      <LoginContent />
-    </Suspense>
-  );
+  return <LoginContent />;
 } 

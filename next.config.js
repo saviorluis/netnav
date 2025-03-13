@@ -2,17 +2,15 @@
 const nextConfig = {
   // Enable image optimization for external domains
   images: {
-    domains: ['randomuser.me', 'netnav.app', 'localhost'], // Added netnav.app and localhost to support both environments
+    domains: ['randomuser.me', 'netnav.app', 'www.netnav.app', 'localhost'],
   },
   // Configure custom domain
   assetPrefix: process.env.NODE_ENV === 'production' ? 'https://netnav.app' : '',
-  // Base path if you're not hosting at the domain root
-  // basePath: '',
-  // Configure headers for better security
-  headers: async () => {
+  // Configure headers for better security and CORS
+  async headers() {
     return [
       {
-        source: '/(.*)',
+        source: '/:path*',
         headers: [
           {
             key: 'X-DNS-Prefetch-Control',
@@ -34,17 +32,71 @@ const nextConfig = {
             key: 'X-XSS-Protection',
             value: '1; mode=block',
           },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'X-Requested-With, Content-Type, Authorization',
+          },
+        ],
+      },
+      {
+        source: '/_next/:path*',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/fonts/:path*',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
         ],
       },
     ];
   },
   // Environment variables that will be available at build time
   env: {
-    NEXT_PUBLIC_DOMAIN: process.env.NODE_ENV === 'production' ? 'netnav.app' : 'localhost:3000',
-    NEXT_PUBLIC_URL: process.env.NODE_ENV === 'production' ? 'https://netnav.app' : 'http://localhost:3000',
+    NEXT_PUBLIC_DOMAIN: process.env.NODE_ENV === 'production' ? 'netnav.app' : `localhost:${process.env.PORT || '3000'}`,
+    NEXT_PUBLIC_URL: process.env.NODE_ENV === 'production' ? 'https://netnav.app' : `http://localhost:${process.env.PORT || '3000'}`,
   },
-  // Configure rewrites for API endpoints
-  rewrites: async () => {
+  // Configure redirects
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'www.netnav.app',
+          },
+        ],
+        destination: 'https://netnav.app/:path*',
+        permanent: true,
+      },
+    ];
+  },
+  // Configure rewrites
+  async rewrites() {
     return [
       {
         source: '/api/:path*',
@@ -52,37 +104,46 @@ const nextConfig = {
       },
     ];
   },
-  // Add webpack configuration to handle undici library issues
-  webpack: (config, { isServer }) => {
-    // Fixes npm packages that depend on `undici` module
+  // Add webpack configuration
+  webpack: (config, { dev, isServer }) => {
+    // Optimize webpack caching
     if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        undici: false,
-        cheerio: false,
-        'node:stream': false,
-        'node:util': false,
-        'node:url': false,
-        'node:buffer': false,
-        'node:path': false,
+      config.optimization = {
+        ...config.optimization,
+        runtimeChunk: 'single',
+        splitChunks: {
+          chunks: 'all',
+          maxInitialRequests: 25,
+          minSize: 20000,
+        },
       };
     }
-    
-    // Ignore specific modules that cause issues
-    config.module = {
-      ...config.module,
-      exprContextCritical: false,
-      rules: [
-        ...config.module.rules,
-        {
-          test: /node_modules\/undici\/.*\.js$/,
-          use: 'null-loader',
-        },
-      ],
-    };
-    
+
+    // Disable persistent caching in development
+    if (dev) {
+      config.cache = false;
+    }
+
     return config;
   },
+  // Disable React StrictMode in development to prevent double mounting
+  reactStrictMode: process.env.NODE_ENV === 'production',
+  // Enable SWC minification
+  swcMinify: true,
+  // Increase build output directory cleaning threshold
+  experimental: {
+    outputFileTracingExcludes: {
+      '*': [
+        'node_modules/@swc/core-linux-x64-gnu',
+        'node_modules/@swc/core-linux-x64-musl',
+        'node_modules/@esbuild/linux-x64',
+      ],
+    },
+  },
+  // Configure trailing slashes
+  trailingSlash: false,
+  // Configure powered by header
+  poweredByHeader: false,
 };
 
 module.exports = nextConfig; 

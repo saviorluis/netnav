@@ -6,15 +6,29 @@ import LogoutButton from './LogoutButton';
 import { useUser } from '../context/UserContext';
 
 export default function AuthButton() {
-  const { isAuthenticated, isLoading } = useUser();
+  const { isAuthenticated, isLoading, error } = useUser();
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Show nothing while loading to prevent layout shift
-  if (isLoading) {
-    return <div className="h-8"></div>;
+  useEffect(() => {
+    // Add a small delay when auth state changes to prevent abrupt UI changes
+    setIsTransitioning(true);
+    const timer = setTimeout(() => {
+      setIsTransitioning(false);
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [isAuthenticated]);
+
+  if (isLoading || isTransitioning) {
+    return (
+      <div className="h-10 w-24 animate-pulse rounded-md bg-gray-100"></div>
+    );
   }
 
   return (
     <div className="flex items-center gap-4">
+      {error && (
+        <div className="text-sm text-red-600">{error}</div>
+      )}
       {isAuthenticated ? (
         <div className="flex items-center gap-4">
           <Link

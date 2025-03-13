@@ -1,13 +1,42 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from 'next/font/local';
 import "./globals.css";
 import { UserProvider } from "./context/UserContext";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 
-const inter = Inter({ subsets: ["latin"] });
+// Use system fonts as fallback
+const systemFont = localFont({
+  src: [
+    {
+      path: '../public/fonts/inter-var.woff2',
+      style: 'normal',
+    }
+  ],
+  variable: '--font-inter',
+  display: 'swap',
+  fallback: [
+    '-apple-system',
+    'BlinkMacSystemFont',
+    'Segoe UI',
+    'Roboto',
+    'Oxygen',
+    'Ubuntu',
+    'Cantarell',
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    'sans-serif'
+  ]
+});
 
-// Get the domain from environment variables
-const domain = process.env.NEXT_PUBLIC_DOMAIN || 'netnav.app';
-const url = process.env.NEXT_PUBLIC_URL || 'https://netnav.app';
+// Get the domain from environment variables, defaulting to localhost for development
+const domain = process.env.NODE_ENV === 'development' 
+  ? `localhost:${process.env.PORT || '3000'}`
+  : 'netnav.app';
+
+const url = process.env.NODE_ENV === 'development'
+  ? `http://${domain}`
+  : `https://${domain}`;
 
 export const metadata: Metadata = {
   title: "NetNav - Networking Event Calendar",
@@ -63,11 +92,40 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <UserProvider>
-          {children}
-        </UserProvider>
+    <html lang="en" className={systemFont.variable}>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href={url} />
+        <link rel="dns-prefetch" href={url} />
+      </head>
+      <body className="font-sans">
+        <ErrorBoundary>
+          <UserProvider>
+            {children}
+          </UserProvider>
+        </ErrorBoundary>
+        {/* Add debugging script */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.onerror = function(msg, url, lineNo, columnNo, error) {
+                console.error('Window Error:', { msg, url, lineNo, columnNo, error });
+                return false;
+              };
+              window.addEventListener('unhandledrejection', function(event) {
+                console.error('Unhandled Promise Rejection:', event.reason);
+              });
+              window.addEventListener('DOMContentLoaded', function() {
+                console.log('Page loaded:', {
+                  url: window.location.href,
+                  hostname: window.location.hostname,
+                  port: window.location.port,
+                  protocol: window.location.protocol
+                });
+              });
+            `,
+          }}
+        />
       </body>
     </html>
   );
