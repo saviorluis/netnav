@@ -59,8 +59,28 @@ const nextConfig = {
       config.resolve.fallback = {
         ...config.resolve.fallback,
         undici: false,
+        cheerio: false,
+        'node:stream': false,
+        'node:util': false,
+        'node:url': false,
+        'node:buffer': false,
+        'node:path': false,
       };
     }
+    
+    // Ignore specific modules that cause issues
+    config.module = {
+      ...config.module,
+      exprContextCritical: false,
+      rules: [
+        ...config.module.rules,
+        {
+          test: /node_modules\/undici\/.*\.js$/,
+          use: 'null-loader',
+        },
+      ],
+    };
+    
     return config;
   },
 };
