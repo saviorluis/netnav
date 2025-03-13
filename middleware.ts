@@ -45,8 +45,8 @@ export function middleware(request: NextRequest) {
     },
   });
 
-  // Skip middleware for RSC requests
-  if (pathname.includes('_rsc') || search.includes('_rsc')) {
+  // Skip middleware for RSC requests and manifest.json
+  if (pathname.includes('_rsc') || search.includes('_rsc') || pathname === '/manifest.json') {
     return NextResponse.next();
   }
 
@@ -121,7 +121,8 @@ export const config = {
      * - favicon.ico (favicon file)
      * - robots.txt (SEO file)
      * - sitemap.xml (SEO file)
+     * - manifest.json (PWA manifest file)
      */
-    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)',
+    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|manifest.json).*)',
   ],
 }; 

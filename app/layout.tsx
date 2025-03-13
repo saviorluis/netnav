@@ -69,7 +69,7 @@ export const viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: '#000000',
+  themeColor: '#0066cc',
 };
 
 export default function RootLayout({
@@ -86,12 +86,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href={url} />
         <link rel="manifest" href="/manifest.json" />
         
-        {/* Add preload for critical resources */}
-        <link 
-          rel="preload" 
-          href="/_next/static/css/app/layout.css" 
-          as="style"
-        />
+        {/* Remove preload for CSS as Next.js handles this automatically */}
       </head>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <noscript>

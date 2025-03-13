@@ -92,11 +92,6 @@ const nextConfig = {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
           },
-          {
-            key: 'Content-Type',
-            value: 'application/javascript; charset=utf-8',
-            // This header will be overridden by Next.js for the correct content type
-          },
         ],
       },
       {
@@ -138,7 +133,7 @@ const nextConfig = {
           },
           {
             key: 'Content-Type',
-            value: 'application/manifest+json',
+            value: 'application/manifest+json; charset=utf-8',
           },
           {
             key: 'Cache-Control',
@@ -207,6 +202,10 @@ const nextConfig = {
       {
         source: '/:path*/_rsc:params*',
         destination: '/:path*',
+      },
+      {
+        source: '/about',
+        destination: '/about',
       },
     ];
   },
