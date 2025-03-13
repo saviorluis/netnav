@@ -4,8 +4,12 @@ const nextConfig = {
   images: {
     domains: ['randomuser.me', 'netnav.app', 'www.netnav.app', 'localhost'],
   },
-  // Configure custom domain
-  assetPrefix: process.env.NODE_ENV === 'production' ? 'https://netnav.app' : '',
+  // Configure custom domain based on environment
+  assetPrefix: process.env.VERCEL_URL 
+    ? `https://${process.env.VERCEL_URL}` 
+    : process.env.NODE_ENV === 'production' 
+      ? 'https://netnav.app' 
+      : '',
   // Configure headers for better security and CORS
   async headers() {
     return [
@@ -76,8 +80,12 @@ const nextConfig = {
   },
   // Environment variables that will be available at build time
   env: {
-    NEXT_PUBLIC_DOMAIN: process.env.NODE_ENV === 'production' ? 'netnav.app' : `localhost:${process.env.PORT || '3000'}`,
-    NEXT_PUBLIC_URL: process.env.NODE_ENV === 'production' ? 'https://netnav.app' : `http://localhost:${process.env.PORT || '3000'}`,
+    NEXT_PUBLIC_DOMAIN: process.env.VERCEL_URL || (process.env.NODE_ENV === 'production' ? 'netnav.app' : `localhost:${process.env.PORT || '3000'}`),
+    NEXT_PUBLIC_URL: process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}` 
+      : process.env.NODE_ENV === 'production' 
+        ? 'https://netnav.app' 
+        : `http://localhost:${process.env.PORT || '3000'}`,
   },
   // Configure redirects
   async redirects() {
@@ -95,9 +103,13 @@ const nextConfig = {
       },
     ];
   },
-  // Configure rewrites
+  // Configure rewrites to handle preview deployments
   async rewrites() {
     return [
+      {
+        source: '/_next/:path*',
+        destination: '/_next/:path*',
+      },
       {
         source: '/api/:path*',
         destination: '/api/:path*',
