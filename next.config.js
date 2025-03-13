@@ -52,6 +52,17 @@ const nextConfig = {
       },
     ];
   },
+  // Add webpack configuration to handle undici library issues
+  webpack: (config, { isServer }) => {
+    // Fixes npm packages that depend on `undici` module
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        undici: false,
+      };
+    }
+    return config;
+  },
 };
 
 module.exports = nextConfig; 
