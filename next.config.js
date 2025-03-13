@@ -3,10 +3,12 @@ const nextConfig = {
   // Enable image optimization for external domains
   images: {
     domains: ['randomuser.me', 'netnav.app', 'www.netnav.app', 'localhost'],
+    unoptimized: process.env.NODE_ENV !== 'production',
   },
-  // Configure custom domain based on environment
-  assetPrefix: process.env.VERCEL_URL 
-    ? `https://${process.env.VERCEL_URL}` 
+  // Configure base path and asset prefix based on environment
+  basePath: '',
+  assetPrefix: process.env.VERCEL_ENV === 'preview' 
+    ? undefined 
     : process.env.NODE_ENV === 'production' 
       ? 'https://netnav.app' 
       : '',
@@ -80,15 +82,22 @@ const nextConfig = {
   },
   // Environment variables that will be available at build time
   env: {
-    NEXT_PUBLIC_DOMAIN: process.env.VERCEL_URL || (process.env.NODE_ENV === 'production' ? 'netnav.app' : `localhost:${process.env.PORT || '3000'}`),
-    NEXT_PUBLIC_URL: process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}` 
-      : process.env.NODE_ENV === 'production' 
-        ? 'https://netnav.app' 
+    NEXT_PUBLIC_DOMAIN: process.env.VERCEL_ENV === 'preview'
+      ? process.env.VERCEL_URL
+      : process.env.NODE_ENV === 'production'
+        ? 'netnav.app'
+        : `localhost:${process.env.PORT || '3000'}`,
+    NEXT_PUBLIC_URL: process.env.VERCEL_ENV === 'preview'
+      ? `https://${process.env.VERCEL_URL}`
+      : process.env.NODE_ENV === 'production'
+        ? 'https://netnav.app'
         : `http://localhost:${process.env.PORT || '3000'}`,
   },
   // Configure redirects
   async redirects() {
+    if (process.env.VERCEL_ENV === 'preview') {
+      return [];
+    }
     return [
       {
         source: '/:path*',
