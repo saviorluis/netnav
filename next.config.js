@@ -185,12 +185,18 @@ const nextConfig = {
           cacheGroups: {
             vendor: {
               test: /[\\/]node_modules[\\/]/,
-              name(module) {
+              name: (module) => {
                 // Get the name. E.g. node_modules/packageName/not/this/part.js
                 // or node_modules/packageName
-                const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+                const packageName = module.context && 
+                  module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/);
+                
+                if (!packageName || !packageName[1]) {
+                  return 'vendor';
+                }
+                
                 // npm package names are URL-safe, but some servers don't like @ symbols
-                return `npm.${packageName.replace('@', '')}`;
+                return `npm.${packageName[1].replace('@', '')}`;
               },
               priority: 10,
               reuseExistingChunk: true,
@@ -226,7 +232,6 @@ const nextConfig = {
     optimizeCss: true,
     optimizeServerReact: true,
     scrollRestoration: true,
-    legacyBrowsers: false,
   },
   // Configure compiler options
   compiler: {
