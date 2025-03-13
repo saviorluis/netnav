@@ -12,7 +12,7 @@ export default function ModernLayout({ children }: ModernLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Header />
-      <main className="flex-grow flex flex-col items-center justify-center w-full">
+      <main className="flex-grow w-full">
         <div className="container mx-auto px-4 w-full max-w-7xl">
           {children}
         </div>

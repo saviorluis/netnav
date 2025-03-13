@@ -28,7 +28,7 @@ export const metadata = {
     siteName: 'NetNav',
     images: [
       {
-        url: 'https://netnav.app/images/og-image.jpg',
+        url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'NetNav - Network Navigation Tool',
@@ -41,7 +41,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'NetNav - Network Navigation Tool',
     description: 'A comprehensive network navigation and management tool for IT professionals',
-    images: ['https://netnav.app/images/twitter-image.jpg'],
+    images: ['/images/twitter-image.jpg'],
   },
   manifest: '/manifest.json',
 };
@@ -76,11 +76,10 @@ export default function RootLayout({
         {/* Critical CSS inline to avoid render blocking */}
         <style dangerouslySetInnerHTML={{ __html: `
           body {margin:0;padding:0;min-height:100vh}
-          .center-all {display:flex !important;flex-direction:column !important;align-items:center !important;justify-content:center !important;text-align:center !important}
           .flex {display:flex;align-items:center;justify-content:center}
           .flex-col {flex-direction:column;align-items:center;justify-content:flex-start}
           img {max-width:100%;height:auto;display:block;position:relative}
-          h1, h2, h3, h4, h5, h6 {font-weight:bold;text-align:center}
+          h1, h2, h3, h4, h5, h6 {font-weight:bold}
         `}} />
         
         {/* Embed manifest directly in HTML to avoid 401 errors */}
@@ -98,15 +97,15 @@ export default function RootLayout({
                 "theme_color": "#0070f3",
                 "icons": [
                   {
-                    "src": "/icons/icon-192x192.png",
+                    "src": "/icons/icon-192x192.svg",
                     "sizes": "192x192",
-                    "type": "image/png",
+                    "type": "image/svg+xml",
                     "purpose": "any maskable"
                   },
                   {
-                    "src": "/icons/icon-512x512.png",
+                    "src": "/icons/icon-512x512.svg",
                     "sizes": "512x512",
-                    "type": "image/png",
+                    "type": "image/svg+xml",
                     "purpose": "any maskable"
                   }
                 ]
@@ -118,7 +117,7 @@ export default function RootLayout({
         {/* Use both approaches for manifest to ensure compatibility */}
         <link rel="manifest" href="/manifest.json" />
       </head>
-      <body className="min-h-screen bg-background font-sans text-foreground antialiased center-all">
+      <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <noscript>
           <div className="p-4 bg-yellow-100 text-yellow-800 text-center">
             This application requires JavaScript to be enabled for full functionality.
@@ -127,10 +126,8 @@ export default function RootLayout({
         
         <ErrorBoundary>
           <UserProvider>
-            <div className="min-h-screen flex flex-col w-full center-all">
-              <div className="flex-grow w-full center-all">
-                {children}
-              </div>
+            <div className="flex flex-col min-h-screen w-full">
+              {children}
             </div>
           </UserProvider>
         </ErrorBoundary>
