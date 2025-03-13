@@ -2,8 +2,8 @@ import mailchimp from '@mailchimp/mailchimp_marketing';
 
 // Initialize the Mailchimp client
 mailchimp.setConfig({
-  apiKey: process.env.MAILCHIMP_API_KEY,
-  server: process.env.MAILCHIMP_SERVER_PREFIX,
+  apiKey: process.env.MAILCHIMP_API_KEY || '',
+  server: process.env.MAILCHIMP_SERVER_PREFIX || '',
 });
 
 export interface SubscriberData {
