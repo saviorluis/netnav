@@ -7,16 +7,12 @@ const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   preload: true,
+  variable: '--font-inter',
 });
 
-// Get the domain from environment variables, defaulting to localhost for development
-const domain = process.env.NODE_ENV === 'development' 
-  ? `localhost:${process.env.PORT || '3000'}`
-  : 'netnav.app';
-
-const url = process.env.NODE_ENV === 'development'
-  ? `http://${domain}`
-  : `https://${domain}`;
+// Get the domain from environment variables
+const domain = process.env.VERCEL_URL || 'netnav.app';
+const url = `https://${domain}`;
 
 export const metadata = {
   title: 'NetNav',
@@ -64,6 +60,13 @@ export const metadata = {
   alternates: {
     canonical: url,
   },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+  },
+  themeColor: '#000000',
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
@@ -72,9 +75,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en" className={`${inter.variable} font-sans`}>
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href={url} />
         <link rel="dns-prefetch" href={url} />
       </head>

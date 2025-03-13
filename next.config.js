@@ -62,7 +62,21 @@ const nextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https:;"
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "font-src 'self' https://fonts.gstatic.com data:",
+              "img-src 'self' data: https: blob:",
+              "media-src 'self'",
+              "connect-src 'self' https: wss:",
+              "frame-src 'self'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "frame-ancestors 'none'",
+              "object-src 'none'",
+              "upgrade-insecure-requests"
+            ].join('; ')
           }
         ],
       },
@@ -153,11 +167,6 @@ const nextConfig = {
   reactStrictMode: process.env.NODE_ENV === 'production',
   // Enable SWC minification
   swcMinify: true,
-  // Increase build output directory cleaning threshold
-  experimental: {
-    optimizeFonts: true,
-    optimizeImages: true,
-  },
   // Configure trailing slashes
   trailingSlash: false,
   // Configure powered by header
