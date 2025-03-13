@@ -60,6 +60,10 @@ const nextConfig = {
             key: 'Access-Control-Allow-Headers',
             value: 'X-Requested-With, Content-Type, Authorization',
           },
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https:; connect-src 'self' https:;"
+          }
         ],
       },
       {
@@ -76,24 +80,7 @@ const nextConfig = {
         ],
       },
       {
-        source: '/_next/static/media/:path*',
-        headers: [
-          {
-            key: 'Access-Control-Allow-Origin',
-            value: '*',
-          },
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-          {
-            key: 'Content-Type',
-            value: 'font/woff2',
-          },
-        ],
-      },
-      {
-        source: '/images/:path*',
+        source: '/static/:path*',
         headers: [
           {
             key: 'Access-Control-Allow-Origin',
@@ -153,6 +140,15 @@ const nextConfig = {
           minSize: 20000,
         },
       };
+
+      // Add font loader
+      config.module.rules.push({
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/fonts/[hash][ext]',
+        },
+      });
     }
 
     // Disable persistent caching in development
