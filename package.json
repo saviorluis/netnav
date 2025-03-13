@@ -47,6 +47,7 @@
     "null-loader": "^4.0.1",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.0",
+    "tailwindcss-animate": "^1.0.7",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.3",

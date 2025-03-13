@@ -8,7 +8,6 @@ const inter = Inter({
   display: 'swap',
   preload: true,
   variable: '--font-inter',
-  fallback: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
 });
 
 // Get the domain from environment variables
@@ -77,7 +76,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable}`}>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -85,7 +84,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href={url} />
         <link rel="manifest" href="/manifest.json" />
       </head>
-      <body className="min-h-screen bg-background font-sans antialiased">
+      <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <ErrorBoundary>
           <UserProvider>
             {children}
