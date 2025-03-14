@@ -1,7 +1,5 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
-import { UserProvider } from './context/UserContext';
-import { ErrorBoundary } from './components/ErrorBoundary';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -85,6 +83,8 @@ export default function RootLayout({
             font-family: var(--font-sans);
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            background-color: #ffffff;
+            color: #171717;
           }
           img {
             max-width: 100%;
@@ -94,55 +94,39 @@ export default function RootLayout({
           h1, h2, h3, h4, h5, h6 {
             font-weight: bold;
           }
+          .container {
+            width: 100%;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+          }
+          @media (min-width: 640px) {
+            .container {
+              padding-left: 1.5rem;
+              padding-right: 1.5rem;
+            }
+          }
+          @media (min-width: 1024px) {
+            .container {
+              padding-left: 2rem;
+              padding-right: 2rem;
+            }
+          }
         `}} />
         
-        {/* Embed manifest directly in HTML to avoid 401 errors */}
-        <script
-          type="application/manifest+json"
-          dangerouslySetInnerHTML={{
-            __html: `
-              {
-                "name": "NetNav - Network Navigation Tool",
-                "short_name": "NetNav",
-                "description": "A comprehensive network navigation and management tool for IT professionals",
-                "start_url": "/",
-                "display": "standalone",
-                "background_color": "#ffffff",
-                "theme_color": "#0070f3",
-                "icons": [
-                  {
-                    "src": "/icons/icon-192x192.svg",
-                    "sizes": "192x192",
-                    "type": "image/svg+xml",
-                    "purpose": "any maskable"
-                  },
-                  {
-                    "src": "/icons/icon-512x512.svg",
-                    "sizes": "512x512",
-                    "type": "image/svg+xml",
-                    "purpose": "any maskable"
-                  }
-                ]
-              }
-            `
-          }}
-        />
-        
-        {/* Use both approaches for manifest to ensure compatibility */}
+        {/* Use direct manifest link */}
         <link rel="manifest" href="/manifest.json" />
       </head>
-      <body className="min-h-screen bg-background font-sans antialiased text-foreground">
+      <body className="min-h-screen bg-white font-sans antialiased text-gray-900">
         <noscript>
           <div className="p-4 bg-yellow-100 text-yellow-800 text-center">
             This application requires JavaScript to be enabled for full functionality.
           </div>
         </noscript>
         
-        <ErrorBoundary>
-          <UserProvider>
-            {children}
-          </UserProvider>
-        </ErrorBoundary>
+        {children}
         
         {/* Simplified loading indicator */}
         <script
@@ -172,17 +156,6 @@ export default function RootLayout({
                 createLoadingIndicator();
               })();
             `,
-          }}
-        />
-        
-        {/* Basic error tracking */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.addEventListener('error', function(e) {
-                console.error('Window Error:', e.message);
-              });
-            `
           }}
         />
       </body>

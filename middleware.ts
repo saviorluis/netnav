@@ -7,6 +7,7 @@ const publicPaths = [
   '/login',
   '/signup',
   '/about',
+  '/debug',
   '/api/auth',
   '/api/events/public',
   '/api/manifest',
@@ -40,8 +41,14 @@ const staticFileExtensions = [
 export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   
-  // Skip middleware completely for manifest files
-  if (pathname === '/manifest.json' || pathname === '/manifest') {
+  // Skip middleware completely for manifest files and static assets
+  if (
+    pathname === '/manifest.json' || 
+    pathname === '/manifest' || 
+    pathname.includes('/_next/') ||
+    pathname.startsWith('/images/') ||
+    pathname.startsWith('/icons/')
+  ) {
     return NextResponse.next();
   }
   
