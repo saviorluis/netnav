@@ -55,15 +55,21 @@
     @apply border-border;
   }
   
+  html,
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  body {
     min-height: 100vh;
+    font-family: var(--font-sans, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold tracking-tight;
-    text-align: center;
   }
   
   h1 {
@@ -82,23 +88,6 @@
     @apply max-w-full h-auto;
     display: block;
   }
-}
-
-body {
-  min-height: 100vh;
-  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Simple utility classes */
-.text-center {
-  text-align: center;
-}
-
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
 }
 
 /* Simple animation utilities */
@@ -158,6 +147,10 @@ body {
   
   .card-footer {
     @apply flex items-center p-6 pt-0;
+  }
+  
+  .container {
+    @apply mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8;
   }
 }
 

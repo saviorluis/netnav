@@ -10,15 +10,13 @@ interface ModernLayoutProps {
 
 export default function ModernLayout({ children }: ModernLayoutProps) {
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="relative flex min-h-screen flex-col bg-white">
       <Header />
-      <main className="flex-grow w-full">
-        <div className="container mx-auto px-4 w-full max-w-7xl">
-          {children}
-        </div>
+      <main className="flex-1">
+        {children}
       </main>
       
-      <footer className="bg-white w-full" aria-labelledby="footer-heading">
+      <footer className="bg-white w-full border-t border-gray-200" aria-labelledby="footer-heading">
         <h2 id="footer-heading" className="sr-only">Footer</h2>
         <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
           <div className="xl:grid xl:grid-cols-3 xl:gap-8">

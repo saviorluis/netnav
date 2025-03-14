@@ -75,11 +75,25 @@ export default function RootLayout({
         
         {/* Critical CSS inline to avoid render blocking */}
         <style dangerouslySetInnerHTML={{ __html: `
-          body {margin:0;padding:0;min-height:100vh}
-          .flex {display:flex;align-items:center;justify-content:center}
-          .flex-col {flex-direction:column;align-items:center;justify-content:flex-start}
-          img {max-width:100%;height:auto;display:block;position:relative}
-          h1, h2, h3, h4, h5, h6 {font-weight:bold}
+          :root {
+            --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+          }
+          body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: var(--font-sans);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+          }
+          img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+          }
+          h1, h2, h3, h4, h5, h6 {
+            font-weight: bold;
+          }
         `}} />
         
         {/* Embed manifest directly in HTML to avoid 401 errors */}
@@ -117,7 +131,7 @@ export default function RootLayout({
         {/* Use both approaches for manifest to ensure compatibility */}
         <link rel="manifest" href="/manifest.json" />
       </head>
-      <body className="min-h-screen bg-background font-sans text-foreground antialiased">
+      <body className="min-h-screen bg-background font-sans antialiased text-foreground">
         <noscript>
           <div className="p-4 bg-yellow-100 text-yellow-800 text-center">
             This application requires JavaScript to be enabled for full functionality.
@@ -126,9 +140,7 @@ export default function RootLayout({
         
         <ErrorBoundary>
           <UserProvider>
-            <div className="flex flex-col min-h-screen w-full">
-              {children}
-            </div>
+            {children}
           </UserProvider>
         </ErrorBoundary>
         
