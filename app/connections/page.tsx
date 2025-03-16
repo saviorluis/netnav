@@ -78,7 +78,13 @@ export default function ConnectionsPage() {
   });
 
   // Extract unique industries for filter dropdown
-  const industries = [...new Set(connections.map(conn => conn.industry))];
+  const industriesSet = new Set<string>();
+  connections.forEach(conn => {
+    if (conn.industry) {
+      industriesSet.add(conn.industry);
+    }
+  });
+  const industries = Array.from(industriesSet);
 
   return (
     <main className="min-h-screen bg-gray-50 py-12">
