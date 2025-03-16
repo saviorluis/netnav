@@ -30,6 +30,7 @@ const nextConfig = {
     scrollRestoration: true,
     serverComponentsExternalPackages: ['react', 'react-dom'],
     esmExternals: 'loose',
+    appDir: false, // Temporarily disable App Router for build
   },
   // Skip type checking during build
   typescript: {
