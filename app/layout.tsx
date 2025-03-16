@@ -1,11 +1,13 @@
 import './globals.css';
+import './styles/tokens.css';
 import { Inter } from 'next/font/google';
+import { ToastProvider } from '@/components/ui/ToastProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
 // Get the domain from environment variables
-const domain = process.env.VERCEL_URL || 'netnav.app';
-const url = `https://${domain}`;
+const domain = process.env.NEXT_PUBLIC_DOMAIN || process.env.VERCEL_URL || 'localhost:3000';
+const url = domain.includes('localhost') ? `http://${domain}` : `https://${domain}`;
 
 export const metadata = {
   title: 'NetNav - Network Navigation Tool',
@@ -22,11 +24,11 @@ export const metadata = {
   openGraph: {
     title: 'NetNav - Network Navigation Tool',
     description: 'A comprehensive network navigation and management tool for IT professionals',
-    url: 'https://netnav.app',
+    url: url,
     siteName: 'NetNav',
     images: [
       {
-        url: '/images/og-image.jpg',
+        url: `${url}/images/og-image.jpg`,
         width: 1200,
         height: 630,
         alt: 'NetNav - Network Navigation Tool',
@@ -39,7 +41,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'NetNav - Network Navigation Tool',
     description: 'A comprehensive network navigation and management tool for IT professionals',
-    images: ['/images/twitter-image.jpg'],
+    images: [`${url}/images/twitter-image.jpg`],
   },
   manifest: '/manifest.json',
 };
@@ -127,6 +129,9 @@ export default function RootLayout({
         </noscript>
         
         {children}
+        
+        {/* Toast Provider */}
+        <ToastProvider />
         
         {/* Simplified loading indicator */}
         <script

@@ -1,65 +1,126 @@
 # Privacy Policy
 
-**Last Updated: [Current Date]**
+Last updated: March 2024
 
-## Introduction
+## 1. Introduction
 
-Welcome to Network Navigator. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you about how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.
+NetNav ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our network navigation and management tool.
 
-## The Data We Collect About You
+## 2. Information We Collect
 
-We may collect, use, store and transfer different kinds of personal data about you which we have grouped together as follows:
+### 2.1 Personal Information
 
-- **Identity Data** includes first name, last name, username or similar identifier.
-- **Contact Data** includes email address and telephone numbers.
-- **Technical Data** includes internet protocol (IP) address, your login data, browser type and version, time zone setting and location, browser plug-in types and versions, operating system and platform, and other technology on the devices you use to access this website.
-- **Usage Data** includes information about how you use our website, products and services.
-- **Marketing and Communications Data** includes your preferences in receiving marketing from us and our third parties and your communication preferences.
+- Name and contact information
+- Email address
+- Phone number
+- Location data
+- Professional information
+- Payment information
+- Account credentials
 
-## How We Use Your Personal Data
+### 2.2 Usage Information
 
-We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:
+- Log data
+- Device information
+- Browser type
+- IP address
+- Pages visited
+- Time spent on the Service
 
-- To register you as a new customer.
-- To provide you with information about networking events in your area.
-- To manage our relationship with you.
-- To administer and protect our business and this website.
-- To deliver relevant website content and advertisements to you.
-- To use data analytics to improve our website, products/services, marketing, customer relationships and experiences.
+### 2.3 Event Information
 
-## Data Security
+- Event preferences
+- Search history
+- Saved events
+- RSVP status
+- Event feedback
 
-We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used or accessed in an unauthorized way, altered or disclosed. In addition, we limit access to your personal data to those employees, agents, contractors and other third parties who have a business need to know.
+## 3. How We Use Your Information
 
-## Data Retention
+We use the collected information to:
 
-We will only retain your personal data for as long as necessary to fulfill the purposes we collected it for, including for the purposes of satisfying any legal, accounting, or reporting requirements.
+- Provide and maintain the Service
+- Process your transactions
+- Send you important updates
+- Improve our services
+- Personalize your experience
+- Comply with legal obligations
+- Prevent fraud and abuse
 
-## Your Legal Rights
+## 4. Information Sharing
 
-Under certain circumstances, you have rights under data protection laws in relation to your personal data, including the right to:
+We may share your information with:
 
-- Request access to your personal data.
-- Request correction of your personal data.
-- Request erasure of your personal data.
-- Object to processing of your personal data.
-- Request restriction of processing your personal data.
-- Request transfer of your personal data.
-- Right to withdraw consent.
+- Service providers
+- Event organizers (with your consent)
+- Business partners
+- Legal authorities when required
 
-## Third-Party Links
+## 5. Data Security
 
-This website may include links to third-party websites, plug-ins and applications. Clicking on those links or enabling those connections may allow third parties to collect or share data about you. We do not control these third-party websites and are not responsible for their privacy statements.
+We implement appropriate security measures to protect your information, including:
 
-## Changes to the Privacy Policy
+- Encryption of sensitive data
+- Regular security assessments
+- Access controls
+- Secure data storage
 
-We may update our privacy policy from time to time. We will notify you of any changes by posting the new privacy policy on this page.
+## 6. Your Rights
 
-## Contact Us
+You have the right to:
 
-If you have any questions about this privacy policy or our privacy practices, please contact us at:
+- Access your personal information
+- Correct inaccurate data
+- Request data deletion
+- Opt-out of marketing communications
+- Export your data
+- Object to data processing
 
-Email: [Your Contact Email]
+## 7. Cookies and Tracking
 
-Network Navigator  
-[Your Business Address]
+We use cookies and similar tracking technologies to:
+
+- Remember your preferences
+- Analyze usage patterns
+- Improve user experience
+- Provide personalized content
+
+## 8. Third-Party Services
+
+Our Service may contain links to third-party services. We are not responsible for their privacy practices.
+
+## 9. Children's Privacy
+
+Our Service is not intended for children under 13. We do not knowingly collect information from children.
+
+## 10. Changes to Privacy Policy
+
+We may update this Privacy Policy periodically. We will notify you of any material changes.
+
+## 11. Contact Us
+
+For privacy-related questions, please contact us at:
+Email: privacy@netnav.com
+Address: [Your Company Address]
+
+## 12. California Privacy Rights
+
+For California residents:
+
+- Right to know what personal data is collected
+- Right to know whether personal data is sold or disclosed
+- Right to say no to the sale of personal data
+- Right to access your personal data
+- Right to request deletion of your data
+
+## 13. GDPR Compliance
+
+For EU residents:
+
+- Right to access
+- Right to rectification
+- Right to erasure
+- Right to restrict processing
+- Right to data portability
+- Right to object
+- Right to withdraw consent

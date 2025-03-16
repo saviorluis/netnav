@@ -1,37 +1,59 @@
-# Network Navigator
+# NetNav - Network Navigation Tool
 
-Network Navigator is a commercial web application designed to help users find and connect with local networking events. The platform displays events on an interactive map, allowing users to discover opportunities in their area or search by zip code.
+A comprehensive network navigation and management tool for IT professionals. This is a commercial application that helps users find and connect with local networking events.
 
 ## Features
 
-- Interactive map displaying networking events
-- Zip code search functionality
-- Calendar view of upcoming events
-- National networking section
-- Email collection for detailed event information
+- Location-based event search
+- Industry filtering
+- Professional networking opportunities
+- Real-time event updates
+- Mobile-responsive design
+- Premium features for subscribers
+
+## Monetization
+
+NetNav offers several monetization options:
+
+1. **Subscription Plans**
+
+   - Basic: Free access to essential features
+   - Pro: Advanced search, calendar integration, and event notifications
+   - Enterprise: Custom solutions for organizations
+
+2. **Featured Events**
+
+   - Event organizers can pay to have their events highlighted
+   - Priority placement in search results
+   - Enhanced event visibility
+
+3. **Sponsored Content**
+   - Targeted advertising for businesses in the networking space
+   - Premium placement in relevant categories
+   - Custom promotional opportunities
 
 ## Tech Stack
 
-- **Frontend**: Next.js, React, Tailwind CSS
-- **Backend**: Next.js API routes
-- **Database**: PostgreSQL with Prisma ORM
-- **Deployment**: Vercel
+- Next.js 14
+- TypeScript
+- Tailwind CSS
+- Radix UI
+- Lucide Icons
 
-## Development
+## Development Setup
 
 ### Prerequisites
 
-- Node.js (v18 or higher)
-- npm
-- PostgreSQL database
+- Node.js 18.17 or later
+- npm 9.0 or later
 
-### Setup
+### Installation
 
 1. Clone the repository:
 
    ```
-   git clone https://github.com/luismendes070/neang.git
-   cd neang
+   git clone https://github.com/yourusername/netnav.git
+   cd netnav
    ```
 
 2. Install dependencies:
@@ -40,67 +62,42 @@ Network Navigator is a commercial web application designed to help users find an
    npm install
    ```
 
-3. Set up environment variables:
-   Create a `.env` file in the root directory with the following variables:
+3. Create a `.env.local` file in the root directory:
 
    ```
-   DATABASE_URL="postgresql://username:password@localhost:5432/neang"
-   NEXT_PUBLIC_APP_URL="http://localhost:3000"
-   NEXT_PUBLIC_APP_DOMAIN="localhost"
-   GOOGLE_MAPS_API_KEY="your_google_maps_api_key"
-   OPENAI_API_KEY="your_openai_api_key"
+   NEXT_PUBLIC_DOMAIN=localhost:3000
+   NEXT_PUBLIC_APP_URL=http://localhost:3000
+   NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_api_key_here
+   OPENAI_API_KEY=your_openai_api_key_here
    ```
 
-4. Generate Prisma client:
+4. Start the development server:
 
-   ```
-   npx prisma generate
-   ```
-
-5. Run database migrations:
-
-   ```
-   npx prisma migrate dev
-   ```
-
-6. Seed the database (optional):
-
-   ```
-   npm run seed
-   ```
-
-7. Start the development server:
    ```
    npm run dev
    ```
 
-## Deployment
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-The application is configured for deployment on Vercel:
+## Development
 
-1. Fork or clone this repository to your GitHub account
-2. Connect your GitHub repository to Vercel
-3. Configure the following environment variables in Vercel:
-   - `DATABASE_URL`
-   - `NEXT_PUBLIC_APP_URL`
-   - `NEXT_PUBLIC_APP_DOMAIN`
-   - `GOOGLE_MAPS_API_KEY`
-   - `OPENAI_API_KEY`
-4. Deploy the application
+- `npm run dev` - Start the development server
+- `npm run build` - Build the application
+- `npm run start` - Start the production server
+- `npm run lint` - Run ESLint
+- `npm run type-check` - Run TypeScript type checking
 
-For automatic deployments using GitHub Actions, set up the following secrets in your GitHub repository:
+## Project Structure
 
-- `VERCEL_TOKEN`
-- `VERCEL_ORG_ID`
-- `VERCEL_PROJECT_ID`
-
-## Monetization
-
-Network Navigator is a commercial application with the following monetization strategies:
-
-1. **Subscription Plans**: Access to premium features such as advanced search, calendar integration, and event notifications
-2. **Featured Events**: Event organizers can pay to have their events highlighted
-3. **Sponsored Content**: Targeted advertising for businesses in the networking space
+```
+app/
+├── components/
+│   └── ui/           # Reusable UI components
+├── hooks/            # Custom React hooks
+├── lib/             # Utility functions
+├── styles/          # Global styles and design tokens
+└── page.tsx         # Homepage
+```
 
 ## Legal
 
@@ -109,4 +106,16 @@ This software is proprietary and is not open source. All rights reserved.
 - [Terms of Service](TERMS_OF_SERVICE.md)
 - [Privacy Policy](PRIVACY_POLICY.md)
 
-Copyright (c) 2023 Network Navigator
+Copyright (c) 2024 Network Navigator
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

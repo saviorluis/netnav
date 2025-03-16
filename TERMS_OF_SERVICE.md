@@ -1,91 +1,85 @@
 # Terms of Service
 
-**Last Updated: [Current Date]**
+Last updated: March 2024
 
-## Introduction
+## 1. Acceptance of Terms
 
-Welcome to Network Navigator. These Terms of Service ("Terms") govern your use of our website and services. By accessing or using Network Navigator, you agree to be bound by these Terms.
+By accessing and using NetNav ("the Service"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the Service.
 
-## Definitions
+## 2. Description of Service
 
-- "Service" refers to the Network Navigator application, website, and any related services.
-- "User" refers to any individual who accesses or uses the Service.
-- "Content" refers to all information displayed, transmitted, or otherwise made available via the Service.
+NetNav is a commercial network navigation and management tool that helps users find and connect with local networking events. The Service includes features such as location-based event search, industry filtering, and professional networking opportunities.
 
-## User Accounts
+## 3. User Accounts
 
-Some features of the Service may require you to register for an account. You agree to provide accurate, current, and complete information during the registration process and to update such information to keep it accurate, current, and complete.
+- You must be at least 18 years old to use the Service
+- You are responsible for maintaining the confidentiality of your account
+- You agree to provide accurate and complete information when creating an account
+- You are responsible for all activities that occur under your account
 
-You are responsible for safeguarding the password that you use to access the Service and for any activities or actions under your password. We encourage you to use "strong" passwords (passwords that use a combination of upper and lower case letters, numbers, and symbols) with your account.
+## 4. Subscription and Payments
 
-## Subscription and Payments
+- The Service offers various subscription plans with different features
+- Subscription fees are billed in advance on a monthly or annual basis
+- All payments are non-refundable unless required by law
+- We reserve the right to modify subscription fees with 30 days notice
+- You may cancel your subscription at any time
 
-### Subscription Terms
+## 5. Featured Events and Sponsored Content
 
-Network Navigator offers subscription-based access to premium features. By subscribing to our premium services, you agree to the following terms:
+- Event organizers may pay to have their events featured
+- Sponsored content is clearly marked as such
+- We do not guarantee the success or outcome of any featured events
+- We reserve the right to reject or remove any content at our discretion
 
-1. You will be charged the subscription fee at the beginning of each billing cycle.
-2. Subscriptions automatically renew unless canceled at least 24 hours before the end of the current period.
-3. Cancellations will take effect at the end of the current billing period.
+## 6. User Content
 
-### Payment Processing
+- You retain all rights to content you submit to the Service
+- By submitting content, you grant us a license to use and display it
+- You are responsible for ensuring you have the rights to share any content
+- We may remove content that violates these terms or applicable laws
 
-Payments are processed securely through our payment processors. By providing payment information, you represent that you are authorized to use the payment method and agree to the terms of our payment processors.
+## 7. Prohibited Activities
 
-## Intellectual Property
+You agree not to:
 
-The Service and its original content, features, and functionality are and will remain the exclusive property of Network Navigator and its licensors. The Service is protected by copyright, trademark, and other laws of both the United States and foreign countries.
+- Violate any applicable laws or regulations
+- Impersonate others or provide false information
+- Interfere with the proper functioning of the Service
+- Attempt to gain unauthorized access to any part of the Service
+- Use the Service for any illegal or unauthorized purpose
+- Share your account credentials with others
 
-Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of Network Navigator.
+## 8. Intellectual Property
 
-## User Content
+- The Service and its content are protected by copyright and other laws
+- You may not copy, modify, or create derivative works without permission
+- Our trademarks and trade names may not be used without permission
 
-Users may post, upload, or otherwise make available content through the Service. By making any content available through the Service, you grant to Network Navigator a non-exclusive, transferable, sublicensable, worldwide, royalty-free license to use, copy, modify, create derivative works based upon, distribute, publicly display, and publicly perform your content.
+## 9. Limitation of Liability
 
-You are solely responsible for the content that you post to the Service, and you represent and warrant that:
+- The Service is provided "as is" without warranties of any kind
+- We are not liable for any indirect, incidental, or consequential damages
+- Our liability is limited to the amount paid for the Service
 
-1. You own the content or have the right to use it and grant us the rights and license as provided in these Terms.
-2. The content does not violate the privacy rights, publicity rights, copyrights, contract rights, or any other rights of any person.
+## 10. Changes to Terms
 
-## Prohibited Uses
+- We may modify these terms at any time
+- Continued use of the Service after changes constitutes acceptance
+- We will notify users of significant changes via email or the Service
 
-You agree not to use the Service:
+## 11. Termination
 
-1. In any way that violates any applicable federal, state, local, or international law or regulation.
-2. To transmit, or procure the sending of, any advertising or promotional material, including any "junk mail," "chain letter," "spam," or any other similar solicitation.
-3. To impersonate or attempt to impersonate Network Navigator, a Network Navigator employee, another user, or any other person or entity.
-4. To engage in any other conduct that restricts or inhibits anyone's use or enjoyment of the Service, or which, as determined by us, may harm Network Navigator or users of the Service or expose them to liability.
+- We may terminate or suspend your account at our discretion
+- You may terminate your account at any time
+- Upon termination, your right to use the Service will cease
 
-## Termination
+## 12. Governing Law
 
-We may terminate or suspend your account and bar access to the Service immediately, without prior notice or liability, under our sole discretion, for any reason whatsoever and without limitation, including but not limited to a breach of the Terms.
+These terms are governed by the laws of the United States. Any disputes shall be resolved in the courts of the United States.
 
-## Limitation of Liability
+## 13. Contact
 
-In no event shall Network Navigator, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from:
-
-1. Your access to or use of or inability to access or use the Service;
-2. Any conduct or content of any third party on the Service;
-3. Any content obtained from the Service; and
-4. Unauthorized access, use or alteration of your transmissions or content.
-
-## Disclaimer
-
-Your use of the Service is at your sole risk. The Service is provided on an "AS IS" and "AS AVAILABLE" basis. The Service is provided without warranties of any kind, whether express or implied, including, but not limited to, implied warranties of merchantability, fitness for a particular purpose, non-infringement or course of performance.
-
-## Governing Law
-
-These Terms shall be governed and construed in accordance with the laws of [Your State/Country], without regard to its conflict of law provisions.
-
-## Changes to Terms
-
-We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material we will provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.
-
-## Contact Us
-
-If you have any questions about these Terms, please contact us at:
-
-Email: [Your Contact Email]
-
-Network Navigator  
-[Your Business Address]
+For questions about these terms, please contact us at:
+Email: legal@netnav.com
+Address: [Your Company Address]

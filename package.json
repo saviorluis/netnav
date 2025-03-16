@@ -17,6 +17,8 @@
     "@googlemaps/js-api-loader": "^1.16.8",
     "@mailchimp/mailchimp_marketing": "^3.0.80",
     "@prisma/client": "^5.10.0",
+    "@radix-ui/react-slot": "^1.1.2",
+    "@radix-ui/react-toast": "^1.2.6",
     "@types/bcrypt": "^5.0.2",
     "@types/cheerio": "^0.22.35",
     "@types/geojson": "^7946.0.16",
@@ -25,9 +27,12 @@
     "axios": "^1.6.7",
     "bcrypt": "^5.1.1",
     "cheerio": "^1.0.0-rc.12",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",
     "geolib": "^3.3.4",
+    "lucide-react": "^0.482.0",
     "next": "14.1.0",
     "openai": "^4.28.0",
     "prisma": "^5.10.0",
@@ -35,7 +40,8 @@
     "react": "^18.2.0",
     "react-big-calendar": "^1.18.0",
     "react-dom": "^18.2.0",
-    "sharp": "^0.33.5"
+    "sharp": "^0.33.5",
+    "tailwind-merge": "^3.0.2"
   },
   "devDependencies": {
     "@types/node": "^20.11.19",
