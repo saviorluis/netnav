@@ -22,6 +22,13 @@ const nextConfig = {
     ],
     unoptimized: false,
   },
+  // Experimental features
+  experimental: {
+    // Disable built-in not-found page
+    disableOptimizedLoading: true,
+    optimizeCss: true,
+    scrollRestoration: true,
+  },
   // Configure headers for better security and CORS
   async headers() {
     return [
@@ -339,12 +346,6 @@ const nextConfig = {
   trailingSlash: false,
   // Configure powered by header
   poweredByHeader: false,
-  // Optimize script loading
-  experimental: {
-    optimizeCss: true,
-    optimizeServerReact: true,
-    scrollRestoration: true,
-  },
   // Configure compiler options
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
