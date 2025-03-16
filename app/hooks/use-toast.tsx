@@ -1,18 +1,17 @@
 import * as React from 'react';
 
-type ToastProps = {
+export interface ToastProps {
   id: string;
   title?: string;
   description?: string;
   action?: React.ReactNode;
-  variant?: 'default' | 'success' | 'error' | 'warning' | 'info';
-};
+}
 
-type ToastContextType = {
+interface ToastContextType {
   toasts: ToastProps[];
   addToast: (toast: Omit<ToastProps, 'id'>) => void;
   removeToast: (id: string) => void;
-};
+}
 
 const ToastContext = React.createContext<ToastContextType | undefined>(undefined);
 
@@ -28,8 +27,17 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
   }, []);
 
+  const value = React.useMemo(
+    () => ({
+      toasts,
+      addToast,
+      removeToast,
+    }),
+    [toasts, addToast, removeToast]
+  );
+
   return (
-    <ToastContext.Provider value={{ toasts, addToast, removeToast }}>
+    <ToastContext.Provider value={value}>
       {children}
     </ToastContext.Provider>
   );
