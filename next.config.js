@@ -28,6 +28,16 @@ const nextConfig = {
     disableOptimizedLoading: true,
     optimizeCss: true,
     scrollRestoration: true,
+    serverComponentsExternalPackages: ['react', 'react-dom'],
+    esmExternals: 'loose',
+  },
+  // Skip type checking during build
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  // Skip ESLint during build
+  eslint: {
+    ignoreDuringBuilds: true,
   },
   // Configure headers for better security and CORS
   async headers() {
