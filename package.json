@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && NEXT_SKIP_TYPECHECKING=1 next build --no-lint",
+    "build": "prisma generate && NEXT_SKIP_TYPECHECKING=1 NODE_OPTIONS='--max_old_space_size=4096' next build --no-lint",
     "build:skip-ts": "prisma generate && NEXT_SKIP_TYPECHECKING=1 next build --no-lint",
     "start": "next start",
     "lint": "next lint",

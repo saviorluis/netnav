@@ -30,7 +30,6 @@ const nextConfig = {
     scrollRestoration: true,
     serverComponentsExternalPackages: ['react', 'react-dom'],
     esmExternals: 'loose',
-    appDir: false, // Temporarily disable App Router for build
   },
   // Skip type checking during build
   typescript: {
@@ -40,6 +39,10 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // Use standalone output
+  output: 'standalone',
+  // Disable React strict mode for now
+  reactStrictMode: false,
   // Configure headers for better security and CORS
   async headers() {
     return [
@@ -349,8 +352,6 @@ const nextConfig = {
 
     return config;
   },
-  // Disable React StrictMode in development to prevent double mounting
-  reactStrictMode: process.env.NODE_ENV === 'production',
   // Enable SWC minification
   swcMinify: true,
   // Configure trailing slashes
