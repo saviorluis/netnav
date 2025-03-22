@@ -4,54 +4,66 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-// In-memory storage for development when offline
+// In-memory storage for development
 let mockWaitlist: Array<{ email: string, created_at: string }> = [];
 
-// For development/demo purposes, use a mock client if environment variables are not set
-let supabaseClient: ReturnType<typeof createClient>
+// For development, use a mock client that works offline
+// In production, try to use the real Supabase client
+let supabaseClient: any;
 
-if (supabaseUrl && supabaseAnonKey) {
+// Force mock in development to avoid connection issues
+const isDev = process.env.NODE_ENV === 'development';
+
+if (isDev) {
+  console.log('🧪 Development mode: Using offline mock Supabase client');
+  supabaseClient = createMockClient();
+} else if (supabaseUrl && supabaseAnonKey) {
   try {
-    // Use actual Supabase client if credentials are available
-    supabaseClient = createClient(supabaseUrl, supabaseAnonKey)
-    console.log('Supabase client initialized successfully')
+    console.log('🔌 Production mode: Connecting to Supabase');
+    supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
   } catch (error) {
-    console.warn('Failed to initialize Supabase client:', error)
-    // Fall back to mock client
-    supabaseClient = createMockClient()
+    console.warn('❌ Failed to initialize Supabase client:', error);
+    supabaseClient = createMockClient();
   }
 } else {
-  // Create a mock client for development/demo purposes
-  console.warn('Supabase credentials not found. Using mock client.')
-  supabaseClient = createMockClient()
+  console.warn('⚠️ Supabase credentials not found. Using mock client.');
+  supabaseClient = createMockClient();
 }
 
-// Create a mock Supabase client for development
+// Create a mock Supabase client that works offline
 function createMockClient() {
+  console.log('📋 Creating mock Supabase client');
   return {
     from: (table: string) => ({
       insert: (rows: any) => {
-        console.log(`Mock insert into ${table}:`, rows)
+        console.log(`✅ Mock insert into ${table}:`, rows);
         
         if (table === 'waitlist') {
-          mockWaitlist.push(...rows)
-          console.log('Current mock waitlist:', mockWaitlist)
+          mockWaitlist.push(...rows);
+          console.log('📬 Current mock waitlist:', mockWaitlist);
         }
         
         return Promise.resolve({ 
           data: rows, 
           error: null 
-        })
+        });
       },
       select: () => {
         if (table === 'waitlist') {
-          console.log('Returning mock waitlist:', mockWaitlist)
-          return Promise.resolve({ data: mockWaitlist, error: null })
+          console.log('📋 Returning mock waitlist:', mockWaitlist);
+          return Promise.resolve({ data: mockWaitlist, error: null });
         }
-        return Promise.resolve({ data: [], error: null })
+        return Promise.resolve({ data: [], error: null });
       },
+      update: () => Promise.resolve({ data: null, error: null }),
+      delete: () => Promise.resolve({ data: null, error: null }),
     }),
-  } as any
+    auth: {
+      signIn: () => Promise.resolve({ data: null, error: null }),
+      signOut: () => Promise.resolve({ error: null }),
+      onAuthStateChange: () => ({ data: null, unsubscribe: () => {} }),
+    },
+  };
 }
 
-export const supabase = supabaseClient
+export const supabase = supabaseClient;
