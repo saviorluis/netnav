@@ -1,9 +1,15 @@
 import './globals.css'
 import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'NetNav - Your AI-powered networking assistant',
-  description: 'Build meaningful connections with the power of AI',
+  title: 'NetNav - Connect with people who get you',
+  description: 'We\'re building a more human way to network. No more cold connections or random requests - just meaningful relationships with people who share your path.',
+  icons: {
+    icon: '/favicon.ico',
+  },
 }
 
 export default function RootLayout({
@@ -13,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={inter.className}>{children}</body>
     </html>
   )
 }
